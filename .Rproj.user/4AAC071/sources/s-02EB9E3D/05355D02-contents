@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Kelsey Andersen &amp; Ravin Poudel" />
+
+
+<title>Introduction to tidyverse</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.co { font-style: italic; } /* Comment */
+code > span.al { font-weight: bold; } /* Alert */
+code > span.er { font-weight: bold; } /* Error */
+code > span.wa { font-style: italic; } /* Warning */
+code > span.cf { font-weight: bold; } /* ControlFlow */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.do { font-style: italic; } /* Documentation */
+code > span.an { font-style: italic; } /* Annotation */
+code > span.cv { font-style: italic; } /* CommentVar */
+code > span.in { font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">CC2.1 R Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Welcome</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Introduction to R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="CC2.1_IntroToR.html">Introduction to R</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Networks in R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Describing_Networks.html">Networks in R</a>
+    </li>
+    <li>
+      <a href="EpidemicNetworks.html">Epidemic Networks</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    RTB Packages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="seedHealth.html">seedHealth</a>
+    </li>
+    <li>
+      <a href="INA.html">INA</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Resources.html">Resources</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction to tidyverse</h1>
+<h4 class="author"><em>Kelsey Andersen &amp; Ravin Poudel</em></h4>
+
+</div>
+
+
+<p>March 18, 2019</p>
+<div id="slides-for-this-section-can-be-downloaded-here" class="section level4">
+<h4>Slides for this section can be downloaded here:</h4>
+<ul>
+<li><a href="PDFFiles/ICPP2018_IntroR.pdf">Intro to R</a></li>
+<li><a href="PDFFiles/ICPP2018_tidyverse.pdf">Intro to Tidyverse</a></li>
+</ul>
+</div>
+<div id="use-r-studio-to-set-working-directory-by-navigating-to-session-set-working-directory-choose-directory" class="section level4">
+<h4>Use R Studio to set working directory by navigating to Session &gt; Set Working Directory &gt; “Choose Directory”</h4>
+</div>
+<div id="you-can-use-r-as-a-simple-calculator" class="section level3">
+<h3>You can use R as a simple calculator:</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span><span class="op">+</span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">3</span><span class="op">*</span><span class="dv">2</span></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">8</span><span class="op">^</span><span class="dv">8</span></code></pre></div>
+<pre><code>## [1] 16777216</code></pre>
+<p>To make programming simpler, we usually save values or sets of values that we want to use again as “objects”. We do this using the symbols “&lt;-” (called the “gets arrow”).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="dv">2</span>
+a</code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b &lt;-<span class="st"> </span>a <span class="op">+</span><span class="st"> </span><span class="dv">2</span>
+b</code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<p>Comparing values will return “True” or “False”</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span><span class="op">==</span><span class="dv">2</span> ## does equal 
+<span class="dv">2</span><span class="op">!=</span><span class="dv">2</span> ## does not equal</code></pre></div>
+<blockquote>
+<h4 id="note-r-is-case-sensitive-and-unforgiving">Note: R is case-sensitive and unforgiving!</h4>
+</blockquote>
+</div>
+<div id="getting-started" class="section level2">
+<h2>Getting Started</h2>
+<p>First, lets do some fun stuff! To get started, install the <em>package</em> “ggplot2”. Packages are toolboxes that include functions, data and code for specific tasks. Note, remove the “#” from before install.packages() to load for the first time. The “#” comments out any code so it will not be run.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#install.packages(&quot;ggplot2&quot;)</span>
+<span class="kw">library</span>(ggplot2)</code></pre></div>
+<blockquote>
+<h4 id="note-if-you-have-installed-an-r-package-once-on-your-computer-you-will-not-need-to-install-it-again.-you-will-need-to-load-the-library-at-the-begining-of-each-new-session-using-the-library-function">Note: if you have installed an R package once on your computer, you will not need to install it again. You will need to <em>load</em> the library at the begining of each new session using the library() function</h4>
+</blockquote>
+<!-- ## Getting Data Into R -->
+<!-- Now make sure to place your "StripeRust.csv" file in the working directory that we set, then load the data in using the "read.csv" *function*.  -->
+<!-- ```{r} -->
+<!-- RustData <- read.csv("StripeRust.csv", header = TRUE)  -->
+<!--   #Header = TRUE lets R know that we have headings in the first row of our data set.  -->
+<!-- head(RustData) ## check the first few rows of the dataset -->
+<!-- names(RustData) ## check the column headers -->
+<!-- ``` -->
+<!-- > #### Note: this data is disease severity ratings taken in a wheat stripe rust nursury over the course of two seasons. "DAI" = days after inoculation.  -->
+<!-- We can plot this data using ggplot2. Tell the graphing function to use the data "RustData" and then add a layer to the plot with the geom_point() function with severity on the y axis and time on the x axis. Color the points by the year that data was collected.  -->
+<!-- ```{r} -->
+<!-- ggplot(data = RustData) + -->
+<!--   geom_point(mapping = aes(x = DAI, y = Severity, color = Year)) -->
+<!-- ``` -->
+<!-- >#### Note: It looks like disease took longer to develop in year 2, and was less severe by day 100. -->
+<!-- If we switch from the function "geom_point" to "geom_line" we can plot lines and not points.   -->
+<!-- ```{r} -->
+<!-- ggplot(data = RustData) + -->
+<!--   geom_line(mapping = aes(x = DAI, y = Severity, color = Year)) -->
+<!-- ``` -->
+<!-- We can look at the graphs side-by-side using the facet_wrap() function.  -->
+<!-- ```{r} -->
+<!-- ggplot(data = RustData) + -->
+<!--   geom_point(mapping = aes(x = DAI, y = Severity)) + -->
+<!--   facet_wrap(~Year)  -->
+<!-- ``` -->
+<!-- > #### Note: be sure to include a "+" at the end of each line, until you want to close the command.    -->
+<!-- Finally, lets add a title!  -->
+<!-- ```{r} -->
+<!-- ggplot(data = RustData) + -->
+<!--   geom_point(mapping = aes(x = DAI, y = Severity, color = Year)) + -->
+<!--   facet_wrap(~Year) + -->
+<!--   labs(title = "Stripe Rust Severity Over Time") -->
+<!-- ``` -->
+</div>
+<div id="vectors" class="section level2">
+<h2>Vectors</h2>
+<blockquote>
+<h4 id="vectors-are-a-way-to-set-a-series-of-data-elements-as-an-object.">Vectors are a way to set a series of data elements as an object.</h4>
+</blockquote>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>) <span class="co">#numbers</span>
+v2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;hello&quot;</span>, <span class="st">&quot;world&quot;</span>) <span class="co">#characters </span>
+v3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;FALSE&quot;</span>, <span class="st">&quot;TRUE&quot;</span>) <span class="co">#logical values (also could be - &quot;T&quot;, &quot;F&quot;, &quot;T&quot;)</span></code></pre></div>
+<p>Lets make a vector with hypothetical ratings of “R expertise” on a scale of 1-10.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">WithR &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">8.5</span>, <span class="fl">6.5</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">6</span>)
+WithR</code></pre></div>
+<pre><code>##  [1]  8.5  6.5  4.0  1.0  3.0 10.0  5.0  5.0  5.0  1.0  1.0  6.0  6.0</code></pre>
+<p>We can use the following functions to look at some summary statistics.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(WithR)</code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.000   3.000   5.000   4.769   6.000  10.000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(WithR)</code></pre></div>
+<pre><code>## [1] 4.769231</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sd</span>(WithR)</code></pre></div>
+<pre><code>## [1] 2.795945</code></pre>
+<p>And graph a histogram of this distribution!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(WithR, <span class="dt">xlab =</span> <span class="st">&quot;Self-Reported R Proficiency&quot;</span>)</code></pre></div>
+<p><img src="APS2018_Tidyverse_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load the library</span>
+<span class="kw">library</span>(tidyverse)</code></pre></div>
+<pre><code>## ── Attaching packages ──────────────────</code></pre>
+<pre><code>## ✔ tibble  2.0.1     ✔ purrr   0.2.5
+## ✔ tidyr   0.8.1     ✔ dplyr   0.7.8
+## ✔ readr   1.1.1     ✔ stringr 1.3.1
+## ✔ tibble  2.0.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## ── Conflicts ── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div id="dataset" class="section level2">
+<h2>Dataset</h2>
+<p>In this module we will be using Iris flower dataset to learn the tools for data wrangling by using <code>dplyr</code> package. Similarly, we will use Iris dataset for exploring some of the basic plots using <code>ggplot2</code>. Both of these packages are the part of <code>tidyverse</code> package. So, if you have <code>tidyverse</code> loaded in your machine then you are ready to go !!!!!</p>
+<p>Iris data comes with the base R i.e., is build-in dataset. Let’s load the data first. You can do that by using data function and need to specify the name of dataset within parentheses- as shown below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load data</span>
+<span class="kw">data</span>(iris)
+
+<span class="co"># provide you the first 6 rows of the data</span>
+<span class="kw">head</span>(iris)</code></pre></div>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># check the structure of data. Very handy function to get a basic information about the data.</span>
+<span class="kw">str</span>(iris)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<p>If you have used other programming language before, then I bet you have heard about data frame. In tidyverse world data frame or table is called tibble. You can conceptualize it as table with some extra information on the data type.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create tibble format table</span>
+df &lt;-<span class="st"> </span><span class="kw">tbl_df</span>(iris) 
+df</code></pre></div>
+<pre><code>## # A tibble: 150 x 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+##  1          5.1         3.5          1.4         0.2 setosa 
+##  2          4.9         3            1.4         0.2 setosa 
+##  3          4.7         3.2          1.3         0.2 setosa 
+##  4          4.6         3.1          1.5         0.2 setosa 
+##  5          5           3.6          1.4         0.2 setosa 
+##  6          5.4         3.9          1.7         0.4 setosa 
+##  7          4.6         3.4          1.4         0.3 setosa 
+##  8          5           3.4          1.5         0.2 setosa 
+##  9          4.4         2.9          1.4         0.2 setosa 
+## 10          4.9         3.1          1.5         0.1 setosa 
+## # … with 140 more rows</code></pre>
+<p>If you check at the header of tibble, then you can see it contains information on the class of data contained within the column. For example, information in the Species column of Iris data is factor.</p>
+<p>Now lets dive into dplr little more, and work on data wrangling part. Data cleaning or organizing is extremely essential for downstream analysis. Most of the data analyst spend most of their time in data cleaning, although, most of us hate to spend time on cleaning the messy data. Luckily, <code>dplyr</code> has quite intuitive functions to help you..</p>
+<p>Let say if you want to filter the Iris dataset, where Species are versicolor. Then you can use a function filter.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Filter rows with filter()</span>
+<span class="co"># here df is the object where we had store our tibble data</span>
+<span class="co"># yes, you need to use ==</span>
+<span class="kw">filter</span>(df, Species <span class="op">==</span><span class="st"> &quot;versicolor&quot;</span>)</code></pre></div>
+<pre><code>## # A tibble: 50 x 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species   
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;     
+##  1          7           3.2          4.7         1.4 versicolor
+##  2          6.4         3.2          4.5         1.5 versicolor
+##  3          6.9         3.1          4.9         1.5 versicolor
+##  4          5.5         2.3          4           1.3 versicolor
+##  5          6.5         2.8          4.6         1.5 versicolor
+##  6          5.7         2.8          4.5         1.3 versicolor
+##  7          6.3         3.3          4.7         1.6 versicolor
+##  8          4.9         2.4          3.3         1   versicolor
+##  9          6.6         2.9          4.6         1.3 versicolor
+## 10          5.2         2.7          3.9         1.4 versicolor
+## # … with 40 more rows</code></pre>
+<p>You can also filter dataset passing some conditional requirements. Here, let’s say, we want to select all flower data with petal length is greater than 2.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Comparisons</span>
+<span class="kw">filter</span>(df, Petal.Length <span class="op">&gt;</span><span class="st"> </span><span class="dv">2</span>)</code></pre></div>
+<pre><code>## # A tibble: 100 x 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species   
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;     
+##  1          7           3.2          4.7         1.4 versicolor
+##  2          6.4         3.2          4.5         1.5 versicolor
+##  3          6.9         3.1          4.9         1.5 versicolor
+##  4          5.5         2.3          4           1.3 versicolor
+##  5          6.5         2.8          4.6         1.5 versicolor
+##  6          5.7         2.8          4.5         1.3 versicolor
+##  7          6.3         3.3          4.7         1.6 versicolor
+##  8          4.9         2.4          3.3         1   versicolor
+##  9          6.6         2.9          4.6         1.3 versicolor
+## 10          5.2         2.7          3.9         1.4 versicolor
+## # … with 90 more rows</code></pre>
+<p>Since you have used one condition, why not multiple?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Logical operators</span>
+<span class="kw">filter</span>(df, Petal.Length <span class="op">&gt;</span><span class="st"> </span><span class="dv">6</span> <span class="op">&amp;</span><span class="st"> </span>Sepal.Length <span class="op">&gt;</span><span class="st"> </span><span class="dv">7</span>)</code></pre></div>
+<pre><code>## # A tibble: 9 x 5
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species  
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;    
+## 1          7.6         3            6.6         2.1 virginica
+## 2          7.3         2.9          6.3         1.8 virginica
+## 3          7.2         3.6          6.1         2.5 virginica
+## 4          7.7         3.8          6.7         2.2 virginica
+## 5          7.7         2.6          6.9         2.3 virginica
+## 6          7.7         2.8          6.7         2   virginica
+## 7          7.4         2.8          6.1         1.9 virginica
+## 8          7.9         3.8          6.4         2   virginica
+## 9          7.7         3            6.1         2.3 virginica</code></pre>
+<p>Dataset is filtered based on both the criteria, and only the entries that matched the set conditions are displayed.</p>
+<p>Now, rather than filtering data with the desired criteria, we can also arrange them in our desired order- by using arrange function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># arrange by sepal length then petal width. Default is ascending order. </span>
+<span class="kw">arrange</span>(df, Sepal.Length, Petal.Width)</code></pre></div>
+<pre><code>## # A tibble: 150 x 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+##  1          4.3         3            1.1         0.1 setosa 
+##  2          4.4         2.9          1.4         0.2 setosa 
+##  3          4.4         3            1.3         0.2 setosa 
+##  4          4.4         3.2          1.3         0.2 setosa 
+##  5          4.5         2.3          1.3         0.3 setosa 
+##  6          4.6         3.1          1.5         0.2 setosa 
+##  7          4.6         3.6          1           0.2 setosa 
+##  8          4.6         3.2          1.4         0.2 setosa 
+##  9          4.6         3.4          1.4         0.3 setosa 
+## 10          4.7         3.2          1.3         0.2 setosa 
+## # … with 140 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># allows to arrange in descending order. </span>
+<span class="kw">arrange</span>(df, <span class="kw">desc</span>(Sepal.Length))</code></pre></div>
+<pre><code>## # A tibble: 150 x 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species  
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;    
+##  1          7.9         3.8          6.4         2   virginica
+##  2          7.7         3.8          6.7         2.2 virginica
+##  3          7.7         2.6          6.9         2.3 virginica
+##  4          7.7         2.8          6.7         2   virginica
+##  5          7.7         3            6.1         2.3 virginica
+##  6          7.6         3            6.6         2.1 virginica
+##  7          7.4         2.8          6.1         1.9 virginica
+##  8          7.3         2.9          6.3         1.8 virginica
+##  9          7.2         3.6          6.1         2.5 virginica
+## 10          7.2         3.2          6           1.8 virginica
+## # … with 140 more rows</code></pre>
+<p>Unlike filter, if you want to take a subset of data, and study them separately then you can use select function to get a subset of the bigger data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># from iris data, lets select only three columns - Species, Petal width and Petal length</span>
+<span class="kw">select</span>(df, Species, Petal.Width, Petal.Length)</code></pre></div>
+<pre><code>## # A tibble: 150 x 3
+##    Species Petal.Width Petal.Length
+##    &lt;fct&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+##  1 setosa          0.2          1.4
+##  2 setosa          0.2          1.4
+##  3 setosa          0.2          1.3
+##  4 setosa          0.2          1.5
+##  5 setosa          0.2          1.4
+##  6 setosa          0.4          1.7
+##  7 setosa          0.3          1.4
+##  8 setosa          0.2          1.5
+##  9 setosa          0.2          1.4
+## 10 setosa          0.1          1.5
+## # … with 140 more rows</code></pre>
+<p>R is quiet flexible in handling data set. You can not only twist and turn the entries, but also add additional columns and rows. You can use mutate function to do that. Here log.Sepal.length is a name of the new column, and in this column we will be storing the log(Sepal.Length) values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mutate</span>(df, <span class="dt">log.Sepal.length =</span> <span class="kw">log</span>(Sepal.Length))</code></pre></div>
+<pre><code>## # A tibble: 150 x 6
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+##  1          5.1         3.5          1.4         0.2 setosa 
+##  2          4.9         3            1.4         0.2 setosa 
+##  3          4.7         3.2          1.3         0.2 setosa 
+##  4          4.6         3.1          1.5         0.2 setosa 
+##  5          5           3.6          1.4         0.2 setosa 
+##  6          5.4         3.9          1.7         0.4 setosa 
+##  7          4.6         3.4          1.4         0.3 setosa 
+##  8          5           3.4          1.5         0.2 setosa 
+##  9          4.4         2.9          1.4         0.2 setosa 
+## 10          4.9         3.1          1.5         0.1 setosa 
+## # … with 140 more rows, and 1 more variable: log.Sepal.length &lt;dbl&gt;</code></pre>
+<p>Other important function in <code>dplyr</code> is summarise. This function allows you get the summary information about the data. In the example below, we first group entries by flower species, then calculate mean petal length for each species of flower.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find mean of peteal length</span>
+<span class="kw">summarise</span>(df, <span class="kw">mean</span>(Petal.Length))</code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##   `mean(Petal.Length)`
+##                  &lt;dbl&gt;
+## 1                 3.76</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find mean of petal length for each species</span>
+
+<span class="kw">group_by</span>(df, Species) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(<span class="kw">n</span>())</code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+## # Groups:   Species [3]
+##   Species    `n()`     n
+##   &lt;fct&gt;      &lt;int&gt; &lt;int&gt;
+## 1 setosa        50    50
+## 2 versicolor    50    50
+## 3 virginica     50    50</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="kw">mean</span>(Petal.Length))</code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   Species    `mean(Petal.Length)`
+##   &lt;fct&gt;                     &lt;dbl&gt;
+## 1 setosa                     1.46
+## 2 versicolor                 4.26
+## 3 virginica                  5.55</code></pre>
+<p>Did you notice %&gt;% symbol? What is that? This symbol is called pipe. Yes… pipe because as name imply, it takes in output from one operation then pass/pipe it as an input for next operation. Advantage: No need to create new object to store values at each operation.</p>
+<p>Now you know how to organize or clean data, which mean you have become a “Data Scientist”. Data science will be incomplete without good visualization tools. So, now we will explore some of the very basic plots using ggplot2 package. It’s fun to see figures then tibble.</p>
+<p>Since you know so much about Iris flower data, we will use the same one for learning visualizations. However, you can use the same concepts while analyzing your own data.</p>
+<p>Let’s see the figure first!!!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#1 Scatter PLot</span>
+<span class="kw">ggplot</span>(<span class="dt">data=</span>df, <span class="kw">aes</span>(<span class="dt">x =</span> Sepal.Length, <span class="dt">y =</span> Sepal.Width))<span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color=</span>Species, <span class="dt">shape=</span>Species)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Sepal Length&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Sepal Width&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Sepal Length-Width&quot;</span>)</code></pre></div>
+<p><img src="APS2018_Tidyverse_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>The plot that you just plotted is called scatter plot. Let’s follow the code briefly. If you understand this code, then the rest of code for visualization is based on similar concept.</p>
+<p>Here, in data you are specifying df, which is our tibble format Iris data. Then, with aes we are specifying what we want in X- and Y-axes. Sepal length is used as X-axis, and Sepal width as Y-axis.</p>
+<p>So far, we have informed R the backbone of our plot.</p>
+<p>geom is used to specify what kind of plot that we want. For scatter plot we want geom_point. If we want bar plot, then geom_bar, and there are many other options.</p>
+<p>With-in geom_point we are adding more information for the points. We want each point to be colored and shaped according to the flower species.</p>
+<p><code>+</code> is used to add each layer of information.</p>
+<p>The other handy plot is box plot- can be used to look the spread of data. For the code part, the logic is same as of scatter plot, but this time we need to use geom_boxplot.</p>
+<p>Additionally, we can use <code>+</code> sign and add some summary statistics within the plot. Here, we want to display mean for each flower species within the boxplot. You can modify the shape and size parameters.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 2) Box Plot</span>
+
+box &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data=</span>df, <span class="kw">aes</span>(<span class="dt">x=</span>Species, <span class="dt">y=</span>Sepal.Length))
+
+box <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Species)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Sepal Length&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Iris Boxplot&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y=</span>mean, <span class="dt">geom=</span><span class="st">&quot;point&quot;</span>, <span class="dt">shape=</span><span class="dv">5</span>, <span class="dt">size=</span><span class="dv">4</span>)</code></pre></div>
+<p><img src="APS2018_Tidyverse_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>Histograms allow to look the data distribution. Histograms are commonly used in exploratory analysis. You can also modify the bin size and check for irregular trends (outliers) in the data - on your own.</p>
+<p>Note- we need to change geom type— here we use geom_histogram</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 3) Histogram</span>
+histogram &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data=</span>df, <span class="kw">aes</span>(<span class="dt">x=</span>Sepal.Width))
+
+histogram <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="fl">0.2</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill=</span>Species)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Sepal Width&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Histogram of Sepal Width&quot;</span>)</code></pre></div>
+<p><img src="APS2018_Tidyverse_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Barplot– we don;t even have to mention about it. You have seen it, and use it. Let’s plot in ggplot2. Again, we need to specify geom type- as geom_bar</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 4) bar plot</span>
+bar &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data=</span>df, <span class="kw">aes</span>(<span class="dt">x=</span>Species))
+
+bar <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Species)) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;Species&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Count&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Bar plot of Sepal Length&quot;</span>) </code></pre></div>
+<p><img src="APS2018_Tidyverse_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>Additionally, another interesting and handy plotting tool is facet. Facet allows to get a separate panel for each category. As you can see in the plot below, we get three panels - one for each species of flower.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 5) Faceting</span>
+facet &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data=</span>df, <span class="kw">aes</span>(Sepal.Length, <span class="dt">y=</span>Sepal.Width, <span class="dt">color=</span>Species)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">shape=</span>Species), <span class="dt">size=</span><span class="fl">1.5</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Sepal Length&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Sepal Width&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Faceting&quot;</span>) </code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Along columns</span>
+facet <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>Species)</code></pre></div>
+<p><img src="APS2018_Tidyverse_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

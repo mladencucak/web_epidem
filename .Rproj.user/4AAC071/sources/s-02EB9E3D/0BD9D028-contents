@@ -1,0 +1,59 @@
+---
+title: "Welcome!"
+---
+**Workshop Organizers:** Kelsey Andersen Onofre, Rodrigo Onofre, Karen Garrett, Felipe Dalla Lana, Adam Sparks, Mladen Cucak
+
+
+## Data Visualization in R
+
+
+Test
+
+### Workshop Logistics   
+\  
+
+#### WORKSHOP: Data Visualization in R
+#### Tuesday, Feb 9th 1:00pm-4:00pm  CST
+
+\  
+
+### Pre-Workshop Set Up
+
+Make sure you have the most recent versions of R and R Studio Installed on your computer.  
+
+* R can be downloaded at [cran.r-project.org](https://cran.r-project.org/)
+* R Studio can be downloaded for free at [www.rstudio.com](https://www.rstudio.com/products/rstudio/download/)
+
+Also, it would be useful to download the following R packages prior to the workshop:  
+
+*	ggplot2
+*	ggpuber
+*	patchwork
+*	ggraph
+*	sf
+*	ggmap
+*	packages for choosing color themes
+*	tidyverse
+*	...
+
+
+For new R useRs: open R studio and type the following code into the console, OR you can go over the "Packages" tab in the bottom right hand corner of R studio, click "install", and type in the names of the packages that you would like to install. Once you have installed a package on your computer, there is no need to install again. Instead, each time you need to use the package you use the *library()* code (as shown below). 
+```
+install.packages("igraph")
+
+library(igraph) 
+
+install.packages("Hmisc")
+
+library(Hmisc) 
+
+install.packages("Matrix")
+
+library(Matrix)  
+
+```
+# TEST 1
+## test22
+
+
+## insert logo from institutions sponsoring this workship (K-State, Penn State, K-State)

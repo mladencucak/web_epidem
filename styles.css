@@ -1,0 +1,29 @@
+
+
+.navbar-default {
+    background-color: #f0f0f0 !important;
+    border-color: #222222;
+}
+
+
+.navbar-default .navbar-nav > li > a {
+    color: black;
+}
+
+
+// Also don't forget to change the hover styles as well
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: black;
+    background-color: #f0f0f0 !important;
+}   
+
+
+// And the brand colour
+
+.navbar-default .navbar-brand {
+    color: black;
+}   
+.nav-link {
+color: black !important;
+}
