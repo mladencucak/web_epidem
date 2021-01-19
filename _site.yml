@@ -4,6 +4,7 @@ navbar:
   title: Plant Disease Epidemiology
   left:
   - text: Welcome
+    icon: "fa-leaf"
     href: index.html
   - text: Lectures
     menu:
