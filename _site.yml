@@ -6,16 +6,16 @@ navbar:
   - text: Welcome
     icon: "fa-leaf"
     href: index.html
-  - text: Lectures
+  - text: Intro
     menu:
-    - text: Class 1
-      href: class1.html
+    - text: Before starting
+      href: "0_install&update/install.html"
     - text: Class 2
       href: class2.html
     - text: Class 3
       href: class3.html
       
-  - text: R codes
+  - text: Part 2
     menu:
     - text: Codes 1 
       href: codes1.html
@@ -24,7 +24,7 @@ navbar:
     - text: Codes 3 
       href: codes3.html 
   
-  - text: Extra
+  - text: Part 3
     menu:
     - text: Extra 1 
       href: extra1.html
@@ -33,9 +33,15 @@ navbar:
     - text: Extra 3 
       href: extra3.html 
       
-  - text: Contact
-    href: contact.html
-    
+  - text: "About"
+    menu:
+     - text: "Authors"
+       href: "Authors.html"
+  - text: "Appendices"
+    menu:
+     - text: "Introduction to R"
+       href: "intro_to_R.html"  
+       
 output:
   html_document:
     theme: readable
