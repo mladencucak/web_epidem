@@ -9,7 +9,7 @@ navbar:
   - text: Intro
     menu:
     - text: Before starting
-      href: "0_install&update/install.html"
+      href: 0_install&update/install.html
     - text: Class 2
       href: class2.html
     - text: Class 3
@@ -18,7 +18,7 @@ navbar:
   - text: Part 2
     menu:
     - text: Codes 1 
-      href: codes1.html
+      href: class1.html
     - text: Codes 2 
       href: codes2.html 
     - text: Codes 3 

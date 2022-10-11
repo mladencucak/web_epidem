@@ -3,6 +3,14 @@ title: "Welcome!"
 ---
 **Professor:** Paul D. Esker
 
+```{=html}
+<p>Any <strong>raw</strong> HTML content works here.
+For example, here is a Youtube video:</p>
+
+<iframe width="100%" height="400"
+  src="https://felipedallalana.shinyapps.io/Temporal_shiny/"  </iframe>
+``` 
+
 **Assistants:** Felipe Dalla Lana; Mladen Cucak
 <br/><br/> 
  
