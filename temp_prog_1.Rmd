@@ -75,7 +75,7 @@ Data are loaded from the usual "weapon" of agronomists - an excel sheet. In this
 ```{r data_one}
 dta <- 
 readxl::read_xlsx(
-  here::here("data/sample_data.xlsx"),
+  here::here("data/temp_prog/sample_data.xlsx"),
   sheet = "1",
   col_types = rep("numeric",5) # define all columns are numeric
   )
@@ -317,7 +317,7 @@ Data can be stored in separate sheets of a single excel file. In our example, th
 
 ```{r}
 (years <-
-  readxl::excel_sheets(here::here("data/sample_data.xlsx")))
+  readxl::excel_sheets(here::here("data/temp_prog/sample_data.xlsx")))
 ```
 
 This output should look familiar.
@@ -329,7 +329,7 @@ dta_list <-
   lapply(years, function(i){
     fun_dta <- 
     readxl::read_xlsx(
-      here::here("data/sample_data.xlsx"),
+      here::here("data/temp_prog/sample_data.xlsx"),
       sheet = i
     )
     # Create id variable  

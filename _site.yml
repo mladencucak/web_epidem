@@ -15,7 +15,7 @@ navbar:
     - text: Intro to ggplot
       href: intro_ggplot.html
       
-  - text: Part 2
+  - text: PDE
     menu:
     - text: Disease Assessment 
       href: disease_assessment.html

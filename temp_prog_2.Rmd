@@ -9,7 +9,6 @@ output:
       toc_depth: 3
       collapsed: false
       smooth_scroll: false
-runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -75,7 +74,7 @@ Data from the previous exercise is loaded. We shall retain only two variables (t
 
 ```{r get_data}
 full_dta <- 
-  readRDS(file = here::here( "4_temporal_progress_2/data/test_data.rds")) 
+  readRDS(file = here::here( "data/temp_prog/test_data.rds")) 
 # Take only one year of data
 dta <- 
   full_dta %>% 
@@ -242,65 +241,25 @@ The two simplest models of population growth use deterministic equations to desc
 
 The first of these models, exponential growth, describes theoretical populations that increase in numbers without any limits to their growth.
 
-The second model, logistic growth, introduces limits to reproductive population growth as the population size increases. In plant pathology, this shown by the idea that there is a maximum population size, or in more specific cases, that there are bounded limits to things such as disease intensity (0 to 100%).
+The second model, logistic growth, introduces limits to reproductive population growth as the population size increases. In plant pathology, this shown by the idea that there is a maximum population size, or in more specific cases, that there are bounded limits to things such as disease intensity (0 to 100%).  
 
-```{r exponenetial, echo=FALSE}
-shiny::shinyAppDir(
-  here::here( "4_temporal_progress_2/apps","exponential"),
-  options = list(
-    width = "100%", height = 400
-  )
-)
+Thomas Malthus,the English clergyman had a great influence on Charles Darwin, in developing his theory of natural selection. Malthus' book from 1798 states that populations with abundant natural resources grow very rapidly; however, they limit further growth by depleting their resources. The pattern of accelerating population size is named exponential growth. Such development is characteristic of bacteria multiplication in a flask. However, resources are limited in the real world and such growth can be characteristic only in very early stages when a species gets established into a new habitat. Charles Darwin recognized this as the "struggle for existence", where the individuals will compete with members of their own or other species for limited resources. Those which are more successful than others and are able to survive and pass pass on the traits that made them successful to the next generation at a greater rate, a phenomena known as natural selection. Logistic growth model was developed to model this reality of limited resources. 
 
-```
+This population growth is often limited in several different ways, e.g. the rate of progress can be different in different parts of a season, determined by environmental factors, elements of host genetic resistance or human interventions. Hence, there are several variations of this logistic curve, one of them being Gompertz curve, named after Benjamin Gompertz (1779--1865). The main characteristic of this sigmoidal curve is that the mortality rate decreases exponentially as a person ages, or in th usual case in plant pathology, the rate of disease progress is lower as at higher disease intensity levels.  
 
-Thomas Malthus,the English clergyman had a great influence on Charles Darwin, in developing his theory of natural selection. Malthus' book from 1798 states that populations with abundant natural resources grow very rapidly; however, they limit further growth by depleting their resources. The pattern of accelerating population size is named exponential growth. Such development is characteristic of bacteria multiplication in a flask. However, resources are limited in the real world and such growth can be characteristic only in very early stages when a species gets established into a new habitat. Charles Darwin recognized this as the "struggle for existence", where the individuals will compete with members of their own or other species for limited resources. Those which are more successful than others and are able to survive and pass pass on the traits that made them successful to the next generation at a greater rate, a phenomena known as natural selection. Logistic growth model was developed to model this reality of limited resources.
-
-```{r logistic, echo=FALSE}
-shinyAppDir(
-  here::here("4_temporal_progress_2/apps","logistic"),
-  options = list(
-    width = "100%", height = 400
-  )
-)
-
-```
-
-This population growth is often limited in several different ways, e.g. the rate of progress can be different in different parts of a season, determined by environmental factors, elements of host genetic resistance or human interventions. Hence, there are several variations of this logistic curve, one of them being Gompertz curve, named after Benjamin Gompertz (1779--1865). The main characteristic of this sigmoidal curve is that the mortality rate decreases exponentially as a person ages, or in th usual case in plant pathology, the rate of disease progress is lower as at higher disease intensity levels.
-
-```{r gompertz, echo=FALSE}
-shinyAppDir(
-  here::here("4_temporal_progress_2/apps","gompertz"),
-  options = list(
-    width = "100%", height = 400
-  )
-)
-
-```
-
-The monomolecular model has been used to described several phenomena in chemistry (hence the name) and biology (plant growth etc.). It is also called the negative exponential or restricted exponential model, as its rate is constantly decreasing. In plant pathology, it is often used to describe monocyclic epidemics.
-
-```{r monomolecular, echo=FALSE}
-shinyAppDir(
-  here::here("4_temporal_progress_2/apps","monomolecular"),
-  options = list(
-    width = "100%", height = 400
-  )
-)
-
-```
+The monomolecular model has been used to described several phenomena in chemistry (hence the name) and biology (plant growth etc.). It is also called the negative exponential or restricted exponential model, as its rate is constantly decreasing. In plant pathology, it is often used to describe monocyclic epidemics.  
 
 They are plotted all together to explore their main characteristics and differences.
 
-```{r all, echo=FALSE}
-shinyAppDir(
-  here::here("4_temporal_progress_2/apps","combined"),
-  options = list(
-    width = "100%", height = 400
-  )
-)
-
-```
+# ```{r all, echo=FALSE}
+# shinyAppDir(
+#   here::here("apps","combined"),
+#   options = list(
+#     width = "100%", height = 400
+#   )
+# )
+# 
+# ```
 
 ### Fitting linearized models
 

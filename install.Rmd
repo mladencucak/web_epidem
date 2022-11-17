@@ -1,36 +1,13 @@
  
  
 ---
-title: "instal!"
+title: "Before Starting"
+
 ---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
-Test shinyap
-```{r}
-knitr::include_app("https://felipedallalana.shinyapps.io/Temporal_shiny/",
-  height = "600px")
-```
-
-```{=html}
-<p>Any <strong>raw</strong> HTML content works here.
-For example, here is a Youtube video:</p>
-
-<iframe width="100%" height="400"
-  src="https://felipedallalana.shinyapps.io/Temporal_shiny/"
-  frameborder="0" </iframe>
-  
-  
-``` 
-
-```{=html}
-<iframe src="https://ntu.cloud.panopto.eu/Panopto/Pages/Embed.aspx?id=894e2520-46b3-4c7e-9666-acbc00eee050&amp;autoplay=false&amp;offerviewer=true&amp;showtitle=true&amp;showbrand=false&amp;start=0&amp;interactivity=all" height="405" width="720" style="border: 1px solid #464646;" allowfullscreen="" allow="autoplay" data-external="1"></iframe>
-
-  
-  
-``` 
-
-
 ## Installation
 
 To download **R**:
