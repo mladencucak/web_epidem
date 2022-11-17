@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mladen Cucak; Felipe Dalla Lana; Mauricio Serrano; Paul Esker" />
+
+
+<title>Temporal disease progress: DPC, AUDPC and rAUDPC</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Plant Disease Epidemiology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-leaf"></span>
+     
+    Welcome
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="install.html">Before starting</a>
+    </li>
+    <li>
+      <a href="class2.html">Class 2</a>
+    </li>
+    <li>
+      <a href="class3.html">Class 3</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Part 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="disease_assessment.html">disease assessment</a>
+    </li>
+    <li>
+      <a href="temp_prog_1.html">temp_prog_1</a>
+    </li>
+    <li>
+      <a href="codes3.html">Codes 3</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Part 3
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra1.html">Extra 1</a>
+    </li>
+    <li>
+      <a href="extra2.html">Extra 2</a>
+    </li>
+    <li>
+      <a href="extra3.html">Extra 3</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    About
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Authors.html">Authors</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Appendices
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro_to_R.html">Introduction to R</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Temporal disease progress: DPC, AUDPC and
+rAUDPC</h1>
+<h4 class="author">Mladen Cucak; Felipe Dalla Lana; Mauricio Serrano;
+Paul Esker</h4>
+<h4 class="date">4/21/2021</h4>
+
+</div>
+
+
+<div id="how-to-get-most-out-of-this-document" class="section level1">
+<h1>How to get most out of this document</h1>
+<p>We have kept theoretical explanations to a minimum to facilitate
+learning the basic coding principles and putting them into practice,
+while increasing knowledge of “coding vocabulary”. The explanations in
+text are supplemented with comments in the text.</p>
+</div>
+<div id="libraries" class="section level1">
+<h1>Libraries</h1>
+<p><strong>Note</strong>: Comments are often used throughout the code to
+explain the code to a potential reader, and, quite often to your future
+self!</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>list.of.packages <span class="ot">&lt;-</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;readxl&quot;</span>, <span class="co"># import of data from excel files</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;tidyverse&quot;</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;gt&quot;</span>, <span class="co">#package for customizing html table view</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;conflicted&quot;</span>, <span class="co">#some functions are named the same way across different packages and there can be conflicts. This package helps to sort out  this problem </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;here&quot;</span>, <span class="co">#helps with the reproducibility across operating systems</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;agricolae&quot;</span> <span class="co">#set of functions for agricultural research</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>new.packages <span class="ot">&lt;-</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  list.of.packages[<span class="sc">!</span>(list.of.packages <span class="sc">%in%</span> <span class="fu">installed.packages</span>()[, <span class="st">&quot;Package&quot;</span>])]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Download packages that are not already present in the library</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(new.packages))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(new.packages)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>packages_load <span class="ot">&lt;-</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(list.of.packages, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Print warning if there is a problem with installing/loading some of packages</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">as.numeric</span>(packages_load) <span class="sc">==</span> <span class="dv">0</span>)) {</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">warning</span>(<span class="fu">paste</span>(<span class="st">&quot;Package/s: &quot;</span>, <span class="fu">paste</span>(list.of.packages[packages_load <span class="sc">!=</span> <span class="cn">TRUE</span>], <span class="at">sep =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;not loaded!&quot;</span>))</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;All packages were successfully loaded.&quot;</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;All packages were successfully loaded.&quot;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(list.of.packages, new.packages, packages_load)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Resolve conflicts</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conflict_prefer</span>(<span class="st">&quot;filter&quot;</span>, <span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conflict_prefer</span>(<span class="st">&quot;select&quot;</span>, <span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#If install is not working try changing repositories</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;ROCR&quot;, repos = c(CRAN=&quot;https://cran.r-project.org/&quot;))</span></span></code></pre></div>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Summarizing disease development in ways that makes them easier to
+work with has long been a topic of interest for plant pathologists. This
+is done in order to understand, interpret and compare epidemics over
+time, locations and experimental treatments. There is a plethora of
+accessible resources available to gain understanding of the topic. A
+good place to start learning about basic epidemiological concepts are
+the online resources at <a
+href="https://www.apsnet.org/edcenter/disimpactmngmnt/topc/Pages/default.aspx">APS
+Education center</a>, with [Ecology and Epidemiology in R] being the
+most important one in terms of their applications with R language and it
+constitutes inspiration and background for these materials. In terms of
+the physical literature, books <span class="citation">Madden, Hughes,
+and Van Den Bosch (2007)</span> and <span class="citation">Campbell and
+Madden (1990)</span> are a good place to start with theory and to find
+references for further reading. Professor Madden’s <a
+href="https://u.osu.edu/thestudyofplantdiseaseepidemics/downloads/">website
+at OSU</a> offers several learning resources.</p>
+<p>Epidemics could be observed from several different perspectives, with
+spatial and temporal progress being one of them. Here, we will start by
+exploring temporal aspects while learning some basic coding principles
+and putting them into practice.</p>
+<div id="sample-data" class="section level2">
+<h2>Sample data</h2>
+<p>Data are loaded from the usual “weapon” of agronomists - an excel
+sheet. In this case, separate sheets are used to store simulated disease
+data from different years. Initially, data from the first year are
+loaded. It is also useful to clean up and shorten variable names using
+basic <em>string</em> manipulation.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/sample_data.xlsx&quot;</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">&quot;1&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">rep</span>(<span class="st">&quot;numeric&quot;</span>,<span class="dv">5</span>) <span class="co"># define all columns are numeric</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## Warning: Expecting numeric in E2 / R2C5: got &#39;NA&#39;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#string manipulation - rename variables according to naming conventions</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dta) <span class="ot">&lt;-</span>  <span class="fu">tolower</span>(<span class="fu">colnames</span>(dta))<span class="co">#fun tolower makes all letters small</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># shorten names</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dta) <span class="ot">&lt;-</span> <span class="fu">substr</span>( <span class="fu">colnames</span>(dta),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">start =</span> <span class="dv">1</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">stop =</span> <span class="dv">4</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># make abbreviations more memorable</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dta)[<span class="fu">colnames</span>(dta) <span class="sc">==</span> <span class="st">&quot;infe&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;inf&quot;</span></span></code></pre></div>
+<p>Variable descriptions:</p>
+<ul>
+<li><p><strong><code>dai</code></strong>: sampling interval or the
+period between two assessments,</p></li>
+<li><p><strong><code>new</code></strong>: the number of newly inf plants
+at each sampling,</p></li>
+<li><p><strong><code>inf</code></strong>: the number of infected plants
+- the total count,</p></li>
+<li><p><strong><code>prop</code></strong>: proportion infected of all
+plants</p></li>
+<li><p><strong><code>rate</code></strong>: the rate of change.</p></li>
+</ul>
+<p>The dataset is attached to global environment. This means that that
+variables can be called without defining the dataset first. This
+functionality should be used carefully as this can be “dangerous”!</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normally, to call variables in dataframe,  we have to </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dta<span class="sc">$</span>inf <span class="co">#or dta[ ,&quot;inf&quot;] or dta[[&quot;inf&quot;]]</span></span></code></pre></div>
+<pre><code>##  [1]   4  16  36  64 101 151 218 300 386 472 549 614 623</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(dta)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>inf <span class="co"># callout variables within dataframe without defining the parent object</span></span></code></pre></div>
+<pre><code>##  [1]   4  16  36  64 101 151 218 300 386 472 549 614 623</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gt<span class="sc">::</span><span class="fu">gt</span>(dta) </span></code></pre></div>
+<div id="chjtzhbuvt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#chjtzhbuvt .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#chjtzhbuvt .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#chjtzhbuvt .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#chjtzhbuvt .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#chjtzhbuvt .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#chjtzhbuvt .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#chjtzhbuvt .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#chjtzhbuvt .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#chjtzhbuvt .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#chjtzhbuvt .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#chjtzhbuvt .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#chjtzhbuvt .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#chjtzhbuvt .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#chjtzhbuvt .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#chjtzhbuvt .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#chjtzhbuvt .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#chjtzhbuvt .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#chjtzhbuvt .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#chjtzhbuvt .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#chjtzhbuvt .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#chjtzhbuvt .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#chjtzhbuvt .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#chjtzhbuvt .gt_left {
+  text-align: left;
+}
+
+#chjtzhbuvt .gt_center {
+  text-align: center;
+}
+
+#chjtzhbuvt .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#chjtzhbuvt .gt_font_normal {
+  font-weight: normal;
+}
+
+#chjtzhbuvt .gt_font_bold {
+  font-weight: bold;
+}
+
+#chjtzhbuvt .gt_font_italic {
+  font-style: italic;
+}
+
+#chjtzhbuvt .gt_super {
+  font-size: 65%;
+}
+
+#chjtzhbuvt .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#chjtzhbuvt .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#chjtzhbuvt .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#chjtzhbuvt .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#chjtzhbuvt .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#chjtzhbuvt .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">dai</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">inf</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">prop</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">rate</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">6</td>
+<td class="gt_row gt_right">4</td>
+<td class="gt_row gt_right">4</td>
+<td class="gt_row gt_right">0.006420546</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_right">14</td>
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">0.025682183</td>
+<td class="gt_row gt_right">0.01926164</td></tr>
+    <tr><td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">36</td>
+<td class="gt_row gt_right">0.057784912</td>
+<td class="gt_row gt_right">0.03210273</td></tr>
+    <tr><td class="gt_row gt_right">28</td>
+<td class="gt_row gt_right">28</td>
+<td class="gt_row gt_right">64</td>
+<td class="gt_row gt_right">0.102728732</td>
+<td class="gt_row gt_right">0.04494382</td></tr>
+    <tr><td class="gt_row gt_right">34</td>
+<td class="gt_row gt_right">37</td>
+<td class="gt_row gt_right">101</td>
+<td class="gt_row gt_right">0.162118780</td>
+<td class="gt_row gt_right">0.05939005</td></tr>
+    <tr><td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">50</td>
+<td class="gt_row gt_right">151</td>
+<td class="gt_row gt_right">0.242375602</td>
+<td class="gt_row gt_right">0.08025682</td></tr>
+    <tr><td class="gt_row gt_right">50</td>
+<td class="gt_row gt_right">67</td>
+<td class="gt_row gt_right">218</td>
+<td class="gt_row gt_right">0.349919743</td>
+<td class="gt_row gt_right">0.10754414</td></tr>
+    <tr><td class="gt_row gt_right">56</td>
+<td class="gt_row gt_right">82</td>
+<td class="gt_row gt_right">300</td>
+<td class="gt_row gt_right">0.481540931</td>
+<td class="gt_row gt_right">0.13162119</td></tr>
+    <tr><td class="gt_row gt_right">64</td>
+<td class="gt_row gt_right">86</td>
+<td class="gt_row gt_right">386</td>
+<td class="gt_row gt_right">0.619582665</td>
+<td class="gt_row gt_right">0.13804173</td></tr>
+    <tr><td class="gt_row gt_right">70</td>
+<td class="gt_row gt_right">86</td>
+<td class="gt_row gt_right">472</td>
+<td class="gt_row gt_right">0.757624398</td>
+<td class="gt_row gt_right">0.13804173</td></tr>
+    <tr><td class="gt_row gt_right">77</td>
+<td class="gt_row gt_right">77</td>
+<td class="gt_row gt_right">549</td>
+<td class="gt_row gt_right">0.881219904</td>
+<td class="gt_row gt_right">0.12359551</td></tr>
+    <tr><td class="gt_row gt_right">84</td>
+<td class="gt_row gt_right">65</td>
+<td class="gt_row gt_right">614</td>
+<td class="gt_row gt_right">0.985553772</td>
+<td class="gt_row gt_right">0.10433387</td></tr>
+    <tr><td class="gt_row gt_right">91</td>
+<td class="gt_row gt_right">9</td>
+<td class="gt_row gt_right">623</td>
+<td class="gt_row gt_right">1.000000000</td>
+<td class="gt_row gt_right">0.01444623</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<p><strong>Note</strong>: <strong>Naming conventions</strong> are a part
+good coding practice principles which one should get used to from early
+days : - Data set is named <code>dta</code> and not data to avoid naming
+variable in environment same as functions in commonly used packages
+(check <code>utils::data()</code>) , - It is a good practice to
+establish a naming convention, one of them is to use only small letters
+to name objects and and have names of functions with first capital
+letter.</p>
+<p>Here, data are visualized using base R plots. Plots made with base R
+functions do not have the graphical appeal, ease of use and capabilities
+of those produced the newer packages, such as <code>GGplot</code>.
+However, they do have an advantage in terms of longer lifespan due to
+reproducibility. Same goes for all native R functions and some are
+explored further in this material.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dai, prop, <span class="co"># columns to plot</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Number of inf plants&quot;</span>, <span class="co">#Change label</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">lty=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">lwd=</span><span class="dv">3</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(dai))) <span class="co">#Graphical parameters</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(dai, rate, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">lty=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">lwd=</span><span class="dv">3</span>,<span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Cumulative&quot;</span>,<span class="fl">1.9</span>,<span class="at">at=</span><span class="dv">55</span>,<span class="sc">-</span><span class="dv">10</span>) <span class="co">#Add text</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Counts&quot;</span>,<span class="fl">1.9</span>, <span class="at">at=</span><span class="dv">60</span>,<span class="sc">-</span><span class="dv">4</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>) </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dai,prop, <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">lty=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(dai,rate,<span class="at">type=</span><span class="st">&quot;b&quot;</span>,<span class="at">lty=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">19</span>,<span class="at">lwd=</span><span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Cumulative&quot;</span>,<span class="fl">1.9</span>,<span class="at">at=</span><span class="dv">55</span>,<span class="sc">-</span><span class="dv">10</span>) <span class="co">#Add text</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Counts&quot;</span>,<span class="fl">1.9</span>, <span class="at">at=</span><span class="dv">60</span>,<span class="sc">-</span><span class="dv">4</span>, <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>) </span></code></pre></div>
+<p><img src="temp_prog_1_files/figure-html/init_fig,%20figures-side-1.png" width="50%" /><img src="temp_prog_1_files/figure-html/init_fig,%20figures-side-2.png" width="50%" /></p>
+<p>Always detach currently used data after its no longer needed.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">detach</span>(dta)</span></code></pre></div>
+</div>
+</div>
+<div id="area-under-the-the-disease-progress-curve-audpc"
+class="section level1">
+<h1>Area under the the disease progress curve
+(<strong>AUDPC</strong>)</h1>
+<p>A simple and commonly used method to summarize epidemics in order to
+compare treatments (year, location, fungicide application, host
+variety,…) is to calculate <strong>AUDPC</strong>.</p>
+<p><span class="math display">\[ AUDPC = \sum_{i=1}^{n-1}
+\frac{y_{i}+y_{i+1}}{2} × (t_{i+1} - t_1) \]</span></p>
+<p>where <span class="math inline">\(y_i\)</span> is an assessment of a
+disease (percentage, proportion, ordinal score, etc.) at the <span
+class="math inline">\(i_{th}\)</span> observation, <span
+class="math inline">\(t_i\)</span> is time (in days, hours, etc.) at the
+<span class="math inline">\(i_{th}\)</span> observation, and <span
+class="math inline">\(n\)</span> is the total number of
+observations.</p>
+<p>So, <strong>how</strong> is this done? To make understanding of the
+concept easier, a smaller data set is created (<code>sub_dta</code>) by
+subsetting the full data set.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sub_dta <span class="ot">&lt;-</span> dta[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, ]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(sub_dta)</span></code></pre></div>
+<p>The AUDPC is the entire light gray shaded area . It is calculated as
+a sum of areas between each sampling date, represented as the orange
+rectangles. Notice that there is always <span
+class="math inline">\(t-1\)</span> rectangles. Why?</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjoin two x-coordinates</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>x.poly <span class="ot">&lt;-</span> <span class="fu">c</span>( dai,  dai[<span class="fu">length</span>( dai)],  dai[<span class="dv">1</span>])         </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>y.poly <span class="ot">&lt;-</span> <span class="fu">c</span>( prop, <span class="dv">0</span>, <span class="dv">0</span>)  </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dai, prop,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Number of infected plants&quot;</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">lty=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">lwd=</span><span class="dv">3</span>, </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">6</span>,<span class="fu">max</span>(dai)),<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">13</span>))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw the polygon showing AUDPC</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">polygon</span>(x.poly, y.poly,<span class="at">col=</span><span class="fu">gray</span>(<span class="fl">0.95</span>), <span class="at">border=</span><span class="cn">NA</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(dai, prop, <span class="at">lty=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw rectangles - notice four points as in input</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">rect</span>(dai[<span class="dv">1</span>],<span class="dv">0</span>,dai[<span class="dv">2</span>],((prop[<span class="dv">1</span>]<span class="sc">+</span>prop[<span class="dv">2</span>])<span class="sc">/</span><span class="dv">2</span>),<span class="at">border=</span><span class="st">&quot;orange&quot;</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">rect</span>(dai[<span class="dv">2</span>],<span class="dv">0</span>,dai[<span class="dv">3</span>],((prop[<span class="dv">2</span>]<span class="sc">+</span>prop[<span class="dv">3</span>])<span class="sc">/</span><span class="dv">2</span>),<span class="at">border=</span><span class="st">&quot;orange&quot;</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="fu">rect</span>(dai[<span class="dv">3</span>],<span class="dv">0</span>,dai[<span class="dv">4</span>],((prop[<span class="dv">3</span>]<span class="sc">+</span>prop[<span class="dv">4</span>])<span class="sc">/</span><span class="dv">2</span>),<span class="at">border=</span><span class="st">&quot;orange&quot;</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;AUDPC&quot;</span>,<span class="dv">1</span>,<span class="at">at=</span><span class="dv">20</span>,<span class="sc">-</span><span class="fl">2.3</span>, <span class="at">cex =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="temp_prog_1_files/figure-html/audpc_one-1.png" width="672" /></p>
+<div id="adupc-calculation-by-hand" class="section level2">
+<h2>ADUPC calculation “by hand”</h2>
+<p>Let us begin by calculating the area of the first rectangle.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dai, prop, </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Number of infected plants&quot;</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">&quot;b&quot;</span>, <span class="at">lty=</span><span class="dv">1</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">lwd=</span><span class="dv">3</span>, </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">6</span>,<span class="fu">max</span>(dai)),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">13</span>))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rect</span>(dai[<span class="dv">1</span>],<span class="dv">0</span>,dai[<span class="dv">2</span>],((prop[<span class="dv">1</span>]<span class="sc">+</span>prop[<span class="dv">2</span>])<span class="sc">/</span><span class="dv">2</span>), <span class="at">border=</span><span class="st">&quot;orange&quot;</span>)</span></code></pre></div>
+<p><img src="temp_prog_1_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Area of the rectangle is calculated as a product of lengths of its
+two sides, in this case:</p>
+<ul>
+<li><p>height, which is a mean of the two assessments and</p></li>
+<li><p>length, which is a period between the two assessments.</p></li>
+</ul>
+<p>Let <code>i</code> be the denominator for each rectangle.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># We are working on the 1st rectangle</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#create a numeric vector to be populated with AUDPC values for each triangle </span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>audpc_scores <span class="ot">&lt;-</span> <span class="fu">numeric</span>()  </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>(audpc_scores[i] <span class="ot">&lt;-</span> </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Find midpoint between two assessments and multiply with time difference between assessments</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>((prop[i] <span class="sc">+</span> prop[i <span class="sc">+</span> <span class="dv">1</span>])<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> (dai[i <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> dai[i])</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## [1] 0.1284109</code></pre>
+<p><strong>Challenge:</strong> Why is the entire chunk of code used to
+calculate the <code>audpc</code> in brackets? What will happen if
+brackets are removed?</p>
+<p><strong>Pro tip:</strong> This is a very practical trick once you
+figure it out.</p>
+<p>Now that there is a way to calculate the first rectangle, or any
+other, one could replicate the code (copy and paste), and just change
+the value for <code>i</code></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>(audpc_scores[i] <span class="ot">&lt;-</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>((prop[i] <span class="sc">+</span> prop[i <span class="sc">+</span> <span class="dv">1</span>])<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> (dai[i <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> dai[i])</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## [1] 0.2504013</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>(audpc_scores[i] <span class="ot">&lt;-</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>((prop[i] <span class="sc">+</span> prop[i <span class="sc">+</span> <span class="dv">1</span>])<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> (dai[i <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> dai[i])</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## [1] 0.6420546</code></pre>
+<p>In the end, we obtain a vector which consists of the three AUDPC
+values for each rectangle. Their sum is the value for the AUDPC.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>audpc_scores</span></code></pre></div>
+<pre><code>## [1] 0.1284109 0.2504013 0.6420546</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(audpc_scores)</span></code></pre></div>
+<pre><code>## [1] 1.020867</code></pre>
+</div>
+<div id="the-use-of-for-loop" class="section level2">
+<h2>The use of <em>for</em> loop</h2>
+<p>One might notice that the copy-paste approach could work in this
+small data set. If the same approach would be applied to the entire
+<code>dta</code> , or other larger data sets, one could understand how
+this approach is not only impractical but could also lead to errors due
+to shear amount of code created in such cases.</p>
+<p>Hence, here we introduce loops, more specifically the <em>for</em>
+loop. The <em>for</em> loop is the most commonly used type of loop (see
+also: <em>while</em> loop). How does it make our work easier? Basically,
+we will just issue an order to the computer to repeat the same
+calculation for each value of <code>i</code>.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many rectangles? </span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>(rectangles <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span> <span class="fu">c</span>(<span class="fu">length</span>(dai)<span class="sc">-</span><span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1] 1 2 3</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make an empty vector to store values  </span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>audpc_scores <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> rectangles) {</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># i will change from 1 to 3 and assign the value for the areas of each rectangle</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  (audpc_scores[i] <span class="ot">&lt;-</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">#Find midpoint between two assessments and multiply with time difference between assessments</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>     <span class="fu">c</span>((prop[i] <span class="sc">+</span> prop[i <span class="sc">+</span> <span class="dv">1</span>]) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (dai[i <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> dai[i]) )</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>That was easier, no? Now that that all the areas of rectangles are
+calculated, they can be summed to get the final AUDPC for our
+<code>dta_sub</code>.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>audpc_scores</span></code></pre></div>
+<pre><code>## [1] 0.1284109 0.2504013 0.6420546</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(audpc_scores)</span></code></pre></div>
+<pre><code>## [1] 1.020867</code></pre>
+</div>
+<div id="function" class="section level2">
+<h2>Function</h2>
+<p>It is important to understand the concept of loops as they are used
+across programming languages. However, in R, most of the work is done
+using functions and here our <em>for loop</em> is wrapped into a
+function, in order to use it on multiple data sets or to specific groups
+in a single data set.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>CalcAUDPC <span class="ot">&lt;-</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(<span class="co">#Arguments:</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>          times, disease <span class="co">#assign vectors from the full data set as arguments</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>             ) {<span class="co"># The body of the function lies within curly brackets</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>            audpc_scores <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>             </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>            <span class="co"># How many rectangles? </span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>            rectangles <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">c</span>(<span class="fu">length</span>(times) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>            <span class="co">#Calculate the area for each rectangle </span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> (i <span class="cf">in</span> rectangles) {</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>             (audpc_scores[i] <span class="ot">&lt;-</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>                <span class="fu">c</span>((disease[i] <span class="sc">+</span> disease[i <span class="sc">+</span> <span class="dv">1</span>]) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> (times[i <span class="sc">+</span> <span class="dv">1</span>] <span class="sc">-</span> times[i]))</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>           <span class="co"># The final object to be returned </span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>           <span class="fu">return</span>(<span class="fu">sum</span>(audpc_scores))</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>           }</span></code></pre></div>
+<p><strong>Note:</strong> We have to define which object is to be
+returned from a function, while in the loop there is no need to do that.
+This is because loops function in the “same environment”, meaning that
+this works as if we had done copy paste operations as shown above.
+Functions have their own environment, and if we do not explicitly define
+which object is to be returned we will not get type of output.</p>
+<p>This function just needs to be supplied with the two designated
+arguments - our values for the timings of assessments and disease
+proportions. Then it could be applied in several ways.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CalcAUDPC</span>(<span class="at">times =</span>  dta<span class="sc">$</span>dai,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">disease =</span> dta<span class="sc">$</span>prop)</span></code></pre></div>
+<pre><code>## [1] 36.05217</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#or using pipes </span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">audpc_val =</span> <span class="fu">CalcAUDPC</span>(dai, prop))</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 1
+##   audpc_val
+##       &lt;dbl&gt;
+## 1      36.1</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CalcAUDPC</span>(dta<span class="sc">$</span>dai)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Error in CalcAUDPC(dta$dai) : </span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   argument &quot;disease&quot; is missing, with no default</span></span></code></pre></div>
+<p><strong>Challenge</strong>: Why is this an error? What does the error
+message say?</p>
+<p><strong>Note</strong>: Error messages are (often) helpful in
+determining where did we go wrong with our code.</p>
+</div>
+</div>
+<div id="upscaling-calculations-on-a-bigger-data-set"
+class="section level1">
+<h1>Upscaling: Calculations on a bigger data set</h1>
+<p>In practice, we would normally have several disease progress curves
+similar to the one we have been working with. So let us make one more
+data set similar to the one above and consider this as disease
+assessments from different years.</p>
+<p>Data can be stored in separate sheets of a single excel file. In our
+example, the disease data for separate years is stored in such way. The
+function <code>excel_sheet</code> from <code>readxl</code> package can
+read names of those sheets.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(years <span class="ot">&lt;-</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  readxl<span class="sc">::</span><span class="fu">excel_sheets</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/sample_data.xlsx&quot;</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;1&quot; &quot;2&quot;</code></pre>
+<p>This output should look familiar.</p>
+<p>Now that the vector which contains the names of sheets in our excel
+file, we can use this to find them on the local computer and load them
+into a list. datasets. As our disease assessment data should be in the
+same format across years, there is a need to add a common identifier
+(usually called “id”) so they can be differentiated.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dta_list <span class="ot">&lt;-</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(years, <span class="cf">function</span>(i){</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    fun_dta <span class="ot">&lt;-</span> </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>      here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/sample_data.xlsx&quot;</span>),</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">sheet =</span> i</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create id variable  </span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this coulmn could have been simply attached as the last column</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># but it is more logical to have higher level id&#39;s at the beginning</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># notice name yr - because function year exists in several packages</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    fun_dta <span class="ot">&lt;-</span> </span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">add_column</span>(fun_dta, <span class="at">yr =</span> i, <span class="at">.before =</span> <span class="st">&quot;DAI&quot;</span>)</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(fun_dta)</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>  })</span></code></pre></div>
+<p>Data from the second data frame could be assigned to a separate
+variable and plotted together with observations from the previous
+year.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>full_dta <span class="ot">&lt;-</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(dta_list)</span></code></pre></div>
+<p>Repeat the column name cleanup explained above.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(full_dta) <span class="ot">&lt;-</span>  <span class="fu">tolower</span>(<span class="fu">colnames</span>(full_dta)) </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(full_dta) <span class="ot">&lt;-</span> <span class="fu">substr</span>( <span class="fu">colnames</span>(full_dta),<span class="at">start =</span> <span class="dv">1</span>, <span class="at">stop =</span> <span class="dv">4</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(full_dta)[<span class="fu">colnames</span>(full_dta) <span class="sc">==</span> <span class="st">&quot;infe&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;inf&quot;</span></span></code></pre></div>
+<p>Remember AUDPC? Finally, some benefits of all that coding are
+becoming obvious. Now that the entire dataset is available, our
+<code>CalcAUDPC</code> function can be put into practice. The identifier
+(<code>yr</code>) is serving as grouping variable and calculation is
+implemented for each group.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(audpc_dta <span class="ot">&lt;-</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>full_dta <span class="sc">%&gt;%</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(yr) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">audpc_score =</span> <span class="fu">CalcAUDPC</span>(dai, prop) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">raudpc_score =</span> <span class="fu">audpc</span>(prop, dai, <span class="at">type =</span> <span class="st">&quot;relative&quot;</span>)<span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">4</span>)))</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##   yr    audpc_score raudpc_score
+##   &lt;chr&gt;       &lt;dbl&gt;        &lt;dbl&gt;
+## 1 1            36.0       0.0042
+## 2 2            23.1       0.0048</code></pre>
+<p>Notice the use of function <code>audpc</code> from
+<code>agricolae</code> package. The <code>CalcAUDPC</code> function
+could be published in the same manner so that people like us can shorten
+coding time and apply it without going through several steps shown
+above. This illustrates the power of R language and the community behind
+it.</p>
+<p>Finally, the result of this work can be visualized. This time,
+<code>ggplot2</code> package is used. The result of the analysis is
+concatenated to the identifier (<code>yr</code>), which is the used as a
+factor to separate (group) lines on the plot.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(full_dta, audpc_dta, <span class="at">by =</span> <span class="st">&quot;yr&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yr =</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">paste</span>(yr, <span class="st">&quot;(AUDPC =&quot;</span>, audpc_score, <span class="st">&quot;; rAUDPC =&quot;</span>, raudpc_score, <span class="st">&quot;)&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(dai, prop, <span class="at">shape =</span> yr)) <span class="sc">+</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.75</span>, <span class="fl">0.15</span>))<span class="sc">+</span> <span class="co">#legend into a plotting area</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">shape =</span> <span class="fu">guide_legend</span>(<span class="at">nrow=</span><span class="dv">2</span>,<span class="at">byrow=</span><span class="cn">TRUE</span>)) <span class="co"># 2 row legend</span></span></code></pre></div>
+<p><img src="temp_prog_1_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>While methods for comparing epidemics using the AUDPC (area under the
+disease progress curve) are useful for comparison of treatment effects
+there are other ways of summarizing and describing epidemics.</p>
+<p><strong>Challenge</strong>: Looking at the figure above, what are the
+downsides of the AUDPC approach and for which purposes it could not be
+applied?</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-campbell1990a" class="csl-entry">
+Campbell, C. Lee, and Laurence V. Madden. 1990. <em>Introduction to
+Plant Disease Epidemiology.</em> John Wiley &amp; Sons.
+</div>
+<div id="ref-madden2007" class="csl-entry">
+Madden, Laurence V, Gareth Hughes, and Frank Van Den Bosch. 2007.
+<em>The Study of Plant Disease Epidemics</em>. American
+Phytopathological Society St. Paul, MN.
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

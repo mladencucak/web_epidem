@@ -10,10 +10,10 @@ navbar:
     menu:
     - text: Before starting
       href: install.html
-    - text: Class 2
-      href: class2.html
-    - text: Class 3
-      href: class3.html
+    - text: Intro to R
+      href: intro_r.html
+    - text: Intro to ggplot
+      href: intro_ggplot.html
       
   - text: Part 2
     menu:
