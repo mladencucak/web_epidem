@@ -1,5 +1,5 @@
 name: Plant Disease Epidemiology
-output_dir: '.'
+output_dir: 'home'
 navbar:
   title: Plant Disease Epidemiology
   left:
