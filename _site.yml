@@ -17,12 +17,12 @@ navbar:
       
   - text: Part 2
     menu:
-    - text: disease assessment 
+    - text: Disease Assessment 
       href: disease_assessment.html
-    - text: temp_prog_1 
+    - text: Temporal progress (part 1) 
       href: temp_prog_1.html 
-    - text: Codes 3 
-      href: codes3.html 
+    - text: Temporal progress (part 2) 
+      href: temp_prog2.html 
   
   - text: Part 3
     menu:

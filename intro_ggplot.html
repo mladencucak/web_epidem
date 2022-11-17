@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paul Esker; Mauricio Serrano; Felipe Dalla Lana" />
+
+
+<title>ggplot2</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Plant Disease Epidemiology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-leaf"></span>
+     
+    Welcome
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="install.html">Before starting</a>
+    </li>
+    <li>
+      <a href="intro_r.html">Intro to R</a>
+    </li>
+    <li>
+      <a href="intro_ggplot.html">Intro to ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Part 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="disease_assessment.html">Disease Assessment</a>
+    </li>
+    <li>
+      <a href="temp_prog_1.html">Temporal progress (part 1)</a>
+    </li>
+    <li>
+      <a href="temp_prog2.html">Temporal progress (part 2)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Part 3
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra1.html">Extra 1</a>
+    </li>
+    <li>
+      <a href="extra2.html">Extra 2</a>
+    </li>
+    <li>
+      <a href="extra3.html">Extra 3</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    About
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Authors.html">Authors</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Appendices
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro_to_R.html">Introduction to R</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><strong>ggplot2</strong></h1>
+<h4 class="author">Paul Esker; Mauricio Serrano; Felipe Dalla Lana</h4>
+<h4 class="date">3/1/2021</h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2><strong>Introduction</strong></h2>
+<p>In the last class we looked at R through the lens of basic concepts
+all the way to presenting an introduction to data wrangling. The
+material for the current class focuses on communicating results using
+graphical methods. For this, we will use the <code>ggplot2</code>
+package. <code>ggplot2</code> is the most popular and robust package for
+data visualization. There are plenty of resources on two packages, but a
+good start is with the <a
+href="https://ggplot2.tidyverse.org/index.html">package website</a> and
+a very useful <a
+href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">cheat
+sheet</a>. Most of the popularity with <code>ggplot2</code> is because
+its quality and numerous types of plot that can render.</p>
+<p><br></p>
+<div class="figure" style="text-align: center">
+<img src="figures/intro_r/ggplot2_masterpiece.png" alt="[Source](https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/ggplot2_masterpiece.png)" width="75%" />
+<p class="caption">
+<a
+href="https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/ggplot2_masterpiece.png">Source</a>
+</p>
+</div>
+<p>How is <code>ggplot2</code> structured? This packaged was inspired by
+the book <a
+href="https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448">The
+Grammar of Graphics</a>, by Leland Wilkinson. Specifically, the strength
+with <code>ggplot2</code> is a function of building a graphic by
+breaking down the plot in different parts, which allows the end-user the
+flexibility to build the graphic to their desired liking and goal.</p>
+<p>The most important components of ggplot2 graphs are:</p>
+<ul>
+<li>Geometric Elements</li>
+<li>Aesthetics</li>
+<li>Scales</li>
+<li>Facet</li>
+<li>Labels</li>
+<li>Themes</li>
+</ul>
+<p>In the next sections, we will explore these different components in
+more detail. Each section will add one more component to our base graph.
+It is important to mention that we will not cover all the different
+types of plots that you can do it with <code>ggplot2</code>, first
+because there are many different types, and second, because extensions
+for new types of graphics are created frequently. This lesson should
+“arm” you with an excellent introduction to be able to explore other
+graphical tools available in this package and R in general.</p>
+</div>
+<div id="hands-on" class="section level2">
+<h2><strong>Hands on</strong></h2>
+<p>First, lets start with the data the we used last class.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;data/intro_r/data_demo.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 64 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): trt, var
+## dbl (7): plot, blk, sev, inc, yld, don, fdk
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_demo</span></code></pre></div>
+<pre><code>## # A tibble: 64 × 9
+##     plot trt   var     blk   sev   inc   yld   don   fdk
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1   107 A     R         1  1.95    35  86.6  0.11     4
+##  2   109 A     R         1  1.2     20  80.3  0.15     4
+##  3   204 A     R         2  0.9     20  81.1  0       42
+##  4   214 A     R         2  4.05    50  85.1  0.07    25
+##  5   305 A     R         3  1.1     15  84.8  0       29
+##  6   316 A     R         3  1.8     10  93.7  0       24
+##  7   406 A     R         4  1.4     25  84.5  0.06    37
+##  8   412 A     R         4  0.45    10  84.8  0.07    42
+##  9   108 A     S         1 13.3     55  92.3  0.42    NA
+## 10   110 A     S         1 12.3     50 103.   0.26    NA
+## # … with 54 more rows
+## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+<p><br></p>
+<p>Every <code>ggplot2</code> plot starts with the function,
+<code>ggplot()</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># load ggplot2 and other tidyverse package</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><br></p>
+<p>Note: when you do not inform <code>ggplot2</code> of what data you
+want plot, the function <code>ggplot()</code> will only print a gray
+panel.</p>
+<p>This is where <em>data</em> and <em>aesthetics</em> enter the
+discussion.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="co"># aes is short for aesthetics</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><br></p>
+<p>So far, we have only told <code>ggplot</code> that our graphic will
+have information about treatments values in the x-axis and the variable
+yield on the y-axis. However, there are plenty of plots that could be
+created with quantitative and qualitative variables, for example,
+boxplots or line plots.</p>
+<p>At this point, what we will do in the next steps is to indicate to R
+exactly what type of plot we want to create. This is where information
+about the <em>geometric elements</em> are considered.</p>
+</div>
+<div id="geometric-elements" class="section level2">
+<h2><strong>Geometric elements</strong></h2>
+<div id="ggplot2-native-geom_" class="section level3">
+<h3><strong><code>ggplot2</code> native
+<code>geom_*()</code></strong></h3>
+<p>In this step, we now indicate to R the specific type of graphic we
+are going to create, for example, line, points, histogram, etc.</p>
+<p>Below is an example plotting the points (or raw data) using
+<code>geom_point()</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span> <span class="co"># Note: we use the &quot;+&quot; sign to connect lines of code </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><br></p>
+<p>Because many of the points overlap, a better option for this plot
+will be the <code>geom_jitter()</code>, which adds a small amount of
+random variation to the location of each data observation.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><br></p>
+<p>What occurred is that each observation is dispersed horizontally by
+the differing amounts of random variation, with the goal to avoid
+overlapping observations. Nonetheless, given the amount of variation,
+the observations appear too disperses, making it difficult to clearly
+see where one treatments ends and where the other one starts. We can
+modify the <code>geom_jitter()</code> function to reduce the amount of
+dispersion by using the argument <code>width</code> inside the function
+(see below). (Note: all <code>geom_*</code> functions additional
+arguments which can be added, depending on the need.)</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>) <span class="co"># the default value is 0.4, we reduce the dispersion by half</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><br></p>
+<p>While points provide a good idea of the dispersion in a dataset, they
+are not the only way to represent the data. We will illustrate in the
+next set of code some of the different ways to explore the data:</p>
+<p><strong>Boxplot</strong> (<code>geom_boxplot()</code>)</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() </span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><br></p>
+<p><strong>Violin plot</strong> (<code>geom_violin()</code>)</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() </span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><br></p>
+<p><strong>Dot plot</strong> (<code>geom_dotplot()</code>)</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binaxis =</span> <span class="st">&quot;y&quot;</span>, <span class="at">stackdir =</span> <span class="st">&quot;center&quot;</span>) </span></code></pre></div>
+<pre><code>## Bin width defaults to 1/30 of the range of the data. Pick better value with `binwidth`.</code></pre>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><br></p>
+<p>Another way to think about <code>geom_*</code> functions is to
+consider these as <code>layers</code>. We can begin to stack different
+options to improve the quality of the plot, as well as provide more
+information about the data itself, the dispersion, and start to compare
+different factors of interest.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot and points</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>, <span class="at">size =</span> <span class="dv">4</span>) </span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><br></p>
+<p>While there is no limit to the number of layers (geom_*) that you can
+use in a plot, remember that these all map to the same order that they
+appear and it may make it more difficult to make clear comparisons.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple layers </span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="co"># Note that the violin plot is the last layer to be add, therefore it will overlap with the other layers</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><br></p>
+<p>One way to overcome one graphic reducing the ability to make a clear
+interpretation is to change the order of the layers.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple layers </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.3</span>)<span class="sc">+</span> <span class="co"># using the argument width we can adjust the box size</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>, <span class="at">size =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><br></p>
+<p>There are plenty of other native <code>geom_*</code> functions in
+<code>ggplot2</code>. Below you can see other examples extracted from
+the <code>ggplot2</code> cheatsheet from RStudio (<a
+href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf">Download
+eng</a> or <a
+href="https://github.com/rstudio/cheatsheets/raw/master/translations/spanish/ggplot2.pdf">Download
+sp</a>)</p>
+<div class="figure" style="text-align: center">
+<img src="figures/intro_r/geom_cheatsheet.png" alt="Examples of `geom_*` functions" width="100%" />
+<p class="caption">
+Examples of <code>geom_*</code> functions
+</p>
+</div>
+<p><br></p>
+</div>
+<div id="extension-packages" class="section level3">
+<h3><strong>Extension packages</strong></h3>
+<p>There are also extension packages that expand the geometric elements
+and other functions from <code>ggplot2</code>. You can check a gallery
+of different extension following this <a
+href="https://exts.ggplot2.tidyverse.org/gallery/">link</a>, and few
+examples below.</p>
+<div class="figure" style="text-align: center">
+<img src="figures/intro_r/extention_ggplot2.png" alt="Examples of packages that works as extension for `ggplot2`. From left to right `ggwordcloud`, `ggridges`, and `gggenes`" width="100%" />
+<p class="caption">
+Examples of packages that works as extension for <code>ggplot2</code>.
+From left to right <code>ggwordcloud</code>, <code>ggridges</code>, and
+<code>gggenes</code>
+</p>
+</div>
+</div>
+</div>
+<div id="aesthetics" class="section level2">
+<h2><strong>Aesthetics</strong></h2>
+<p>The next component in <code>ggplot2</code> plots is aesthetics, which
+is how our observations will be mapped in the plot. Aesthetics can have
+multiple formats. So far, we have used aesthetics regarding the
+positions <code>x</code> and <code>y</code> in the <code>aes()</code>
+argument. However, there are many other formats that aesthetics can
+take, and the most common are:</p>
+<ul>
+<li>Position: x and y-axis</li>
+<li>Color; fill; and alpha</li>
+<li>Shape</li>
+<li>Size</li>
+<li>Linetype</li>
+</ul>
+<div id="color-fill-and-alpha" class="section level3">
+<h3><strong>Color</strong>, <strong>fill</strong>, and
+<strong>alpha</strong></h3>
+<p><br> These three aesthetics have some similarities.
+<code>color</code> refers to the color of point or lines,
+<code>fill</code> refers to the color for an enclosed space (box,
+polygon, circle, etc), and <code>alpha</code> refers to the color
+transparency.</p>
+<p>In the the plot below we use the <code>color</code> aesthetic to
+differentiate the treatments.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld, <span class="at">color =</span> trt)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><br></p>
+<p>If we want to use <code>color</code> only for the points, we remove
+the argument <code>color</code> argument from the <code>ggplot()</code>
+function, and write the argument inside the
+<code>geom_jitter()</code></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> trt), <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="co"># different colors for each observation/point depending on the treatment</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><br></p>
+<p>Or, we can use different fill colors in the respective boxplots</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt))<span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><br></p>
+<p>Lastly, here is an example using <code>alpha</code> to define the
+transparency in the yield.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">alpha =</span> yld), <span class="co"># Here we are using alpha to show a yield gradient </span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="co"># increase the point size to see the differences better </span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><br></p>
+<p>If we use these arguments (color, fill, and alpha) outside of the
+aesthetic function, they change the whole element.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span> <span class="co"># border color equal to red</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.3</span>, <span class="at">fill =</span> <span class="st">&quot;green&quot;</span>)<span class="sc">+</span> <span class="co"># fill equal to green</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="co"># 60% of transparency</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>) </span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="size" class="section level3">
+<h3><strong>Size</strong></h3>
+<p>The <code>size</code> aesthetic allows us to change the element
+size.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">size =</span> sev), <span class="co">#The size of the point changes depending on the severity value</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="shape" class="section level3">
+<h3><strong>Shape</strong></h3>
+<p><br></p>
+<p>There is several options for the shape type in <code>ggplot</code>,
+with the most common present below.</p>
+<div class="figure" style="text-align: center">
+<img src="figures/intro_r/shapes.png" alt="Different shape options" width="50%" />
+<p class="caption">
+Different shape options
+</p>
+</div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">shape =</span> trt), </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><br></p>
+<p>Note that shapes from 21 to 25 have color and fill, while the others
+only define the color.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> trt, <span class="co"># point border color</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fill =</span> var), <span class="co"># point fill defined by the variety </span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">21</span>, <span class="co"># we can change fill and color on shape 21 to 25</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">stroke =</span> <span class="fl">1.5</span>, <span class="co"># to make point border thicker</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># when we talk about scale we will learn how to chose the colors</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># so far we are using default ggplot options  </span></span></code></pre></div>
+</div>
+<div id="linetype" class="section level3">
+<h3><strong>Linetype</strong></h3>
+<p>We can also have different line types for each level of a variable.
+In the example below, we use two different <code>linetype</code>
+aesthetics to separate the varieties by their level of genetic
+resistance, where R is resistant and S is susceptible.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We use pipes to summarize the data by treatment and variety</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>data_line <span class="ot">&lt;-</span> data_demo <span class="sc">%&gt;%</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt, var) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sev =</span> <span class="fu">mean</span>(sev))  </span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;trt&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data_line</span></code></pre></div>
+<pre><code>## # A tibble: 8 × 3
+## # Groups:   trt [4]
+##   trt   var     sev
+##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1 A     R     1.61 
+## 2 A     S     6.28 
+## 3 B     R     1.7  
+## 4 B     S     1.58 
+## 5 C     R     0.475
+## 6 C     S     0.669
+## 7 D     R     0.431
+## 8 D     S     0.444</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Then we creat a plot with different line types</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(data_line) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> trt,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> sev, </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">linetype =</span> var, <span class="co"># each variety (R or S) will have a different line type</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">group =</span> var),   <span class="co"># group is telling R that it should group the data by variety</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">size =</span> <span class="dv">1</span>)  <span class="co"># </span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+</div>
+</div>
+<div id="scales" class="section level2">
+<h2><strong>Scales</strong></h2>
+<p>So far we have built our plot using the default options, now we will
+start to customize it using <code>scales</code>. Scales control how the
+aesthetics are mapped, therefore, for each aesthetic we will have a
+respective <code>scale</code> function. Let’s start by looking at the x
+and y aesthetics.</p>
+<div id="position-scales-x--y-axis" class="section level3">
+<h3><strong>Position scales (x- y-axis)</strong></h3>
+<div id="scale__continuous" class="section level4">
+<h4><strong><code>scale_*_continuous</code></strong></h4>
+<p>X-axis, we can use <code>scale_y_continuous</code>. Y-axis, we can
+use <code>scale_x_continuous</code>.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>( <span class="co"># because our y-axis variable is continuous</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">name =</span> <span class="st">&quot;Title of our axis&quot;</span>, <span class="co"># name of the axis</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">130</span>),    <span class="co"># here we increase a little our axis limits</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">70</span>,<span class="dv">130</span>,<span class="dv">10</span>))) <span class="co"># secondary axis breaks</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><br></p>
+<p>We can add a second axis.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">130</span>),</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">70</span>,<span class="dv">130</span>,<span class="dv">10</span>)),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>                     </span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Here we add a second axis</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>( <span class="co"># if we only want to duplicate an axis, we can use sec.axis = dup_axis())</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>                                <span class="at">trans =</span> <span class="sc">~</span> . <span class="sc">*</span><span class="fl">0.0672</span>, <span class="co"># we use a transformation to change yield from  bu/ac to ton/ha</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>                                <span class="at">name =</span>  <span class="st">&quot;Yield (ton/ha)&quot;</span>, <span class="co"># secondary axis name</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>                                <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="fl">4.5</span>,<span class="dv">9</span>,<span class="fl">0.5</span>)))) <span class="co"># secondary axis breaks</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><br></p>
+<p><em>NOTE</em>: the second axis works for discrete axis as well (see
+next subsection)</p>
+</div>
+<div id="scale__discrete" class="section level4">
+<h4><strong><code>scale_*_discrete</code></strong></h4>
+<p>We will use the x-axis to illustrate. With scale_*_discrete you can
+do things like rearrange or select/excluse levels.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>( </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">limits =</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;D&quot;</span>)) <span class="co"># here we change the order of treatments and exclude the treatment C</span></span></code></pre></div>
+<pre><code>## Warning: Removed 16 rows containing missing values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 16 rows containing missing values (geom_point).</code></pre>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><em>NOTE</em>: R give an warning message informing that there are
+missing values. This is because our selection made by argument
+<code>limits</code> transformed all values of <code>trt = C</code> into
+missing values, <code>NA</code>s.</p>
+<p><br></p>
+<p>We can also change the labels using the <code>labels</code>
+argument.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>( </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&#39;B&#39;</span> <span class="ot">=</span> <span class="st">&#39;New Label&#39;</span>, <span class="co"># pProvide to ggplot new label information for each variable</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&#39;D&#39;</span> <span class="ot">=</span> <span class="st">&#39;New Label </span><span class="sc">\n</span><span class="st"> in two lines&#39;</span>)) <span class="co"># you can use the &quot;\n&quot; to break the sentence in more lines</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+</div>
+<div id="color-and-fill-scales" class="section level3">
+<h3><strong>Color and fill scales</strong></h3>
+<p><code>color</code> and <code>fill</code> are two aesthetics that are
+very similar. To avoid redundancy, we will use examples based on
+<code>fill</code> only, but the same principles apply to the color
+aesthetic. To change colors in R, we can use built-in names or the RGB
+code. There are 657 built-in color names in R. You can see their names
+by using the function <code>color()</code> and the figure below provides
+a few examples.</p>
+<p>The RBG code is the additive combination of <strong>R</strong>ed,
+<strong>G</strong>reen, and <strong>B</strong>lue in an hexadecimal
+format, which can take 16 possible “values” (0, 1, 2, 3, 4, 5, 6, 7, 8,
+9, A, B, C, D, E, F) which are in 6-character arrangements. There are
+also two extra characters which define the color transparency.</p>
+<div class="figure" style="text-align: center">
+<img src="figures/intro_r/color.png" alt="Colors with the name build-in in R (left and center) and RGB scheme" width="75%" />
+<p class="caption">
+Colors with the name build-in in R (left and center) and RGB scheme
+</p>
+</div>
+<div id="scale_fill_manual" class="section level4">
+<h4><strong><code>scale_fill_manual()</code></strong></h4>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="co"># color name</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;gray67&quot;</span>, <span class="co"># color name, but from a different gray intensity</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;#9f3b6c&quot;</span>, <span class="co"># use RGB code to assign a color</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;#9f3b6c80&quot;</span>)) <span class="co"># same color as trt C, but with transparency</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><br></p>
+<p>Although selecting a color for a plot seems trivial, it is actually
+very challenging. There are many things to consider when we use a color
+scheme (pallet). We need to consider if the person is color blind or if
+they follow good practices for data visualization. While we will not
+specifically discuss these topics during the course, we highly recommend
+that you look for more information on these topics.</p>
+<p>There are plenty of resources to chose color, of which one of the
+most popular is the website <a
+href="colorbrewer2.org">colorbrewer2.org</a>, conceptualized by
+professor <a href="https://sites.psu.edu/cbrewer/">Dr. Cynthia A.
+Brewer</a>. In this website there are suggestions of pallets for
+sequential, diverging, and qualitative data, as well as useful
+information regarding color blind and print friendly options.</p>
+<p><br></p>
+<div class="figure" style="text-align: center">
+<img src="figures/intro_r/brewer.png" alt="Print screen of colorbrewer2.org website. 1 - number of classes; 2 - type of data; 3 - pallet option; 4 - name of pallet and information for color blind, photocopy, LCD, and  printer friendly options" width="100%" />
+<p class="caption">
+Print screen of colorbrewer2.org website. 1 - number of classes; 2 -
+type of data; 3 - pallet option; 4 - name of pallet and information for
+color blind, photocopy, LCD, and printer friendly options
+</p>
+</div>
+<p><br></p>
+<p>This website was so popular within <code>ggplot2</code> that it has
+become a package and now is native to ggplot2 through the function
+<code>scale_color/fill_brewer()</code>. An example using the pallet from
+the figure above can be seen in the next plot .</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>) <span class="co"># This scale automatic identify the number of classes and used the defined pallet to fill the colors</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p><br></p>
+<p>Interestingly, there are also developers who have created packages
+for color pallets, one example is the package <a
+href="https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html">ggsci</a>,
+where the pallets were created using colors common to a select group of
+scientific journals.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="co"># This scale automatically identifies the number of classes and uses the defined pallet to fill the colors</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+</div>
+<div id="scale_fill_gradient" class="section level4">
+<h4><strong><code>scale_fill_gradient*()</code></strong></h4>
+<p>If our variable is quantitative, we can use a color fill based on a
+gradient. There are basically 3 different scales for gradient,
+<code>scale_fill_gradient()</code>, <code>scale_fill_gradient2()</code>,
+and <code>scale_fill_gradientn()</code>.</p>
+<p><code>scale_fill_gradient()</code>: create a gradient from two colors
+(low and high)</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> fdk), </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">&quot;green&quot;</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">na.value =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><br></p>
+<p><code>scale_fill_gradient2()</code>: create a gradient from three
+colors (low, middle, and high)</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> fdk), </span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="co"># This is the low value</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">mid =</span> <span class="st">&quot;yellow&quot;</span>, <span class="co"># middle value</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">high =</span> <span class="st">&quot;red&quot;</span>,  <span class="co"># high value</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">21</span>, <span class="co"># set up the middle point, otherwise will use the default &quot;0&quot;</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">na.value =</span> <span class="st">&quot;black&quot;</span>) <span class="co"># we can also change the color of NAs values</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note, ggplot2 distributes the color symmetric from the middle point, so, depending on where the middle point is, it is possible that low or high color values may not be reached. </span></span></code></pre></div>
+<p><br></p>
+<p><code>scale_fill_gradientn()</code>: create a gradient from n
+colors</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> fdk), </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colours =</span> <span class="fu">c</span>(<span class="st">&quot;#FF0000&quot;</span>, <span class="st">&quot;#FFFF00&quot;</span>, <span class="st">&quot;#00FF00&quot;</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;#00FFFF&quot;</span>, <span class="st">&quot;#0000FF&quot;</span>, <span class="st">&quot;#FF00FF&quot;</span>)) </span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+</div>
+</div>
+<div id="alpha-and-size-scales" class="section level3">
+<h3><strong>Alpha and size scales</strong></h3>
+<p>Alpha and size are two scales that are generally used for
+quantitative variables.</p>
+<div id="scale_alpha_" class="section level4">
+<h4><strong><code>scale_alpha_*</code></strong></h4>
+<p><code>scale_alpha_continuous()</code>: plot the variables in a range
+of transparency. By default, this range is from 0.1 to 1.0</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Without specifying the scale, R will assume the default values</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co"># therefore, here we would have the same results as if we have</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co"># scale_alpha_continuous(range = c(0.1,1))</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">alpha =</span> fdk), </span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p><br></p>
+<p>We can change the range by using the argument <code>range</code></p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">alpha =</span> fdk), </span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>)) </span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><br></p>
+<p>Note that there are two observations in treatment A where the color
+transparency did not change. These two observations represent points
+without values for FDK (<code>NA</code>s). We can work on some
+strategies to deal with this problem.</p>
+<p>First, remove those two points from the whole data set. This will
+however result in another problem, since the calculations used to create
+boxplots considers those observations.</p>
+<p>A better option is to use a different color or shape for those
+observations, which will require some work in our code. In the function
+<code>scale_alpha_continuous</code> there is the argument
+<code>na.value</code>, where we will assign values of <code>alpha</code>
+to <code>NA</code> observations. We can make <code>NA</code>s
+observations disappear by attributing<code>na.value = 0</code>. We then
+plot those two observations using another layer
+(<code>geom_jitter</code>), where we could use shape or color to
+differentiate those observations. In our example, we use shape.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">alpha =</span> fdk), </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> <span class="fu">filter</span>(data_demo, <span class="fu">is.na</span>(fdk)), <span class="co"># filter the data such that there are only the two obs with NA values</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld), <span class="co"># position</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">8</span>, <span class="co"># we will define a very different shape for NA</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span> </span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="dv">1</span>), <span class="co"># our alphas will change from 0.4 to 1</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">na.value =</span> <span class="dv">0</span>)  <span class="co"># Make NAs values completely transparent</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><br></p>
+<p>This is an example of how we can use the layer design of
+<code>ggplot2</code> and some creativity to overcome a potential
+problem. Each scale can have a way to assign values for
+<code>NA</code>s, which is very convenient to other <code>scale</code>
+functions, such as color or shape. However, with
+<code>scale_alpha_continuous</code>, changing the transparency for
+<code>NA</code>s does not make them disappear, so we need to
+specifically define the <code>NA</code>s transparency
+(<code>na.value = 0</code>) and add a new layer <em>only</em> for those
+two points. This same principle can be applied for other situations,
+such as wanting to emphasize a particular point in a database, etc.</p>
+<p><br></p>
+</div>
+<div id="scale_size_" class="section level4">
+<h4><strong><code>scale_size_*</code></strong></h4>
+<p>Size is similar to alpha scale.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">size =</span> fdk), </span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>)<span class="sc">+</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">6</span>)) <span class="co"># this is actually the default value </span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>Note that <code>ggplot</code> provides us with a warning message
+indicate that two values were removed. This is different to how
+<code>scale_alpha_continuous</code> handled the same issue. We emphasize
+that it is important to understand how ggplot will deal with
+<code>NA</code>s. Similar to the previous example, we will add an extra
+layer to add these <code>NA</code>s. We also will change the order,
+making values with lower FDK bigger, by adding the argument
+<code>trans = "reverse"</code>.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">size =</span> fdk), </span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># same as previous example to deal with the NA problem</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># warning will continue to show up, but the NAs are now added</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">data =</span> <span class="fu">filter</span>(data_demo, <span class="fu">is.na</span>(fdk)), </span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld), </span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">shape =</span> <span class="dv">8</span>, </span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">5</span>), </span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>                        <span class="at">trans =</span> <span class="st">&quot;reverse&quot;</span>)  <span class="co"># this reverses the size argument, meaning small values have a larger size</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+</div>
+</div>
+<div id="shape-and-linetype-scales" class="section level3">
+<h3><strong>Shape and linetype scales</strong></h3>
+<div id="scale_shape_manual" class="section level4">
+<h4><strong><code>scale_shape_manual</code></strong></h4>
+<p>The shape option is very limited in terms of customization.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">shape =</span> var), <span class="co"># We will use the factor, variety, to define the different shapes</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">15</span>)) <span class="co"># Here we defined two different shapes depending on the variety</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+</div>
+<div id="scale_linetype_manual" class="section level4">
+<h4><strong><code>scale_linetype_manual</code></strong></h4>
+<p>There are a few options for linetype that we can use.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># preparing the data for our plot</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>line_yld <span class="ot">=</span> data_demo <span class="sc">%&gt;%</span> </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt, var) <span class="sc">%&gt;%</span> </span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">yld =</span> <span class="fu">mean</span>(yld))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;trt&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>line_yld</span></code></pre></div>
+<pre><code>## # A tibble: 8 × 3
+## # Groups:   trt [4]
+##   trt   var     yld
+##   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1 A     R      85.1
+## 2 A     S      98.3
+## 3 B     R     104. 
+## 4 B     S     116. 
+## 5 C     R     107. 
+## 6 C     S     116. 
+## 7 D     R     103. 
+## 8 D     S     115.</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(line_yld) <span class="sc">+</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> trt,</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> yld, </span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">linetype =</span> var, <span class="co"># each variety (R or S) will have a different line type</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">group =</span> var),   </span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">size =</span> <span class="dv">1</span>) </span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p>R has a few options for lines. These can selected by their name, or
+by the number defined by <code>scale_linetype_manual</code>.</p>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p><br></p>
+<p>Illustrated using the linetype for varieity and the options “twodash”
+or “dashed”.</p>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="facets" class="section level2">
+<h2><strong>Facets</strong></h2>
+<p>Facets allow us to create multiple plots based on specified variable.
+In our previous examples, we used things like shape to differentiate
+some of the variables, for example, variety. Now, we will create
+separate plots for the variety, but within the same graphic. To
+accomplish this, we apply the option <code>facet_*</code>, of which
+there are two types of facet in <code>ggplot2</code>,
+<code>facet_wrap</code> and <code>facet_grid.</code></p>
+<div id="facet-wrap" class="section level3">
+<h3><strong>Facet wrap</strong></h3>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span> </span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>var)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p><br></p>
+<p>What occurred? Our original plot was now split in two with one for
+the resistant variety (R) and the other for the susceptible (S) variety.
+The configurations for the two plots are similar, as are the scales,
+meaning that they provide standardized information and can be compared,
+etc.</p>
+<p>One thing to note though is that the data used to create this plot is
+different from when we had the two variables combined. As result,
+<code>ggplot2</code> considered that some of our observations are
+outliers, when before we did not have this issue. This is a good example
+which illustrates that when we change the database structure, we need to
+make sure that we verify the outputted result to check for problems. In
+this example, we need to an options to suppress the outlier in the
+<code>geom_boxplot</code>.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> <span class="co"># we define the outliers as completely transparent</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Note: By making these outliers observations transparent, they are still considered in the calucations for boxplots,</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># at same time, they are not duplicated in the plot with the geom_jitter</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>var)</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>Below we can see an example of how to change the y-axis scale and the
+strip text (text above each plot)</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> <span class="co">#outliers defined to be completely transparent</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>var, </span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>, <span class="co"># scales will be independent if free, or only one dimension if free_y/x</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">labeller</span>( <span class="co"># here is an example of how to change the </span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">var =</span> <span class="fu">c</span>(<span class="st">&quot;R&quot;</span> <span class="ot">=</span> <span class="st">&quot;Resistent&quot;</span>, <span class="co"># need to remember the order of the call to define the variables</span></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;S&quot;</span> <span class="ot">=</span> <span class="st">&quot;Susceptible&quot;</span>))) <span class="co"># then give a new name for each level</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<p><br></p>
+<p>Below, we can see an example of how to change the y-axis scale and
+output the graph in a stacked format with labels (text above each
+plot)</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> <span class="co"># outliers are defined to be completely transparent</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>var, <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">var =</span> <span class="fu">c</span>(<span class="st">&quot;R&quot;</span> <span class="ot">=</span> <span class="st">&quot;Resistent&quot;</span>, <span class="st">&quot;S&quot;</span> <span class="ot">=</span> <span class="st">&quot;Susceptible&quot;</span>)), </span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">2</span>) <span class="co"># this defines how the graphics are displayed</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+</div>
+<div id="facet-grid" class="section level3">
+<h3><strong>Facet grid</strong></h3>
+<p><code>facet_grid</code>” create a grid of plots, using one variable
+to define the columns and the other to define the rows. In the example
+below we split the incidence between “low” (inc <span
+class="math inline">\(\leq\)</span> 10%) and high (inc <span
+class="math inline">\(\ge\)</span> 10%) using <code>mutate</code> and
+logical operators.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>data_grid <span class="ot">&lt;-</span> data_demo <span class="sc">%&gt;%</span> </span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create a new variable by splitting the incidence using a 10% threshold</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">inc_cat =</span> <span class="fu">if_else</span>(inc <span class="sc">&lt;=</span><span class="dv">10</span>, <span class="st">&quot;Low Incidence&quot;</span>, <span class="st">&quot;High Incidence&quot;</span>))</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_grid, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(inc_cat<span class="sc">~</span>var, <span class="co"># inc_cat = row; var=column</span></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">var =</span> <span class="fu">c</span>(<span class="st">&quot;R&quot;</span> <span class="ot">=</span> <span class="st">&quot;Resistent&quot;</span>, <span class="st">&quot;S&quot;</span> <span class="ot">=</span> <span class="st">&quot;Susceptible&quot;</span>)))</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<p>We can use grid with only one variable as well.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(.<span class="sc">~</span>var) <span class="co"># grid by column</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> <span class="co"># outliers defined to be completely transparent</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(var<span class="sc">~</span>.) <span class="co"># grid by row</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-52-2.png" width="672" /></p>
+</div>
+</div>
+<div id="labels" class="section level2">
+<h2><strong>Labels</strong></h2>
+<p>Below we have an example of how to change the y-axis scale and text
+options</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># labels for the plots in general</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Here is a title&quot;</span>,</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Here is the plot subtitle&quot;</span>,</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;This is figure caption&quot;</span>,</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">tag =</span> <span class="st">&quot;A&quot;</span>, </span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Labels for the aesthetics </span></span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;y-axis title&quot;</span>,</span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;x-axis title&quot;</span>,</span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;fill title&quot;</span></span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+</div>
+<div id="themes" class="section level2">
+<h2><strong>Themes</strong></h2>
+<p>So far, we built our plots focusing on how to work and under the data
+being plotted by using layers (<code>geom</code>), aesthetics, and
+facets. Now we will take a quick look on how to change some of non-data
+components of the plot. We can make many of these changes using
+<code>theme()</code>.</p>
+<p><code>ggplot2</code> has complete themes and options to customize
+those. There are also several packages that have extra complete
+themes.</p>
+<div id="complete-themes" class="section level3">
+<h3><strong>Complete themes</strong></h3>
+<p><code>ggplot2</code> has ten built-in themes that are very convenient
+to use.</p>
+<div id="built-in-themes" class="section level4">
+<h4><strong>Built-in themes`</strong></h4>
+<p><strong><code>theme_bw</code></strong>: dark-on-light, works well
+with presentations displayed with a projector.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Treatments&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>) <span class="sc">+</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only enter with the theme name</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="co"># theme black and white</span></span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<p><strong><code>theme_minimal</code></strong>: no background
+annotations</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Treatments&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>)<span class="sc">+</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only enter with the theme name</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_minimal</span>() </span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<p><strong><code>theme_classic</code></strong>: classic design, x and y
+axis lines, but no gridlines</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Treatments&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>)<span class="sc">+</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only enter with the theme name</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() </span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<p><br></p>
+<p>Other complete themes in <code>ggplot2</code> include:
+<code>theme_grey()</code> (default); <code>theme_linedraw()</code>;
+<code>theme_light()</code>; <code>theme_dark()</code>;
+<code>theme_void()</code>; <code>theme_test()</code></p>
+</div>
+<div id="from-other-packages" class="section level4">
+<h4><strong>From other packages</strong></h4>
+<p>There is several package with built-in themes, here we will use only
+two as examples.</p>
+<p><strong>ggthemes package</strong></p>
+<p><a
+href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/"><code>ggthemes</code>
+package</a> - Has several different complete themes. The example below
+(<code>theme_economist()</code>) is inspired by plots made by the
+magazine “The Economist”.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Treatments&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>)<span class="sc">+</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only enter with the theme name</span></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>()</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p><strong>bbplot package</strong></p>
+<p><a href="https://github.com/bbc/bbplot/">bbplot</a> is a package
+developed by the BBC team.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This package is not yet in the CRAN, so we need to download from a website called GitHub</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="co"># to do this, we need the package &#39;devtools&#39;, if you don&#39;t have it, make sure that you run both lines</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&#39;devtools&#39;)</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github(&#39;bbc/bbplot&#39;)</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bbplot)</span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Treatments&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>)<span class="sc">+</span></span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only enter with the theme name</span></span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bbc_style</span>()</span></code></pre></div>
+<pre><code>## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family not
+## found in Windows font database</code></pre>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+</div>
+</div>
+<div id="customized" class="section level3">
+<h3><strong>Customized</strong></h3>
+<p>Another option is to not use the built-in themes and customize the
+plots ourselves. <code>ggplot2</code> has a <a
+href="https://ggplot2.tidyverse.org/reference/theme.html">lot of
+options</a> for customization, from the legend position to the ticks
+size. As you can imagine, it would be difficult to cover each of these
+options, but we will illustrate a few examples.</p>
+<p>Let’s start with a plain plot where we modify a few elements, such as
+the legend, strip text, axis text and title</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the default theme</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>var, <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">var =</span> <span class="fu">c</span>(<span class="st">&quot;R&quot;</span> <span class="ot">=</span> <span class="st">&quot;Resistent&quot;</span>, <span class="st">&quot;S&quot;</span> <span class="ot">=</span> <span class="st">&quot;Susceptible&quot;</span>)))<span class="sc">+</span></span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Treatments&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>) <span class="sc">+</span></span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># theme function is empty, so will plot the default theme</span></span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the default theme</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>var, <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">var =</span> <span class="fu">c</span>(<span class="st">&quot;R&quot;</span> <span class="ot">=</span> <span class="st">&quot;Resistent&quot;</span>, <span class="st">&quot;S&quot;</span> <span class="ot">=</span> <span class="st">&quot;Susceptible&quot;</span>)))<span class="sc">+</span></span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>, </span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span> <span class="co"># we suppress the x-axis title, since it will be in the legend</span></span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb72-14"><a href="#cb72-14" aria-hidden="true" tabindex="-1"></a>     <span class="co"># change the background color to white</span></span>
+<span id="cb72-15"><a href="#cb72-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.background =</span> <span class="fu">element_blank</span>() , </span>
+<span id="cb72-16"><a href="#cb72-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb72-17"><a href="#cb72-17" aria-hidden="true" tabindex="-1"></a>     <span class="co"># the default color is white, so we have to change to gray to be different from the background</span></span>
+<span id="cb72-18"><a href="#cb72-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">&quot;grey88&quot;</span>), </span>
+<span id="cb72-19"><a href="#cb72-19" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb72-20"><a href="#cb72-20" aria-hidden="true" tabindex="-1"></a>     <span class="co"># the default theme does not have a border</span></span>
+<span id="cb72-21"><a href="#cb72-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour =</span> <span class="st">&quot;grey80&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>),</span>
+<span id="cb72-22"><a href="#cb72-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb72-23"><a href="#cb72-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># axis text to black (was a little gray)</span></span>
+<span id="cb72-24"><a href="#cb72-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y  =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb72-25"><a href="#cb72-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">#suppress the x-axis text, since it will be in the legend</span></span>
+<span id="cb72-26"><a href="#cb72-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x  =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb72-27"><a href="#cb72-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb72-28"><a href="#cb72-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Change titles (y-axis and legend[fill]) to black text, size 12, and bold</span></span>
+<span id="cb72-29"><a href="#cb72-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb72-30"><a href="#cb72-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-31"><a href="#cb72-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bring the legend to inside of the plot</span></span>
+<span id="cb72-32"><a href="#cb72-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.90</span>, .<span class="dv">20</span>),</span>
+<span id="cb72-33"><a href="#cb72-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Legend key was gray, change to white</span></span>
+<span id="cb72-34"><a href="#cb72-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;white&quot;</span>),</span>
+<span id="cb72-35"><a href="#cb72-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Legend text attribute</span></span>
+<span id="cb72-36"><a href="#cb72-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb72-37"><a href="#cb72-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb72-38"><a href="#cb72-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Strip text justified almost completely to the left - (hjust = 0.01)</span></span>
+<span id="cb72-39"><a href="#cb72-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># hjust = 0.5 is center justification, and hjust = 1 is right justification</span></span>
+<span id="cb72-40"><a href="#cb72-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.x =</span>  <span class="fu">element_text</span>(<span class="at">hjust =</span><span class="fl">0.01</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb72-41"><a href="#cb72-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb72-42"><a href="#cb72-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># strip text background </span></span>
+<span id="cb72-43"><a href="#cb72-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.background =</span>  <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+</div>
+</div>
+<div id="combine-plots" class="section level2">
+<h2><strong>Combine plots</strong></h2>
+<p>Frequently, we need to combine multiple plots into a single one.
+While many people copy and paste their plots in a MS Power Point (or
+similar software) and save as new plot, this approach is very
+inefficient, compromises quality, and may cause unintentional
+errors.</p>
+<p>A better approach is combine these plots in single one and save.
+There are a few good packages that can help with this task, including,
+<a
+href="https://cran.r-project.org/web/packages/gridExtra/index.html"><code>gridExtra</code></a>,
+<a
+href="https://wilkelab.org/cowplot/index.html"><code>cowplot</code></a>,
+and <a
+href="https://rpkgs.datanovia.com/ggpubr/index.html"><code>ggpubr</code></a>,
+but we will explore a new package, and arguably easier one, called <a
+href="https://patchwork.data-imaginist.com/"><code>patchwork</code></a>.</p>
+<p>First, let’s build some plots to be combined using
+<code>patchwork</code>. We will build four plots, considering the effect
+of treatment on the following variables: yield, severity, incidence, and
+FDK.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plots not display to save space (will be in the combined plot)</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>plot_yield <span class="ot">&lt;-</span> </span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> yld)) <span class="sc">+</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text  =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a>plot_sev <span class="ot">&lt;-</span> </span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> sev)) <span class="sc">+</span></span>
+<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb73-18"><a href="#cb73-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb73-19"><a href="#cb73-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Severity (%)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb73-20"><a href="#cb73-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb73-21"><a href="#cb73-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text  =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb73-22"><a href="#cb73-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb73-23"><a href="#cb73-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb73-24"><a href="#cb73-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-25"><a href="#cb73-25" aria-hidden="true" tabindex="-1"></a>plot_inc <span class="ot">&lt;-</span> </span>
+<span id="cb73-26"><a href="#cb73-26" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> inc)) <span class="sc">+</span></span>
+<span id="cb73-27"><a href="#cb73-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb73-28"><a href="#cb73-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb73-29"><a href="#cb73-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb73-30"><a href="#cb73-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Incidence (%)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb73-31"><a href="#cb73-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb73-32"><a href="#cb73-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text  =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb73-33"><a href="#cb73-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb73-34"><a href="#cb73-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb73-35"><a href="#cb73-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-36"><a href="#cb73-36" aria-hidden="true" tabindex="-1"></a>plot_fdk <span class="ot">&lt;-</span> </span>
+<span id="cb73-37"><a href="#cb73-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_demo, <span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> fdk)) <span class="sc">+</span></span>
+<span id="cb73-38"><a href="#cb73-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span> </span>
+<span id="cb73-39"><a href="#cb73-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb73-40"><a href="#cb73-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_npg</span>() <span class="sc">+</span></span>
+<span id="cb73-41"><a href="#cb73-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;FDK (%)&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb73-42"><a href="#cb73-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb73-43"><a href="#cb73-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text  =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb73-44"><a href="#cb73-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb73-45"><a href="#cb73-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="co"># just use the &quot;+&quot; signal to combine the plots</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>plot_yield<span class="sc">+</span>plot_sev</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-62-1.png" width="768" /></p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or the &quot;/&quot; to put one on top of the other</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>plot_yield<span class="sc">/</span>plot_sev</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use &quot;()&quot; to create a hierarchical order of combinations</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>(plot_yield<span class="sc">+</span>plot_sev) <span class="sc">/</span> <span class="co"># first combine yield and severity, followed by stacking incidence and fdk </span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>(plot_inc <span class="sc">+</span> plot_fdk)</span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-64-1.png" width="768" /></p>
+<p><br></p>
+<p>And, we can add tags and make changes to the plot’s overall theme</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use &quot;()&quot; to create a hierarchical order of combinations</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>(plot_yield<span class="sc">+</span>plot_sev) <span class="sc">/</span> <span class="co"># first combine yield and severity, followed by stacking incidence and fdk</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>(plot_inc <span class="sc">+</span> plot_fdk) <span class="sc">+</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add a tag for each plot, there way to customize this</span></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">&quot;A&quot;</span>)  <span class="sc">&amp;</span> <span class="co"># very important, use &quot;&amp;&quot; to make theme changes</span></span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x  =</span> <span class="fu">element_text</span>(<span class="at">colour =</span> <span class="st">&quot;red&quot;</span>)) <span class="co"># red to make an obvious change</span></span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing non-finite values (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_point).</code></pre>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-65-1.png" width="768" /></p>
+</div>
+<div id="saving-plots" class="section level2">
+<h2><strong>Saving plots</strong></h2>
+<p>We can use the the function <code>ggsave</code> to save a plot.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">plot =</span> plot_yield, <span class="co"># name of the plot in R</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">filename =</span> <span class="st">&quot;figures/intro_r/example1.png&quot;</span>, <span class="co"># plot will be saved in the folder figures, with name example1, format png</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">85</span>, <span class="at">height =</span> <span class="dv">80</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="co"># plot dimension</span></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">dpi =</span> <span class="dv">450</span> ) <span class="co"># resolution</span></span></code></pre></div>
+<p><br></p>
+<p>And below is how our <em>saved</em> plot looks (it is the upload
+version of the plot)</p>
+<div class="figure" style="text-align: center">
+<img src="figures/intro_r/example1.png" alt="Plot saved in the computer and upload to this document" width="100%" />
+<p class="caption">
+Plot saved in the computer and upload to this document
+</p>
+</div>
+<p><br></p>
+<p>Note how the “saved plot” is different from the one printed in R.
+This is because we force our “saved plot” to have a specific dimension,
+which may be different than the dimension which our screen has. When
+this happens, if necessary, make the appropriated changes (change point
+size, text size, etc)</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>plot_yield</span></code></pre></div>
+<p><img src="intro_ggplot_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

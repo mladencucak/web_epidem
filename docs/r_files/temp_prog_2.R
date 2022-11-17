@@ -1,0 +1,404 @@
+## ----setup, include=FALSE-----------------------------------------------------
+knitr::opts_chunk$set(echo = TRUE)
+
+
+## ----libs, message=FALSE, warning=FALSE---------------------------------------
+list.of.packages <-
+  c(
+    "tidyverse",
+    
+    "rmarkdown",
+    "gt", #package for customizing html table view
+    "kableExtra", # Another package for html table customization
+    "rcompanion", # Useful tool for summarizing model outputs and several other modeling related tasks
+    "conflicted", #Some functions are named the same way across different packages and they can be conflicts and this package helps sorting this problem 
+    "here", #helps with the reproducibility across operating systems
+    "ggResidpanel", # Diagnostic plots for several models
+    "shiny", # Package for visualization 
+    "shinyscreenshot", #capture screenshots
+    "minpack.lm", # Fitting non-linear models
+    "deSolve" # Solvers for Initial Value Problems of Differential Equations
+  )
+
+new.packages <-
+  list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
+
+#Download packages that are not already present in the library
+if (length(new.packages))
+  install.packages(new.packages)
+
+# Load packages
+packages_load <-
+  lapply(list.of.packages, require, character.only = TRUE)
+
+#Print warning if there is a problem with installing/loading some of packages
+if (any(as.numeric(packages_load) == 0)) {
+  warning(paste("Package/s: ", paste(list.of.packages[packages_load != TRUE], sep = ", "), "not loaded!"))
+} else {
+  print("All packages were successfully loaded.")
+}
+rm(list.of.packages, new.packages, packages_load)
+
+#Resolve conflicts
+if(c("stats", "dplyr")%in% installed.packages()){
+  conflict_prefer("filter", "dplyr")
+  conflict_prefer("select", "dplyr")
+}
+
+
+#if install is not working try changing repositories
+#install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
+
+
+
+## ----get_data-----------------------------------------------------------------
+full_dta <- 
+  readRDS(file = here::here( "4_temporal_progress_2/data/test_data.rds")) 
+# Take only one year of data
+dta <- 
+  full_dta %>% 
+  filter(yr == 1)%>% 
+  select( dai, prop)
+
+
+## -----------------------------------------------------------------------------
+lin_mod<-lm(prop~dai, data = dta)
+
+
+## -----------------------------------------------------------------------------
+summary(lin_mod)
+
+
+## -----------------------------------------------------------------------------
+round(lin_mod$coefficients,2)
+str(lin_mod)
+
+## ----diag_plots_lin, figures-side, fig.show="hold", out.width="50%"-----------
+plot(lin_mod, which=1) #Model assumptions
+plot(lin_mod, which=2)
+plot(lin_mod, which=3)
+plot(lin_mod, which=4)
+
+
+## ----diag_plot_two, cache=TRUE------------------------------------------------
+resid_panel(lin_mod, qqbands = TRUE, plots = "all")
+
+
+## ----browse_url, eval=FALSE---------------------------------------------------
+  # browseURL("https://goodekat.github.io/ggResidpanel/")
+
+
+## ----google_something, eval=FALSE---------------------------------------------
+my_question <- "R model diagnostics"
+browseURL(paste0('https://www.google.co.in/search?q=', my_question))
+
+
+## -----------------------------------------------------------------------------
+dta[ , "Linear"]<-
+  predict(object=lin_mod,newdata=dta[ , "dai"])
+gt::gt(dta)
+
+
+## -----------------------------------------------------------------------------
+dta_long <- 
+dta %>% 
+  pivot_longer(cols = c("prop", "Linear"),
+               names_to = "origin",
+               values_to = "prop"
+               )
+
+
+## ----lin_fit_plot, cache=TRUE-------------------------------------------------
+ggplot(dta_long, aes(dai, prop, color = origin)) +
+  geom_point(size = 2) +
+  geom_line(linetype = "dashed") +
+  theme_bw() +
+  theme(legend.position = c(0.75, 0.15)) + #legend into a plotting area
+  scale_y_continuous(
+    limits = c(0, 1),
+    expand = c(-.05, 1.05),
+    breaks = seq(0, 1, 0.2),
+    name = "Disease"
+  ) +
+  scale_x_continuous(
+    expand = c(0, 0),
+    breaks = seq(0, 80, 20),
+    name = "Time") +
+  guides(shape = guide_legend(nrow = 2, byrow = TRUE)) 
+
+
+## ----exponenetial, echo=FALSE-------------------------------------------------
+shiny::shinyAppDir(
+  here::here( "4_temporal_progress_2/apps","exponential"),
+  options = list(
+    width = "100%", height = 400
+  )
+)
+
+
+
+## ----logistic, echo=FALSE-----------------------------------------------------
+shinyAppDir(
+  here::here("4_temporal_progress_2/apps","logistic"),
+  options = list(
+    width = "100%", height = 400
+  )
+)
+
+
+
+## ----gompertz, echo=FALSE-----------------------------------------------------
+shinyAppDir(
+  here::here("4_temporal_progress_2/apps","gompertz"),
+  options = list(
+    width = "100%", height = 400
+  )
+)
+
+
+
+## ----monomolecular, echo=FALSE------------------------------------------------
+shinyAppDir(
+  here::here("4_temporal_progress_2/apps","monomolecular"),
+  options = list(
+    width = "100%", height = 400
+  )
+)
+
+
+
+## ----all, echo=FALSE----------------------------------------------------------
+shinyAppDir(
+  here::here("4_temporal_progress_2/apps","combined"),
+  options = list(
+    width = "100%", height = 400
+  )
+)
+
+
+
+## -----------------------------------------------------------------------------
+dta <- 
+dta %>%
+  mutate(prop = ifelse(prop == 1, #condition for each element of the object, meaning disease intensity is a maximum value
+                       prop - .0001, # if the condition is true do this
+                       prop) # in not true do this
+         )
+
+
+## -----------------------------------------------------------------------------
+# Remove linear fits 
+dta <- dta[ , c("dai", "prop")]
+
+
+## -----------------------------------------------------------------------------
+mon_mod<-
+  lm(log(1/(1-prop))~dai, data = dta) # Monomolecular = log(1/(1-y))
+prop
+log(1/(1-dta$prop))
+
+exp_mod<-lm(log(prop)~dai, data = dta) # Exponential = log(y)
+log_mod<-lm(log(prop/(1-prop))~dai, data = dta) # Logistic = log(y/(1-y))
+gom_mod<-lm(-log(-log(prop))~dai, data = dta) # Gompertz = -log(-log(y))
+
+
+
+## -----------------------------------------------------------------------------
+models <- list(mon_mod, exp_mod,log_mod, gom_mod)
+names(models) <-  c("Monomolecular", "Exponential", "Logistic", "Gompertz")
+
+
+## -----------------------------------------------------------------------------
+summary(exp_mod)
+
+
+## ----diag_table,cache=TRUE----------------------------------------------------
+f_stat <- 
+sapply(models, function(x) summary(x)$fstatistic[1] %>% as.numeric %>% round(2))
+
+rcompanion::compareLM(mon_mod, exp_mod,log_mod, gom_mod)[[2]] %>% 
+  add_column( Model =names(models),
+              .before = 1) %>% 
+  add_column(., F_statistic = f_stat, .before = "p.value") %>% 
+  rename("No. of Parameters" = Rank,
+         "DF" = "Df.res",
+         "R sq." = "R.squared",
+         "Adj. R sq." = "Adj.R.sq",
+         "F" = "F_statistic",
+         "p" = "p.value",
+         "Shapiro-Wilk" = "Shapiro.W",
+         "Shapiro-Wilk p" = "Shapiro.p") %>% 
+  select(-c( "AICc", "BIC")) %>% 
+  kable(format = "html") %>%
+  kableExtra::kable_styling( latex_options = "striped",full_width = FALSE) 
+
+
+## -----------------------------------------------------------------------------
+for(i in seq(models)){ # For each model in the list
+  
+  # Make a variable with the model name 
+  model_name <- names(models[i]) 
+  
+  # Calculate predictions for that model and save them in a new column
+  dta[ , model_name] <- 
+    predict(object= models[[i]], 
+            newdata=dta[ , "dai"])
+
+}
+gt::gt(head(dta, 5)) # Show the first five rows
+
+
+## -----------------------------------------------------------------------------
+dta$Exponential <- exp(dta$Exponential)
+dta$Monomolecular <-  1 - exp(-dta$Monomolecular)
+dta$Logistic <- 1/(1+exp(-dta$Logistic))
+dta$Gompertz <- exp(-exp(-dta$Gompertz))
+
+
+
+## ----lin_fits_plot, out.width="100%", out.height=550--------------------------
+
+vars_to_long <- colnames(dta)[!colnames(dta) %in% c("dai", "prop")]
+
+
+dta_long <- 
+dta %>% 
+    pivot_longer(cols = vars_to_long,
+                 names_to = "origin",
+                 values_to = "fits"
+    )
+
+dta_long %>% 
+ggplot()+
+  geom_point(aes(dai, prop),size = 1, shape = 1) +
+  geom_line(aes(dai, prop),linetype = "solid")+
+  geom_point(aes(dai, fits),size = 1, shape = 2) +
+  geom_line(aes(dai, fits, color = origin),linetype = "dashed")+
+
+  theme_bw()+
+  scale_y_continuous(limits = c(0, 1),
+                     expand = c(c(-.05, 1.05)),
+                     breaks = seq(0, 1, 0.2),
+                     name = "Disease") +
+  scale_x_continuous(expand = c(0, 0),
+                     breaks = seq(0, 80, 20),
+                     name = "Time")+
+  facet_wrap(~origin, ncol = 2)+
+  ylim(-0.2,1.2) +
+  theme(legend.position = "none") 
+
+
+
+## -----------------------------------------------------------------------------
+FitMod <-function(mod, data){
+    nls(mod,
+      start = list(y0 = 0.001, rate = 0.05),
+      trace = TRUE,
+      data = dta)
+}
+
+
+## -----------------------------------------------------------------------------
+### Monomolecular Model: y=1-((1-y0)*exp(-rate*dai))
+mon_formula <-  formula(prop ~ 1-((1-y0)*exp(-rate*dai)))
+### Exponential Model: y=y0*exp(rate*dai)
+exp_formula <-  formula(prop ~ y0 * exp(rate*dai))
+### Logistic Model: y=1/(1+exp(-(log(y0/(1-y0))+rate*dai)))
+log_formula <-  formula(prop ~ 1/(1+exp(-(log(y0/(1-y0))+rate*dai))))
+### Gompertz Model: y=exp(log(y0)*exp(-rate*dai))
+gom_formula <-  formula(prop ~ exp(log(y0)*exp(-rate*dai)))
+
+
+## ----echo= FALSE, warning = FALSE,results='hide'------------------------------
+mon_mod <-  FitMod(mon_formula, dta)
+exp_mod <-  FitMod(exp_formula, dta)
+log_mod <-  FitMod(log_formula, dta)
+
+
+## ----fitting_nlm, eval=FALSE--------------------------------------------------
+## mon_mod <-  FitMod(mon_formula, dta)
+## exp_mod <-  FitMod(exp_formula, dta)
+## log_mod <-  FitMod(log_formula, dta)
+## gom_mod <-  FitMod(gom_formula, dta)
+## # 0.1677929 :  0.001 0.050
+## # Error in numericDeriv(form[[3L]], names(ind), env) :
+## #   Missing value or an infinity produced when evaluating the model
+## # In addition: Warning message:
+## # In log(y0) :
+
+
+## -----------------------------------------------------------------------------
+gom_mod <- 
+minpack.lm::nlsLM(prop ~ exp(log(y0)*exp(-rate*dai)),
+      start=list(y0=0.001, rate=0.075),
+      control = list(maxiter = 2000, maxfev = 5000),
+      upper = c(.2, .2),
+      lower = c(1e-8, .0001),
+      data = dta)
+
+
+## -----------------------------------------------------------------------------
+models <- list(mon_mod, exp_mod, log_mod, gom_mod)
+names(models) <-  c("Monomolecular", "Exponential", "Logistic", "Gompertz")
+
+
+## -----------------------------------------------------------------------------
+PseudoRsq <- function(model, disaese) {
+  RSS.1 <- sum(residuals(model) ^ 2)
+  TSS.1 <- sum((disaese - mean(disaese)) ^ 2)
+  (1 - (RSS.1 / TSS.1))
+}
+
+
+## -----------------------------------------------------------------------------
+fit_diag <- data.frame( models = names(models), r_sq = rep(NA, length(models)))
+
+for(i in seq(models)){ # For each model in the list
+  
+  # Make a variable with the model name 
+  model_name <- names(models[i]) 
+  
+  # Calculate predictions for that model and save them in a new column
+  dta[ , model_name] <- 
+    predict(object= models[[i]], 
+            newdata=dta[ , "dai"])
+  
+  fit_diag[ fit_diag$models == model_name, "r_sq"] <- 
+    PseudoRsq(models[[i]], dta$prop)
+
+}
+gt::gt(head(dta, 5)) # Show the first five rows
+gt::gt(fit_diag) 
+
+
+## ----nlm_fits_plot, out.width="100%", out.height=550, warning=FALSE-----------
+
+vars_to_long <- colnames(dta)[!colnames(dta) %in% c("dai", "prop")]
+
+dta_long <- 
+dta %>% 
+    pivot_longer(cols = vars_to_long,
+                 names_to = "models",
+                 values_to = "fits"
+    ) %>% 
+  left_join(., fit_diag, by = "models") #join model diag. by model
+
+ dta_long %>% 
+ggplot()+
+  geom_point(aes(dai, prop),size = 1, shape = 1) +
+  geom_line(aes(dai, prop),linetype = "solid")+
+  geom_point(aes(dai, fits),size = 1, shape = 2) +
+  geom_line(aes(dai, fits, color = models),linetype = "dashed")+
+  # Add labels for model fit diag.
+  geom_text(aes( label = paste("R^2: ", round(r_sq,2),sep="")),parse=T,x=20,y=.8)+
+  theme_bw()+
+  facet_wrap(~models, ncol = 2)+
+  scale_y_continuous(limits = c(0, 1),
+                     expand = c(0, 0),
+                     breaks = seq(0, 1, 0.2),
+                     name = "Disease") +
+  scale_x_continuous(expand = c(0, 0),
+                     breaks = seq(0, 80, 20),
+                     name = "Time")+
+  theme(legend.position = "none") 
+
