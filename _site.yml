@@ -9,7 +9,7 @@ navbar:
   - text: Intro
     menu:
     - text: Before starting
-      href: 0_install&update/install.html
+      href: install.html
     - text: Class 2
       href: class2.html
     - text: Class 3
@@ -17,10 +17,10 @@ navbar:
       
   - text: Part 2
     menu:
-    - text: Codes 1 
-      href: class1.html
-    - text: Codes 2 
-      href: codes2.html 
+    - text: disease assessment 
+      href: disease_assessment.html
+    - text: temp_prog_1 
+      href: temp_prog_1.html 
     - text: Codes 3 
       href: codes3.html 
   
