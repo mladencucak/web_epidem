@@ -22,7 +22,7 @@ navbar:
     - text: Temporal progress (part 1) 
       href: temp_prog_1.html 
     - text: Temporal progress (part 2) 
-      href: temp_prog2.html 
+      href: temp_prog_2.html 
   
   - text: Part 3
     menu:
