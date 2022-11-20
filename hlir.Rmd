@@ -44,13 +44,23 @@ library("ggplot2")
 
 # App
 
-```{r hlir_app, echo=FALSE}
-shiny::shinyAppDir(
-  here::here( "5_HLIR/apps"),
-  options = list(
-    width = "130%", height = 900
-  )
-)
+<!-- # ```{r hlir_app, echo=FALSE} -->
+<!-- # shiny::shinyAppDir( -->
+<!-- #   here::here( "5_HLIR/apps"), -->
+<!-- #   options = list( -->
+<!-- #     width = "130%", height = 900 -->
+<!-- #   ) -->
+<!-- # ) -->
+<!-- #  -->
+<!-- # ``` -->
 
-```
+```{=html}
+<p>Any <strong>raw</strong> HTML content works here.
+For example, here is a Youtube video:</p>
 
+<iframe width="100%" height="400"
+  src="https://felipedallalana.shinyapps.io/Temporal_shiny/"
+  frameborder="0" </iframe>
+  
+  
+``` 

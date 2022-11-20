@@ -23,6 +23,14 @@ navbar:
       href: temp_prog_1.html 
     - text: Temporal progress (part 2) 
       href: temp_prog_2.html 
+    # - text: Spatial progress
+    #   href: spatial_prog_1.html 
+    - text: Forecasting
+      href: forecasting.html
+    - text: Sampling
+      href: Sampling.html
+    - text: Experimental design
+      href: Experimental.html
   
   # - text: Part 3
   #   menu:
