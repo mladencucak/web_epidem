@@ -12,7 +12,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
 
 # Libraries
@@ -260,11 +260,11 @@ They are plotted all together to explore their main characteristics and differen
 # )
 # 
 # ```
-1
-```{=html}
-<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://mladen-cucak.shinyapps.io/temp_prog/" id="kbUg_0~mFnz0"></iframe></div>
-```
-2
+
+<!-- ```{=html} -->
+<!-- <div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://mladen-cucak.shinyapps.io/temp_prog/" id="kbUg_0~mFnz0"></iframe></div> -->
+<!-- ``` -->
+2ff
 ```{=html}
 <p>Any <strong>raw</strong> HTML content works here.
 For example, here is a Youtube video:</p>
@@ -275,13 +275,13 @@ For example, here is a Youtube video:</p>
   
   
 ``` 
-3
-```{r}
-knitr::include_app("https://mladen-cucak.shinyapps.io/temp_prog/",
-  height = "600px")
-```
 
-### Fitting linearized models
+<!-- # ```{r} -->
+<!-- # knitr::include_app("https://mladen-cucak.shinyapps.io/temp_prog/", -->
+<!-- #   height = "600px") -->
+<!-- # ``` -->
+
+
 
 The use of *for* loops has been introduced. Another very useful basic programming function which should be easily understandable is `ifelse`.
 
