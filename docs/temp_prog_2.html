@@ -1349,33 +1349,49 @@ and differences.</p>
 id="r-all-echofalse-shinyappdir-herehereappscombined-options-list-width-100-height-400"
 class="section level1">
 <h1><code>{r all, echo=FALSE} # shinyAppDir( #   here::here("apps","combined"), #   options = list( #     width = "100%", height = 400 #   ) # ) #  #</code></h1>
+<p>1</p>
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://mladen-cucak.shinyapps.io/temp_prog/" id="kbUg_0~mFnz0"></iframe></div>
+<p>2</p>
+<p>Any <strong>raw</strong> HTML content works here.
+For example, here is a Youtube video:</p>
+
+<iframe width="100%" height="400"
+  src="https://mladen-cucak.shinyapps.io/temp_prog/"
+  frameborder="0" </iframe>
+  
+  
+<p>3</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_app</span>(<span class="st">&quot;https://mladen-cucak.shinyapps.io/temp_prog/&quot;</span>,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="st">&quot;600px&quot;</span>)</span></code></pre></div>
+<iframe src="https://mladen-cucak.shinyapps.io/temp_prog/?showcase=0" width="672" height="600px" data-external="1">
+</iframe>
 <div id="fitting-linearized-models" class="section level3">
 <h3>Fitting linearized models</h3>
 <p>The use of <em>for</em> loops has been introduced. Another very
 useful basic programming function which should be easily understandable
 is <code>ifelse</code>.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">%&gt;%</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> <span class="fu">ifelse</span>(prop <span class="sc">==</span> <span class="dv">1</span>, <span class="co">#condition for each element of the object, meaning disease intensity is a maximum value</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                       prop <span class="sc">-</span> .<span class="dv">0001</span>, <span class="co"># if the condition is true do this</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                       prop) <span class="co"># in not true do this</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>         )</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> <span class="fu">ifelse</span>(prop <span class="sc">==</span> <span class="dv">1</span>, <span class="co">#condition for each element of the object, meaning disease intensity is a maximum value</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                       prop <span class="sc">-</span> .<span class="dv">0001</span>, <span class="co"># if the condition is true do this</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                       prop) <span class="co"># in not true do this</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>         )</span></code></pre></div>
 <p>Remove linear model fits and retain only time and disease data.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove linear fits </span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta[ , <span class="fu">c</span>(<span class="st">&quot;dai&quot;</span>, <span class="st">&quot;prop&quot;</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove linear fits </span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta[ , <span class="fu">c</span>(<span class="st">&quot;dai&quot;</span>, <span class="st">&quot;prop&quot;</span>)]</span></code></pre></div>
 <p>The response variable is transformed and the linear model is
 re-fitted.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mon_mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>prop))<span class="sc">~</span>dai, <span class="at">data =</span> dta) <span class="co"># Monomolecular = log(1/(1-y))</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>exp_mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(prop)<span class="sc">~</span>dai, <span class="at">data =</span> dta) <span class="co"># Exponential = log(y)</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>log_mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(prop<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>prop))<span class="sc">~</span>dai, <span class="at">data =</span> dta) <span class="co"># Logistic = log(y/(1-y))</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>gom_mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="sc">-</span><span class="fu">log</span>(<span class="sc">-</span><span class="fu">log</span>(prop))<span class="sc">~</span>dai, <span class="at">data =</span> dta) <span class="co"># Gompertz = -log(-log(y))</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mon_mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>prop))<span class="sc">~</span>dai, <span class="at">data =</span> dta) <span class="co"># Monomolecular = log(1/(1-y))</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>exp_mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(prop)<span class="sc">~</span>dai, <span class="at">data =</span> dta) <span class="co"># Exponential = log(y)</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>log_mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="fu">log</span>(prop<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>prop))<span class="sc">~</span>dai, <span class="at">data =</span> dta) <span class="co"># Logistic = log(y/(1-y))</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>gom_mod<span class="ot">&lt;-</span><span class="fu">lm</span>(<span class="sc">-</span><span class="fu">log</span>(<span class="sc">-</span><span class="fu">log</span>(prop))<span class="sc">~</span>dai, <span class="at">data =</span> dta) <span class="co"># Gompertz = -log(-log(y))</span></span></code></pre></div>
 <p>Model fits are then saved into a list and each element of the list is
 named according to the population growth model used.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>(mon_mod, exp_mod,log_mod, gom_mod)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(models) <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">&quot;Monomolecular&quot;</span>, <span class="st">&quot;Exponential&quot;</span>, <span class="st">&quot;Logistic&quot;</span>, <span class="st">&quot;Gompertz&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>(mon_mod, exp_mod,log_mod, gom_mod)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(models) <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">&quot;Monomolecular&quot;</span>, <span class="st">&quot;Exponential&quot;</span>, <span class="st">&quot;Logistic&quot;</span>, <span class="st">&quot;Gompertz&quot;</span>)</span></code></pre></div>
 <p><strong>Note</strong>: <code>log</code> function is a natural
 logarithm.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(exp_mod)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(exp_mod)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log(prop) ~ dai, data = dta)
@@ -1394,24 +1410,24 @@ logarithm.</p>
 ## Residual standard error: 0.5506 on 11 degrees of freedom
 ## Multiple R-squared:  0.8868, Adjusted R-squared:  0.8765 
 ## F-statistic: 86.19 on 1 and 11 DF,  p-value: 1.545e-06</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>f_stat <span class="ot">&lt;-</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(models, <span class="cf">function</span>(x) <span class="fu">summary</span>(x)<span class="sc">$</span>fstatistic[<span class="dv">1</span>] <span class="sc">%&gt;%</span> as.numeric <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>))</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>rcompanion<span class="sc">::</span><span class="fu">compareLM</span>(mon_mod, exp_mod,log_mod, gom_mod)[[<span class="dv">2</span>]] <span class="sc">%&gt;%</span> </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>( <span class="at">Model =</span><span class="fu">names</span>(models),</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(., <span class="at">F_statistic =</span> f_stat, <span class="at">.before =</span> <span class="st">&quot;p.value&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;No. of Parameters&quot;</span> <span class="ot">=</span> Rank,</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;DF&quot;</span> <span class="ot">=</span> <span class="st">&quot;Df.res&quot;</span>,</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;R sq.&quot;</span> <span class="ot">=</span> <span class="st">&quot;R.squared&quot;</span>,</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;Adj. R sq.&quot;</span> <span class="ot">=</span> <span class="st">&quot;Adj.R.sq&quot;</span>,</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;F&quot;</span> <span class="ot">=</span> <span class="st">&quot;F_statistic&quot;</span>,</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;p&quot;</span> <span class="ot">=</span> <span class="st">&quot;p.value&quot;</span>,</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;Shapiro-Wilk&quot;</span> <span class="ot">=</span> <span class="st">&quot;Shapiro.W&quot;</span>,</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;Shapiro-Wilk p&quot;</span> <span class="ot">=</span> <span class="st">&quot;Shapiro.p&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>( <span class="st">&quot;AICc&quot;</span>, <span class="st">&quot;BIC&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">format =</span> <span class="st">&quot;html&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>( <span class="at">latex_options =</span> <span class="st">&quot;striped&quot;</span>,<span class="at">full_width =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>f_stat <span class="ot">&lt;-</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(models, <span class="cf">function</span>(x) <span class="fu">summary</span>(x)<span class="sc">$</span>fstatistic[<span class="dv">1</span>] <span class="sc">%&gt;%</span> as.numeric <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>rcompanion<span class="sc">::</span><span class="fu">compareLM</span>(mon_mod, exp_mod,log_mod, gom_mod)[[<span class="dv">2</span>]] <span class="sc">%&gt;%</span> </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>( <span class="at">Model =</span><span class="fu">names</span>(models),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_column</span>(., <span class="at">F_statistic =</span> f_stat, <span class="at">.before =</span> <span class="st">&quot;p.value&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;No. of Parameters&quot;</span> <span class="ot">=</span> Rank,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;DF&quot;</span> <span class="ot">=</span> <span class="st">&quot;Df.res&quot;</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;R sq.&quot;</span> <span class="ot">=</span> <span class="st">&quot;R.squared&quot;</span>,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;Adj. R sq.&quot;</span> <span class="ot">=</span> <span class="st">&quot;Adj.R.sq&quot;</span>,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;F&quot;</span> <span class="ot">=</span> <span class="st">&quot;F_statistic&quot;</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;p&quot;</span> <span class="ot">=</span> <span class="st">&quot;p.value&quot;</span>,</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;Shapiro-Wilk&quot;</span> <span class="ot">=</span> <span class="st">&quot;Shapiro.W&quot;</span>,</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;Shapiro-Wilk p&quot;</span> <span class="ot">=</span> <span class="st">&quot;Shapiro.p&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>( <span class="st">&quot;AICc&quot;</span>, <span class="st">&quot;BIC&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">format =</span> <span class="st">&quot;html&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">kable_styling</span>( <span class="at">latex_options =</span> <span class="st">&quot;striped&quot;</span>,<span class="at">full_width =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1578,18 +1594,18 @@ Gompertz
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq</span>(models)){ <span class="co"># For each model in the list</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make a variable with the model name </span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  model_name <span class="ot">&lt;-</span> <span class="fu">names</span>(models[i]) </span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate predictions for that model and save them in a new column</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  dta[ , model_name] <span class="ot">&lt;-</span> </span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">object=</span> models[[i]], </span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata=</span>dta[ , <span class="st">&quot;dai&quot;</span>])</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>gt<span class="sc">::</span><span class="fu">gt</span>(<span class="fu">head</span>(dta, <span class="dv">5</span>)) <span class="co"># Show the first five rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq</span>(models)){ <span class="co"># For each model in the list</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make a variable with the model name </span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  model_name <span class="ot">&lt;-</span> <span class="fu">names</span>(models[i]) </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate predictions for that model and save them in a new column</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  dta[ , model_name] <span class="ot">&lt;-</span> </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">object=</span> models[[i]], </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata=</span>dta[ , <span class="st">&quot;dai&quot;</span>])</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>gt<span class="sc">::</span><span class="fu">gt</span>(<span class="fu">head</span>(dta, <span class="dv">5</span>)) <span class="co"># Show the first five rows</span></span></code></pre></div>
 <div id="xywysgnkyh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -2052,44 +2068,44 @@ Gompertz
 </div>
 <p>Fitted values need to be back-transformed because the dependent
 variable (disease proportion) was transformed.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dta<span class="sc">$</span>Exponential <span class="ot">&lt;-</span> <span class="fu">exp</span>(dta<span class="sc">$</span>Exponential)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dta<span class="sc">$</span>Monomolecular <span class="ot">&lt;-</span>  <span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>dta<span class="sc">$</span>Monomolecular)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>dta<span class="sc">$</span>Logistic <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>dta<span class="sc">$</span>Logistic))</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>dta<span class="sc">$</span>Gompertz <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>dta<span class="sc">$</span>Gompertz))</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dta<span class="sc">$</span>Exponential <span class="ot">&lt;-</span> <span class="fu">exp</span>(dta<span class="sc">$</span>Exponential)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>dta<span class="sc">$</span>Monomolecular <span class="ot">&lt;-</span>  <span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>dta<span class="sc">$</span>Monomolecular)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>dta<span class="sc">$</span>Logistic <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>dta<span class="sc">$</span>Logistic))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>dta<span class="sc">$</span>Gompertz <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>dta<span class="sc">$</span>Gompertz))</span></code></pre></div>
 </div>
 <div id="visualize-fits" class="section level3">
 <h3>Visualize fits</h3>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>vars_to_long <span class="ot">&lt;-</span> <span class="fu">colnames</span>(dta)[<span class="sc">!</span><span class="fu">colnames</span>(dta) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;dai&quot;</span>, <span class="st">&quot;prop&quot;</span>)]</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>dta_long <span class="ot">&lt;-</span> </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">%&gt;%</span> </span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> vars_to_long,</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">&quot;origin&quot;</span>,</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">&quot;fits&quot;</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>vars_to_long <span class="ot">&lt;-</span> <span class="fu">colnames</span>(dta)[<span class="sc">!</span><span class="fu">colnames</span>(dta) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;dai&quot;</span>, <span class="st">&quot;prop&quot;</span>)]</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>dta_long <span class="ot">&lt;-</span> </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">%&gt;%</span> </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> vars_to_long,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">&quot;origin&quot;</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">&quot;fits&quot;</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## Note: Using an external vector in selections is ambiguous.
 ## ℹ Use `all_of(vars_to_long)` instead of `vars_to_long` to silence this message.
 ## ℹ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.
 ## This message is displayed once per session.</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dta_long <span class="sc">%&gt;%</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(dai, prop),<span class="at">size =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(dai, prop),<span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>)<span class="sc">+</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(dai, fits),<span class="at">size =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(dai, fits, <span class="at">color =</span> origin),<span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">05</span>, <span class="fl">1.05</span>)),</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>),</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Disease&quot;</span>) <span class="sc">+</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">20</span>),</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Time&quot;</span>)<span class="sc">+</span></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>origin, <span class="at">ncol =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.2</span>,<span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dta_long <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(dai, prop),<span class="at">size =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(dai, prop),<span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>)<span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(dai, fits),<span class="at">size =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(dai, fits, <span class="at">color =</span> origin),<span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">05</span>, <span class="fl">1.05</span>)),</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>),</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Disease&quot;</span>) <span class="sc">+</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">20</span>),</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Time&quot;</span>)<span class="sc">+</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>origin, <span class="at">ncol =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.2</span>,<span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) </span></code></pre></div>
 <pre><code>## Scale for &#39;y&#39; is already present. Adding another scale for &#39;y&#39;, which will
 ## replace the existing scale.</code></pre>
 <pre><code>## Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
@@ -2121,31 +2137,31 @@ href="http://www.apsnet.org/edcenter/advanced/topics/EcologyAndEpidemiologyInR/D
 on APS page</a>)</p>
 <div id="fit-models" class="section level3">
 <h3>Fit models</h3>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>FitMod <span class="ot">&lt;-</span><span class="cf">function</span>(mod, data){</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nls</span>(mod,</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">start =</span> <span class="fu">list</span>(<span class="at">y0 =</span> <span class="fl">0.001</span>, <span class="at">rate =</span> <span class="fl">0.05</span>),</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">trace =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> dta)</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>FitMod <span class="ot">&lt;-</span><span class="cf">function</span>(mod, data){</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nls</span>(mod,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">start =</span> <span class="fu">list</span>(<span class="at">y0 =</span> <span class="fl">0.001</span>, <span class="at">rate =</span> <span class="fl">0.05</span>),</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">trace =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> dta)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Define formula for model.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Monomolecular Model: y=1-((1-y0)*exp(-rate*dai))</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>mon_formula <span class="ot">&lt;-</span>  <span class="fu">formula</span>(prop <span class="sc">~</span> <span class="dv">1</span><span class="sc">-</span>((<span class="dv">1</span><span class="sc">-</span>y0)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>rate<span class="sc">*</span>dai)))</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="do">### Exponential Model: y=y0*exp(rate*dai)</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>exp_formula <span class="ot">&lt;-</span>  <span class="fu">formula</span>(prop <span class="sc">~</span> y0 <span class="sc">*</span> <span class="fu">exp</span>(rate<span class="sc">*</span>dai))</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="do">### Logistic Model: y=1/(1+exp(-(log(y0/(1-y0))+rate*dai)))</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>log_formula <span class="ot">&lt;-</span>  <span class="fu">formula</span>(prop <span class="sc">~</span> <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>(<span class="fu">log</span>(y0<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>y0))<span class="sc">+</span>rate<span class="sc">*</span>dai))))</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="do">### Gompertz Model: y=exp(log(y0)*exp(-rate*dai))</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>gom_formula <span class="ot">&lt;-</span>  <span class="fu">formula</span>(prop <span class="sc">~</span> <span class="fu">exp</span>(<span class="fu">log</span>(y0)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>rate<span class="sc">*</span>dai)))</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Monomolecular Model: y=1-((1-y0)*exp(-rate*dai))</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>mon_formula <span class="ot">&lt;-</span>  <span class="fu">formula</span>(prop <span class="sc">~</span> <span class="dv">1</span><span class="sc">-</span>((<span class="dv">1</span><span class="sc">-</span>y0)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>rate<span class="sc">*</span>dai)))</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="do">### Exponential Model: y=y0*exp(rate*dai)</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>exp_formula <span class="ot">&lt;-</span>  <span class="fu">formula</span>(prop <span class="sc">~</span> y0 <span class="sc">*</span> <span class="fu">exp</span>(rate<span class="sc">*</span>dai))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="do">### Logistic Model: y=1/(1+exp(-(log(y0/(1-y0))+rate*dai)))</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>log_formula <span class="ot">&lt;-</span>  <span class="fu">formula</span>(prop <span class="sc">~</span> <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>(<span class="fu">log</span>(y0<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>y0))<span class="sc">+</span>rate<span class="sc">*</span>dai))))</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="do">### Gompertz Model: y=exp(log(y0)*exp(-rate*dai))</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>gom_formula <span class="ot">&lt;-</span>  <span class="fu">formula</span>(prop <span class="sc">~</span> <span class="fu">exp</span>(<span class="fu">log</span>(y0)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>rate<span class="sc">*</span>dai)))</span></code></pre></div>
 <p>Fit models.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>mon_mod <span class="ot">&lt;-</span>  <span class="fu">FitMod</span>(mon_formula, dta)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>exp_mod <span class="ot">&lt;-</span>  <span class="fu">FitMod</span>(exp_formula, dta)</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>log_mod <span class="ot">&lt;-</span>  <span class="fu">FitMod</span>(log_formula, dta)</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>gom_mod <span class="ot">&lt;-</span>  <span class="fu">FitMod</span>(gom_formula, dta)</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.1677929 :  0.001 0.050</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Error in numericDeriv(form[[3L]], names(ind), env) : </span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   Missing value or an infinity produced when evaluating the model</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co"># In addition: Warning message:</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co"># In log(y0) :</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>mon_mod <span class="ot">&lt;-</span>  <span class="fu">FitMod</span>(mon_formula, dta)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>exp_mod <span class="ot">&lt;-</span>  <span class="fu">FitMod</span>(exp_formula, dta)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>log_mod <span class="ot">&lt;-</span>  <span class="fu">FitMod</span>(log_formula, dta)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>gom_mod <span class="ot">&lt;-</span>  <span class="fu">FitMod</span>(gom_formula, dta)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.1677929 :  0.001 0.050</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Error in numericDeriv(form[[3L]], names(ind), env) : </span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co"># In addition: Warning message:</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co"># In log(y0) :</span></span></code></pre></div>
 <p>Models sometimes fail to converge and we need to provide more
 guidance to the algorithm to optimize those parameters, or we need to
 consider using a different algorithm.</p>
@@ -2155,46 +2171,46 @@ the Levenberg-Marquardt algorithm is available through
 so there is no need for many changes. Note that it is possible to define
 upper and lower boundaries for parameters. This helps narrowing down the
 parameter search and convergence.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>gom_mod <span class="ot">&lt;-</span> </span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>minpack.lm<span class="sc">::</span><span class="fu">nlsLM</span>(prop <span class="sc">~</span> <span class="fu">exp</span>(<span class="fu">log</span>(y0)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>rate<span class="sc">*</span>dai)),</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">start=</span><span class="fu">list</span>(<span class="at">y0=</span><span class="fl">0.001</span>, <span class="at">rate=</span><span class="fl">0.075</span>),</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxiter =</span> <span class="dv">2000</span>, <span class="at">maxfev =</span> <span class="dv">5000</span>),</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">upper =</span> <span class="fu">c</span>(.<span class="dv">2</span>, .<span class="dv">2</span>),</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">lower =</span> <span class="fu">c</span>(<span class="fl">1e-8</span>, .<span class="dv">0001</span>),</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> dta)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>gom_mod <span class="ot">&lt;-</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>minpack.lm<span class="sc">::</span><span class="fu">nlsLM</span>(prop <span class="sc">~</span> <span class="fu">exp</span>(<span class="fu">log</span>(y0)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>rate<span class="sc">*</span>dai)),</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">start=</span><span class="fu">list</span>(<span class="at">y0=</span><span class="fl">0.001</span>, <span class="at">rate=</span><span class="fl">0.075</span>),</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxiter =</span> <span class="dv">2000</span>, <span class="at">maxfev =</span> <span class="dv">5000</span>),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">upper =</span> <span class="fu">c</span>(.<span class="dv">2</span>, .<span class="dv">2</span>),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">lower =</span> <span class="fu">c</span>(<span class="fl">1e-8</span>, .<span class="dv">0001</span>),</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> dta)</span></code></pre></div>
 <pre><code>## Warning in nls.lm(par = start, fn = FCT, jac = jac, control = control, lower =
 ## lower, : resetting `maxiter&#39; to 1024!</code></pre>
 <p>Similar to the linear modeling exercise, model fits can be saved into
 a list and each element of the list is named according to the population
 growth model used.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>(mon_mod, exp_mod, log_mod, gom_mod)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(models) <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">&quot;Monomolecular&quot;</span>, <span class="st">&quot;Exponential&quot;</span>, <span class="st">&quot;Logistic&quot;</span>, <span class="st">&quot;Gompertz&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>(mon_mod, exp_mod, log_mod, gom_mod)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(models) <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">&quot;Monomolecular&quot;</span>, <span class="st">&quot;Exponential&quot;</span>, <span class="st">&quot;Logistic&quot;</span>, <span class="st">&quot;Gompertz&quot;</span>)</span></code></pre></div>
 <p>A way to estimate the quality of of the fits is to calculate pseudo
 <span class="math inline">\(R^2\)</span> value.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>PseudoRsq <span class="ot">&lt;-</span> <span class="cf">function</span>(model, disaese) {</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  RSS<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">residuals</span>(model) <span class="sc">^</span> <span class="dv">2</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  TSS<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">sum</span>((disaese <span class="sc">-</span> <span class="fu">mean</span>(disaese)) <span class="sc">^</span> <span class="dv">2</span>)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">-</span> (RSS<span class="fl">.1</span> <span class="sc">/</span> TSS<span class="fl">.1</span>))</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>PseudoRsq <span class="ot">&lt;-</span> <span class="cf">function</span>(model, disaese) {</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  RSS<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">residuals</span>(model) <span class="sc">^</span> <span class="dv">2</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  TSS<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">sum</span>((disaese <span class="sc">-</span> <span class="fu">mean</span>(disaese)) <span class="sc">^</span> <span class="dv">2</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">-</span> (RSS<span class="fl">.1</span> <span class="sc">/</span> TSS<span class="fl">.1</span>))</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Calculate values and pseudo <span class="math inline">\(R^2\)</span>
 for fitted models.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>fit_diag <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">models =</span> <span class="fu">names</span>(models), <span class="at">r_sq =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(models)))</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq</span>(models)){ <span class="co"># For each model in the list</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make a variable with the model name </span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  model_name <span class="ot">&lt;-</span> <span class="fu">names</span>(models[i]) </span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate predictions for that model and save them in a new column</span></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  dta[ , model_name] <span class="ot">&lt;-</span> </span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">object=</span> models[[i]], </span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata=</span>dta[ , <span class="st">&quot;dai&quot;</span>])</span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  fit_diag[ fit_diag<span class="sc">$</span>models <span class="sc">==</span> model_name, <span class="st">&quot;r_sq&quot;</span>] <span class="ot">&lt;-</span> </span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">PseudoRsq</span>(models[[i]], dta<span class="sc">$</span>prop)</span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>gt<span class="sc">::</span><span class="fu">gt</span>(<span class="fu">head</span>(dta, <span class="dv">5</span>)) <span class="co"># Show the first five rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>fit_diag <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">models =</span> <span class="fu">names</span>(models), <span class="at">r_sq =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(models)))</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq</span>(models)){ <span class="co"># For each model in the list</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make a variable with the model name </span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  model_name <span class="ot">&lt;-</span> <span class="fu">names</span>(models[i]) </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate predictions for that model and save them in a new column</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  dta[ , model_name] <span class="ot">&lt;-</span> </span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(<span class="at">object=</span> models[[i]], </span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">newdata=</span>dta[ , <span class="st">&quot;dai&quot;</span>])</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  fit_diag[ fit_diag<span class="sc">$</span>models <span class="sc">==</span> model_name, <span class="st">&quot;r_sq&quot;</span>] <span class="ot">&lt;-</span> </span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">PseudoRsq</span>(models[[i]], dta<span class="sc">$</span>prop)</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>gt<span class="sc">::</span><span class="fu">gt</span>(<span class="fu">head</span>(dta, <span class="dv">5</span>)) <span class="co"># Show the first five rows</span></span></code></pre></div>
 <div id="emoiqidrev" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -2655,7 +2671,7 @@ for fitted models.</p>
   
 </table>
 </div>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>gt<span class="sc">::</span><span class="fu">gt</span>(fit_diag) </span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>gt<span class="sc">::</span><span class="fu">gt</span>(fit_diag) </span></code></pre></div>
 <div id="gklwvartut" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
@@ -3096,34 +3112,34 @@ for fitted models.</p>
 <p>This code is very similar to the previous one presented earlier. The
 only major difference is that the model fit diagnostics are joined to
 the data and plotted as a text label.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>vars_to_long <span class="ot">&lt;-</span> <span class="fu">colnames</span>(dta)[<span class="sc">!</span><span class="fu">colnames</span>(dta) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;dai&quot;</span>, <span class="st">&quot;prop&quot;</span>)]</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>dta_long <span class="ot">&lt;-</span> </span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">%&gt;%</span> </span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> vars_to_long,</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">&quot;models&quot;</span>,</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">&quot;fits&quot;</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(., fit_diag, <span class="at">by =</span> <span class="st">&quot;models&quot;</span>) <span class="co">#join model diag. by model</span></span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a> dta_long <span class="sc">%&gt;%</span> </span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(dai, prop),<span class="at">size =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(dai, prop),<span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>)<span class="sc">+</span></span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(dai, fits),<span class="at">size =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(dai, fits, <span class="at">color =</span> models),<span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add labels for model fit diag.</span></span>
-<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>( <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">&quot;R^2: &quot;</span>, <span class="fu">round</span>(r_sq,<span class="dv">2</span>),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)),<span class="at">parse=</span>T,<span class="at">x=</span><span class="dv">20</span>,<span class="at">y=</span>.<span class="dv">8</span>)<span class="sc">+</span></span>
-<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>models, <span class="at">ncol =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>),</span>
-<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Disease&quot;</span>) <span class="sc">+</span></span>
-<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">20</span>),</span>
-<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Time&quot;</span>)<span class="sc">+</span></span>
-<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>vars_to_long <span class="ot">&lt;-</span> <span class="fu">colnames</span>(dta)[<span class="sc">!</span><span class="fu">colnames</span>(dta) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;dai&quot;</span>, <span class="st">&quot;prop&quot;</span>)]</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>dta_long <span class="ot">&lt;-</span> </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">%&gt;%</span> </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> vars_to_long,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">&quot;models&quot;</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">&quot;fits&quot;</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(., fit_diag, <span class="at">by =</span> <span class="st">&quot;models&quot;</span>) <span class="co">#join model diag. by model</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a> dta_long <span class="sc">%&gt;%</span> </span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(dai, prop),<span class="at">size =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(dai, prop),<span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>)<span class="sc">+</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(dai, fits),<span class="at">size =</span> <span class="dv">1</span>, <span class="at">shape =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(dai, fits, <span class="at">color =</span> models),<span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add labels for model fit diag.</span></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>( <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">&quot;R^2: &quot;</span>, <span class="fu">round</span>(r_sq,<span class="dv">2</span>),<span class="at">sep=</span><span class="st">&quot;&quot;</span>)),<span class="at">parse=</span>T,<span class="at">x=</span><span class="dv">20</span>,<span class="at">y=</span>.<span class="dv">8</span>)<span class="sc">+</span></span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>models, <span class="at">ncol =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.2</span>),</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Disease&quot;</span>) <span class="sc">+</span></span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">20</span>),</span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Time&quot;</span>)<span class="sc">+</span></span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) </span></code></pre></div>
 <p><img src="temp_prog_2_files/figure-html/nlm_fits_plot-1.png" width="100%" height="550" /></p>
 </div>
 </div>

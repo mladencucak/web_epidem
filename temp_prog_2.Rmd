@@ -260,6 +260,26 @@ They are plotted all together to explore their main characteristics and differen
 # )
 # 
 # ```
+1
+```{=html}
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://mladen-cucak.shinyapps.io/temp_prog/" id="kbUg_0~mFnz0"></iframe></div>
+```
+2
+```{=html}
+<p>Any <strong>raw</strong> HTML content works here.
+For example, here is a Youtube video:</p>
+
+<iframe width="100%" height="400"
+  src="https://mladen-cucak.shinyapps.io/temp_prog/"
+  frameborder="0" </iframe>
+  
+  
+``` 
+3
+```{r}
+knitr::include_app("https://mladen-cucak.shinyapps.io/temp_prog/",
+  height = "600px")
+```
 
 ### Fitting linearized models
 
