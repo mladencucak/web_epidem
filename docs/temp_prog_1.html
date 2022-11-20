@@ -475,7 +475,7 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Part 2
+    PDE
      
     <span class="caret"></span>
   </a>
@@ -645,7 +645,7 @@ loaded. It is also useful to clean up and shorten variable names using
 basic <em>string</em> manipulation.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/sample_data.xlsx&quot;</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/temp_prog/sample_data.xlsx&quot;</span>),</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">&quot;1&quot;</span>,</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">rep</span>(<span class="st">&quot;numeric&quot;</span>,<span class="dv">5</span>) <span class="co"># define all columns are numeric</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
@@ -680,12 +680,12 @@ functionality should be used carefully as this can be “dangerous”!</p>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>inf <span class="co"># callout variables within dataframe without defining the parent object</span></span></code></pre></div>
 <pre><code>##  [1]   4  16  36  64 101 151 218 300 386 472 549 614 623</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gt<span class="sc">::</span><span class="fu">gt</span>(dta) </span></code></pre></div>
-<div id="rcibctjgxs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="psheulkcst" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rcibctjgxs .gt_table {
+#psheulkcst .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -710,7 +710,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-left-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_heading {
+#psheulkcst .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -722,7 +722,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-right-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_title {
+#psheulkcst .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -734,7 +734,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-bottom-width: 0;
 }
 
-#rcibctjgxs .gt_subtitle {
+#psheulkcst .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -746,13 +746,13 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-top-width: 0;
 }
 
-#rcibctjgxs .gt_bottom_border {
+#psheulkcst .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_col_headings {
+#psheulkcst .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -767,7 +767,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-right-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_col_heading {
+#psheulkcst .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -787,7 +787,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   overflow-x: hidden;
 }
 
-#rcibctjgxs .gt_column_spanner_outer {
+#psheulkcst .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -799,15 +799,15 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 4px;
 }
 
-#rcibctjgxs .gt_column_spanner_outer:first-child {
+#psheulkcst .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rcibctjgxs .gt_column_spanner_outer:last-child {
+#psheulkcst .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rcibctjgxs .gt_column_spanner {
+#psheulkcst .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -819,7 +819,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   width: 100%;
 }
 
-#rcibctjgxs .gt_group_heading {
+#psheulkcst .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -844,7 +844,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   vertical-align: middle;
 }
 
-#rcibctjgxs .gt_empty_group_heading {
+#psheulkcst .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -859,15 +859,15 @@ functionality should be used carefully as this can be “dangerous”!</p>
   vertical-align: middle;
 }
 
-#rcibctjgxs .gt_from_md > :first-child {
+#psheulkcst .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rcibctjgxs .gt_from_md > :last-child {
+#psheulkcst .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rcibctjgxs .gt_row {
+#psheulkcst .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -886,7 +886,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   overflow-x: hidden;
 }
 
-#rcibctjgxs .gt_stub {
+#psheulkcst .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -899,7 +899,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#rcibctjgxs .gt_stub_row_group {
+#psheulkcst .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -913,11 +913,11 @@ functionality should be used carefully as this can be “dangerous”!</p>
   vertical-align: top;
 }
 
-#rcibctjgxs .gt_row_group_first td {
+#psheulkcst .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rcibctjgxs .gt_summary_row {
+#psheulkcst .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -927,16 +927,16 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#rcibctjgxs .gt_first_summary_row {
+#psheulkcst .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_first_summary_row.thick {
+#psheulkcst .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rcibctjgxs .gt_last_summary_row {
+#psheulkcst .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -946,7 +946,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_grand_summary_row {
+#psheulkcst .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -956,7 +956,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#rcibctjgxs .gt_first_grand_summary_row {
+#psheulkcst .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -966,11 +966,11 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-top-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_striped {
+#psheulkcst .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rcibctjgxs .gt_table_body {
+#psheulkcst .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -979,7 +979,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-bottom-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_footnotes {
+#psheulkcst .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -993,7 +993,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-right-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_footnote {
+#psheulkcst .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1002,7 +1002,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#rcibctjgxs .gt_sourcenotes {
+#psheulkcst .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1016,7 +1016,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-right-color: #D3D3D3;
 }
 
-#rcibctjgxs .gt_sourcenote {
+#psheulkcst .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1024,36 +1024,36 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#rcibctjgxs .gt_left {
+#psheulkcst .gt_left {
   text-align: left;
 }
 
-#rcibctjgxs .gt_center {
+#psheulkcst .gt_center {
   text-align: center;
 }
 
-#rcibctjgxs .gt_right {
+#psheulkcst .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rcibctjgxs .gt_font_normal {
+#psheulkcst .gt_font_normal {
   font-weight: normal;
 }
 
-#rcibctjgxs .gt_font_bold {
+#psheulkcst .gt_font_bold {
   font-weight: bold;
 }
 
-#rcibctjgxs .gt_font_italic {
+#psheulkcst .gt_font_italic {
   font-style: italic;
 }
 
-#rcibctjgxs .gt_super {
+#psheulkcst .gt_super {
   font-size: 65%;
 }
 
-#rcibctjgxs .gt_two_val_uncert {
+#psheulkcst .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -1062,31 +1062,31 @@ functionality should be used carefully as this can be “dangerous”!</p>
   margin-left: 0.1em;
 }
 
-#rcibctjgxs .gt_footnote_marks {
+#psheulkcst .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#rcibctjgxs .gt_asterisk {
+#psheulkcst .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rcibctjgxs .gt_slash_mark {
+#psheulkcst .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#rcibctjgxs .gt_fraction_numerator {
+#psheulkcst .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#rcibctjgxs .gt_fraction_denominator {
+#psheulkcst .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -1396,7 +1396,7 @@ example, the disease data for separate years is stored in such way. The
 function <code>excel_sheet</code> from <code>readxl</code> package can
 read names of those sheets.</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(years <span class="ot">&lt;-</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  readxl<span class="sc">::</span><span class="fu">excel_sheets</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/sample_data.xlsx&quot;</span>)))</span></code></pre></div>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  readxl<span class="sc">::</span><span class="fu">excel_sheets</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/temp_prog/sample_data.xlsx&quot;</span>)))</span></code></pre></div>
 <pre><code>## [1] &quot;1&quot; &quot;2&quot;</code></pre>
 <p>This output should look familiar.</p>
 <p>Now that the vector which contains the names of sheets in our excel
@@ -1408,7 +1408,7 @@ same format across years, there is a need to add a common identifier
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(years, <span class="cf">function</span>(i){</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    fun_dta <span class="ot">&lt;-</span> </span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>      here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/sample_data.xlsx&quot;</span>),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>      here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/temp_prog/sample_data.xlsx&quot;</span>),</span>
 <span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">sheet =</span> i</span>
 <span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create id variable  </span></span>
