@@ -251,20 +251,9 @@ The monomolecular model has been used to described several phenomena in chemistr
 
 They are plotted all together to explore their main characteristics and differences.
 
-# ```{r all, echo=FALSE}
-# shinyAppDir(
-#   here::here("apps","combined"),
-#   options = list(
-#     width = "100%", height = 400
-#   )
-# )
-# 
-# ```
-
 <!-- ```{=html} -->
 <!-- <div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://mladen-cucak.shinyapps.io/temp_prog/" id="kbUg_0~mFnz0"></iframe></div> -->
 <!-- ``` -->
-2ff
 ```{=html}
 <p>Any <strong>raw</strong> HTML content works here.
 For example, here is a Youtube video:</p>
