@@ -24,14 +24,14 @@ navbar:
     - text: Temporal progress (part 2) 
       href: temp_prog_2.html 
   
-  - text: Part 3
-    menu:
-    - text: Extra 1 
-      href: extra1.html
-    - text: Extra 2 
-      href: extra2.html 
-    - text: Extra 3 
-      href: extra3.html 
+  # - text: Part 3
+  #   menu:
+  #   - text: Extra 1 
+  #     href: extra1.html
+  #   - text: Extra 2 
+  #     href: extra2.html 
+  #   - text: Extra 3 
+  #     href: extra3.html 
       
   - text: "About"
     menu:

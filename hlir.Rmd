@@ -1,0 +1,56 @@
+---
+title: "HLIR"
+author: "Felipe"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_float:
+      toc_depth: 3
+      collapsed: false
+      smooth_scroll: false
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Libraries
+
+```{r libs, message=FALSE, warning=FALSE}
+# R convenience packages
+library("conflicted")
+library("here") #helps with the reproducibility across operating systems
+
+# Data mundging 
+library("dplyr")
+
+# App building pckages
+library("shiny")
+library("shinythemes")
+library("DT")
+library("shinydashboard")
+
+# Computation
+library("deSolve")  # Solvers for Initial Value Problems of Differential Equations
+
+# Plotting 
+library("ggplot2")
+
+# Packages with same functions can cause problems 
+ conflict_prefer("filter", "dplyr")
+```
+
+# App
+
+```{r hlir_app, echo=FALSE}
+shiny::shinyAppDir(
+  here::here( "5_HLIR/apps"),
+  options = list(
+    width = "130%", height = 900
+  )
+)
+
+```
+
