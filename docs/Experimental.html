@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Felipe Dalla Lana; Mladen Cucak; Mauricio Serrano; Paul Esker" />
+
+
+<title>Introduction to Experimental Design</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Plant Disease Epidemiology</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-leaf"></span>
+     
+    Welcome
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="install.html">Before starting</a>
+    </li>
+    <li>
+      <a href="intro_r.html">Intro to R</a>
+    </li>
+    <li>
+      <a href="intro_ggplot.html">Intro to ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    PDE
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="disease_assessment.html">Disease Assessment</a>
+    </li>
+    <li>
+      <a href="temp_prog_1.html">Temporal progress (part 1)</a>
+    </li>
+    <li>
+      <a href="temp_prog_2.html">Temporal progress (part 2)</a>
+    </li>
+    <li>
+      <a href="forecasting.html">Forecasting</a>
+    </li>
+    <li>
+      <a href="Sampling.html">Sampling</a>
+    </li>
+    <li>
+      <a href="Experimental.html">Experimental design</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    About
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Authors.html">Authors</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Appendices
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro_to_R.html">Introduction to R</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><strong>Introduction to Experimental
+Design</strong></h1>
+<h4 class="author">Felipe Dalla Lana; Mladen Cucak; Mauricio Serrano;
+Paul Esker</h4>
+<h4 class="date">6/18/2021</h4>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2><strong>Introduction</strong></h2>
+<p>In this class we will use the package <a
+href="%22https://rdrr.io/cran/agricolae/man/%22"><code>agricolae</code></a>
+for our experimental units randomization.</p>
+</div>
+<div id="experimental-designs-layouts" class="section level2">
+<h2><strong>Experimental Designs Layouts</strong></h2>
+<div id="completely-randomized-design" class="section level3">
+<h3><strong>Completely Randomized Design</strong></h3>
+<p>The simplest experimental design is the <strong>C</strong>ompletely
+<strong>R</strong>andomized <strong>D</strong>esign, or CRD for short.
+With this design, all conditions are assumed to be homogeneous. This
+means that the experimental units are randomly assign to an experimental
+unit with no constraints.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agricolae) <span class="co"># package that enables randomization for different experimental designs</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsci) <span class="co"># color palettes</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code></pre></div>
+<pre><code>## Warning: package &#39;psych&#39; was built under R version 4.2.2</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>trt<span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>] <span class="co"># Our example will have 6 treatment labels using the first 6 letters </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>CRD <span class="ot">&lt;-</span> <span class="fu">design.crd</span>(<span class="at">trt=</span>trt, <span class="at">r=</span><span class="dv">5</span>, <span class="at">serie=</span><span class="dv">0</span>, <span class="at">seed=</span><span class="dv">09041909</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>CRD</span></code></pre></div>
+<pre><code>## $parameters
+## $parameters$design
+## [1] &quot;crd&quot;
+## 
+## $parameters$trt
+## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot;
+## 
+## $parameters$r
+## [1] 5 5 5 5 5 5
+## 
+## $parameters$serie
+## [1] 0
+## 
+## $parameters$seed
+## [1] 9041909
+## 
+## $parameters$kinds
+## [1] &quot;Super-Duper&quot;
+## 
+## $parameters[[7]]
+## [1] TRUE
+## 
+## 
+## $book
+##    plots r trt
+## 1      1 1   A
+## 2      2 1   E
+## 3      3 1   D
+## 4      4 1   F
+## 5      5 1   C
+## 6      6 2   D
+## 7      7 2   A
+## 8      8 1   B
+## 9      9 2   F
+## 10    10 2   E
+## 11    11 3   A
+## 12    12 4   A
+## 13    13 2   B
+## 14    14 3   E
+## 15    15 5   A
+## 16    16 3   F
+## 17    17 4   F
+## 18    18 3   D
+## 19    19 4   E
+## 20    20 3   B
+## 21    21 4   B
+## 22    22 5   F
+## 23    23 2   C
+## 24    24 4   D
+## 25    25 5   E
+## 26    26 3   C
+## 27    27 5   B
+## 28    28 4   C
+## 29    29 5   C
+## 30    30 5   D</code></pre>
+<p>In the plot below we can see the layout of our CRD experiment. The
+fill colors represent the treatments and labels are only the plot
+ID.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Some adjustment from the agricolae output to display our experimental units in a plot</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>CRD_layout <span class="ot">&lt;-</span>  CRD<span class="sc">$</span>book <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate</span>(<span class="at">row =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">each=</span><span class="dv">6</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">colum =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">5</span>) )</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CRD_layout)</span></code></pre></div>
+<pre><code>##   plots r trt row colum
+## 1     1 1   A   1     1
+## 2     2 1   E   1     2
+## 3     3 1   D   1     3
+## 4     4 1   F   1     4
+## 5     5 1   C   1     5
+## 6     6 2   D   1     6</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(CRD_layout, <span class="fu">aes</span>(<span class="at">y=</span>row, <span class="at">x =</span> colum)) <span class="sc">+</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>trt), <span class="at">width=</span>.<span class="dv">95</span>, <span class="at">height=</span><span class="fl">0.95</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span>plots), <span class="at">size =</span> <span class="dv">9</span>)<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_reverse</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,.<span class="dv">01</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_fill_npg</span>()<span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>, </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">&quot;Experimental layout for CRD&quot;</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">&quot;CRD with six treatments and five replication&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.5</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="dv">2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.3</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>)),</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.justification =</span> <span class="st">&quot;top&quot;</span> )</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-2-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><br></p>
+</div>
+<div id="randomized-complete-block-design" class="section level3">
+<h3><strong>Randomized Complete Block Design</strong></h3>
+<p>In the <strong>R</strong>andomized <strong>C</strong>omplete
+<strong>B</strong>lock <strong>D</strong>esign, we constrain the
+randomization into blocks. The assumption is that the blocks are
+homogeneous but that there may be differences across blocks. As such,
+each treatment factor is assigned to a different position within each
+block. This is the most basic of the constrained designs from which more
+complicated designs are developed.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>trt <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>RCBD <span class="ot">&lt;-</span> <span class="fu">design.rcbd</span>(trt, <span class="at">r=</span><span class="dv">4</span>, <span class="at">serie=</span><span class="dv">2</span>, <span class="at">seed=</span><span class="dv">09041909</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>RCBD</span></code></pre></div>
+<pre><code>## $parameters
+## $parameters$design
+## [1] &quot;rcbd&quot;
+## 
+## $parameters$trt
+## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot;
+## 
+## $parameters$r
+## [1] 4
+## 
+## $parameters$serie
+## [1] 2
+## 
+## $parameters$seed
+## [1] 9041909
+## 
+## $parameters$kinds
+## [1] &quot;Super-Duper&quot;
+## 
+## $parameters[[7]]
+## [1] TRUE
+## 
+## 
+## $sketch
+##      [,1] [,2] [,3] [,4] [,5] [,6]
+## [1,] &quot;E&quot;  &quot;F&quot;  &quot;D&quot;  &quot;A&quot;  &quot;C&quot;  &quot;B&quot; 
+## [2,] &quot;B&quot;  &quot;D&quot;  &quot;C&quot;  &quot;F&quot;  &quot;A&quot;  &quot;E&quot; 
+## [3,] &quot;F&quot;  &quot;C&quot;  &quot;B&quot;  &quot;D&quot;  &quot;E&quot;  &quot;A&quot; 
+## [4,] &quot;B&quot;  &quot;E&quot;  &quot;D&quot;  &quot;A&quot;  &quot;C&quot;  &quot;F&quot; 
+## 
+## $book
+##    plots block trt
+## 1    101     1   E
+## 2    102     1   F
+## 3    103     1   D
+## 4    104     1   A
+## 5    105     1   C
+## 6    106     1   B
+## 7    201     2   B
+## 8    202     2   D
+## 9    203     2   C
+## 10   204     2   F
+## 11   205     2   A
+## 12   206     2   E
+## 13   301     3   F
+## 14   302     3   C
+## 15   303     3   B
+## 16   304     3   D
+## 17   305     3   E
+## 18   306     3   A
+## 19   401     4   B
+## 20   402     4   E
+## 21   403     4   D
+## 22   404     4   A
+## 23   405     4   C
+## 24   406     4   F</code></pre>
+<p><br></p>
+<p>In the plot below, we have an example of a RCBD with six treatment
+and four replications. Each block is represented with a different
+background color and the first digit of the experimental ID number.
+These values are obtained from the option <code>series = 2</code>
+argument with the function <code>design.rbcd</code>, in the
+<code>agricolae</code> package.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a> RCBD_layout <span class="ot">&lt;-</span>  RCBD<span class="sc">$</span>book <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate</span>(<span class="at">row =</span> block, <span class="at">colum =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">4</span>) )</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(RCBD_layout, <span class="fu">aes</span>(<span class="at">y=</span>row, <span class="at">x =</span> colum)) <span class="sc">+</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_blank</span>()<span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>.<span class="dv">4</span>,<span class="at">xmax=</span><span class="fl">6.6</span>,<span class="at">ymin=</span><span class="fl">3.5</span>,<span class="at">ymax=</span><span class="fl">4.5</span>),<span class="at">fill=</span><span class="st">&quot;#bfd3e6&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 1</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>.<span class="dv">4</span>,<span class="at">xmax=</span><span class="fl">6.6</span>,<span class="at">ymin=</span><span class="fl">2.5</span>,<span class="at">ymax=</span><span class="fl">3.5</span>),<span class="at">fill=</span><span class="st">&quot;#fdae61&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 2</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>.<span class="dv">4</span>,<span class="at">xmax=</span><span class="fl">6.6</span>,<span class="at">ymin=</span><span class="fl">1.5</span>,<span class="at">ymax=</span><span class="fl">2.5</span>),<span class="at">fill=</span><span class="st">&quot;#abdda4&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 3</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span>.<span class="dv">4</span>,<span class="at">xmax=</span><span class="fl">6.6</span>,<span class="at">ymin=</span><span class="fl">0.5</span>,<span class="at">ymax=</span><span class="fl">1.5</span>),<span class="at">fill=</span><span class="st">&quot;#cccccc&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 4</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>trt), <span class="at">width=</span>.<span class="dv">95</span>, <span class="at">height=</span><span class="fl">0.80</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span>plots), <span class="at">size =</span> <span class="dv">9</span>)<span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,.<span class="dv">01</span>), <span class="at">limits =</span> rev)<span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_fill_npg</span>()<span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>, </span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">&quot;Experimental layout for RCBD&quot;</span>, </span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">&quot;Blocks are represented by the row and using different background colors.</span><span class="sc">\n</span><span class="st">Each block (i.e., row) contains one replication of each treatment&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.5</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="dv">2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.3</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>)),</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.justification =</span> <span class="st">&quot;top&quot;</span> )</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>Blocks do not necessarily need to be in the row. In fact, since our
+goal with blocking is to keep the experimental units as homogenous as
+possible, it may make more sense to have our blocks in a different
+layout than using traditional rows. For example, based on the figure
+above, it is possible that plots 101 and 201 have more in common than
+plots 101 and 106, even though the first two are in different blocks and
+the second are in the same. In the example below, we illustrate another
+way to design the experiment using a RCBD.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a> RCBD_layout2 <span class="ot">&lt;-</span>  RCBD<span class="sc">$</span>book <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate</span>(<span class="at">row   =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>)),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">colum =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(RCBD_layout2, <span class="fu">aes</span>(<span class="at">y=</span>row, <span class="at">x =</span> colum)) <span class="sc">+</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_blank</span>()<span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">2.5</span>,<span class="at">ymax=</span><span class="fl">4.5</span>), <span class="at">fill=</span><span class="st">&quot;#bfd3e6&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 1</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">3.5</span>,<span class="at">xmax=</span><span class="fl">6.5</span>,<span class="at">ymin=</span><span class="fl">2.5</span>,<span class="at">ymax=</span><span class="fl">4.5</span>), <span class="at">fill=</span><span class="st">&quot;#fdae61&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 2</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span> <span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">0.5</span>,<span class="at">ymax=</span><span class="fl">2.5</span>),<span class="at">fill=</span><span class="st">&quot;#abdda4&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 3</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">3.5</span>,<span class="at">xmax=</span><span class="fl">6.5</span>,<span class="at">ymin=</span><span class="fl">0.5</span>,<span class="at">ymax=</span><span class="fl">2.5</span>), <span class="at">fill=</span><span class="st">&quot;#cccccc&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 4</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>trt), <span class="at">width=</span>.<span class="dv">85</span>, <span class="at">height=</span><span class="fl">0.80</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span>plots), <span class="at">size =</span> <span class="dv">11</span>)<span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_discrete</span>(<span class="at">limits =</span> rev)<span class="sc">+</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>))<span class="sc">+</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_fill_npg</span>()<span class="sc">+</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Columns&quot;</span>, <span class="at">y=</span><span class="st">&quot;Blocks&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Treatments&quot;</span>, </span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">&quot;Experimental layout for RCBD&quot;</span>, </span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">&quot;Alternative blocking layout&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.5</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="dv">2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.3</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.3</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">hjust =</span> .<span class="dv">95</span>),</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.3</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">hjust =</span> .<span class="dv">1</span>),</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>)),</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.justification =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-5-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><br></p>
+</div>
+<div id="design-for-factorial-experiments" class="section level3">
+<h3><strong>Design for factorial experiments</strong></h3>
+<p>In this section, we will see some examples of factorial designs.
+Factorial designs are experiments that contains more than one factor,
+such as cultivar (Factor A) and fungicide (Factor B). This experimental
+design creates all factor combinations to construct the randomization.
+<br></p>
+<div id="factorial-experiments---crd" class="section level4">
+<h4><strong>Factorial experiments - CRD</strong></h4>
+<p>In the plot below, there is an experimental layout with two factors,
+each one with three levels. For this example, we will not use the plot
+ID number, we will use the experimental unit label to show factor B.
+However, you could easily develop this using the same scheme of plot
+identification as before. In this example, the factorial design is based
+on a CRD. What this means is that the combination of Factor A and Factor
+B are randomly assigned to the experimental unit.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two treatments combination, each with 3 levels</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>treat_level<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fact_CRD <span class="ot">&lt;-</span> <span class="fu">design.ab</span>(treat_level, <span class="at">r=</span><span class="dv">4</span>, <span class="at">serie=</span><span class="dv">0</span>, <span class="at">design=</span><span class="st">&quot;crd&quot;</span>, <span class="at">seed=</span><span class="dv">09041909</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>fact_CRD_layout <span class="ot">&lt;-</span> fact_CRD<span class="sc">$</span>book <span class="sc">%&gt;%</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">row =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">each=</span><span class="dv">6</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">colum =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">6</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">A =</span> <span class="fu">factor</span>(A, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)), </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">B =</span> <span class="fu">factor</span>(B, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Z&quot;</span>)))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fact_CRD_layout)</span></code></pre></div>
+<pre><code>##   plots r A B row colum
+## 1     1 1 B Z   1     1
+## 2     2 1 C X   1     2
+## 3     3 1 B Y   1     3
+## 4     4 1 C Y   1     4
+## 5     5 1 A Y   1     5
+## 6     6 2 B Z   1     6</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(fact_CRD_layout, <span class="fu">aes</span>(<span class="at">y=</span>row, <span class="at">x =</span> colum)) <span class="sc">+</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>A), <span class="at">width=</span>.<span class="dv">95</span>, <span class="at">height=</span><span class="fl">0.95</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span>B), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">9</span>, <span class="at">label.size =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_reverse</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,.<span class="dv">01</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#E64B35FF&quot;</span>, <span class="st">&quot;#4DBBD5FF&quot;</span>, <span class="st">&quot;#00A087FF&quot;</span>))<span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>, </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="st">&quot;Factor A&quot;</span>, </span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">&quot;Factorial layout using a CRD&quot;</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">&quot;Each factor has three levels and each combination 4 replications,</span><span class="sc">\n</span><span class="st"> having a random assignment across the experimental units&quot;</span>, </span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">&quot;Factor A is represented by the fill color of the experimental unit</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="st">Factor B is represented by the label of the experiment unit&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.5</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="dv">2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.3</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>)),</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.justification =</span> <span class="st">&quot;top&quot;</span> )</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><br></p>
+</div>
+<div id="factorial-experiments---rcbd" class="section level4">
+<h4><strong>Factorial experiments - RCBD</strong></h4>
+<p>We also can have a factorial layout with a RCBD. Similar to
+non-factorial RCBD experiments, each block will contain one level of the
+treatment. Here, this is the combination of Factor A and Factor B.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fact_RCBD <span class="ot">&lt;-</span> <span class="fu">design.ab</span>(treat_level, <span class="at">r=</span><span class="dv">4</span>, <span class="at">serie=</span><span class="dv">0</span>, <span class="at">design=</span><span class="st">&quot;rcbd&quot;</span>, <span class="at">seed=</span><span class="dv">09041909</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fact_RCBD</span></code></pre></div>
+<pre><code>## $parameters
+## $parameters$design
+## [1] &quot;factorial&quot;
+## 
+## $parameters$trt
+## [1] &quot;1 1&quot; &quot;1 2&quot; &quot;1 3&quot; &quot;2 1&quot; &quot;2 2&quot; &quot;2 3&quot; &quot;3 1&quot; &quot;3 2&quot; &quot;3 3&quot;
+## 
+## $parameters$r
+## [1] 4
+## 
+## $parameters$serie
+## [1] 0
+## 
+## $parameters$seed
+## [1] 9041909
+## 
+## $parameters$kinds
+## [1] &quot;Super-Duper&quot;
+## 
+## $parameters[[7]]
+## [1] TRUE
+## 
+## $parameters$applied
+## [1] &quot;rcbd&quot;
+## 
+## 
+## $book
+##    plots block A B
+## 1      1     1 2 2
+## 2      2     1 3 3
+## 3      3     1 3 2
+## 4      4     1 2 1
+## 5      5     1 1 2
+## 6      6     1 2 3
+## 7      7     1 1 3
+## 8      8     1 3 1
+## 9      9     1 1 1
+## 10    10     2 2 3
+## 11    11     2 3 3
+## 12    12     2 1 3
+## 13    13     2 1 2
+## 14    14     2 2 2
+## 15    15     2 2 1
+## 16    16     2 1 1
+## 17    17     2 3 1
+## 18    18     2 3 2
+## 19    19     3 2 2
+## 20    20     3 1 3
+## 21    21     3 2 1
+## 22    22     3 1 2
+## 23    23     3 3 1
+## 24    24     3 2 3
+## 25    25     3 1 1
+## 26    26     3 3 3
+## 27    27     3 3 2
+## 28    28     4 3 2
+## 29    29     4 1 2
+## 30    30     4 1 3
+## 31    31     4 2 2
+## 32    32     4 1 1
+## 33    33     4 3 1
+## 34    34     4 3 3
+## 35    35     4 2 1
+## 36    36     4 2 3</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a> fact_RCBD_layout <span class="ot">&lt;-</span>  </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>   fact_RCBD<span class="sc">$</span>book <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate</span>(<span class="at">row   =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>, <span class="co"># Block 1</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,   <span class="co"># Block 2</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,   <span class="co"># Block 3</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>)), <span class="co"># Block 4</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">colum =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,   <span class="co"># Block 1</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,   <span class="co"># Block 2</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,   <span class="co"># Block 3</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>))) <span class="sc">%&gt;%</span> <span class="co"># Block 4  </span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">A =</span> <span class="fu">factor</span>(A, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>)), </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">B =</span> <span class="fu">factor</span>(B, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Z&quot;</span>)))</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fact_RCBD_layout)</span></code></pre></div>
+<pre><code>##   plots block A B row colum
+## 1     1     1 B Y   1     1
+## 2     2     1 C Z   1     2
+## 3     3     1 C Y   1     3
+## 4     4     1 B X   2     1
+## 5     5     1 A Y   2     2
+## 6     6     1 B Z   2     3</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>(fact_RCBD_layout, <span class="fu">aes</span>(<span class="at">y=</span>row, <span class="at">x =</span> colum)) <span class="sc">+</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_blank</span>()<span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">3.5</span>,<span class="at">ymax=</span><span class="fl">6.5</span>), <span class="at">fill=</span><span class="st">&quot;#bfd3e6&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 1</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">3.5</span>,<span class="at">xmax=</span><span class="fl">6.5</span>,<span class="at">ymin=</span><span class="fl">3.5</span>,<span class="at">ymax=</span><span class="fl">6.5</span>), <span class="at">fill=</span><span class="st">&quot;#fdae61&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 2</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span> <span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">0.5</span>,<span class="at">ymax=</span><span class="fl">3.5</span>),<span class="at">fill=</span><span class="st">&quot;#abdda4&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 3</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">3.5</span>,<span class="at">xmax=</span><span class="fl">6.5</span>,<span class="at">ymin=</span><span class="fl">0.5</span>,<span class="at">ymax=</span><span class="fl">3.5</span>), <span class="at">fill=</span><span class="st">&quot;#cccccc&quot;</span>,<span class="at">color=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># Block 4</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>A), <span class="at">width=</span>.<span class="dv">8</span>, <span class="at">height=</span><span class="fl">0.8</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span>B), <span class="at">size =</span> <span class="dv">9</span>, <span class="at">label.size =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,.<span class="dv">01</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">limits =</span> rev)<span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#E64B35FF&quot;</span>, <span class="st">&quot;#4DBBD5FF&quot;</span>, <span class="st">&quot;#00A087FF&quot;</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>))<span class="sc">+</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#3B4992FF&quot;</span>, <span class="st">&quot;#EE0000FF&quot;</span>, <span class="st">&quot;#008B45FF&quot;</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;X&quot;</span>,<span class="st">&quot;Y&quot;</span>, <span class="st">&quot;Z&quot;</span>))<span class="sc">+</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>, <span class="at">fill =</span> <span class="st">&quot;Factor A&quot;</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">&quot;Factorial layout using a RCBD&quot;</span>,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">&quot;Each factor has three levels and each combination 4 replications&quot;</span>, </span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">&quot;Factor A is represented by the fill color of the experimental unit</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="st">Factor B is represented by the label of the experiment unit</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="st">Plot color background represents the block&quot;</span>)<span class="sc">+</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.5</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="dv">2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.3</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>)),</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.justification =</span> <span class="st">&quot;top&quot;</span> ) </span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-7-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="factorial-experiments---split-plot-crd" class="section level4">
+<h4><strong>Factorial experiments - Split Plot (CRD)</strong></h4>
+<p>Another way to design a factorial experiment is using a split plot
+design. To illustrate, imagine that you want to study the effect of
+fungicide treatments on different cultivars with different levels of
+disease resistance. In some situations, we are constrained by the
+equipment that we can use to plant the study, or spray a pesticide, as
+such, we can create a study that contains a larger plot (whole plot) and
+smaller plots nested into the larger plot (subplots). Both the whole
+factor and the split-plot factor are randomly assigned to their
+respective experimental units. Whole plots and split-plots are randomly
+assigned within the plots. This is illustrated for a CRD and RBCD,
+respectively.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>trt1<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;V1&quot;</span>,<span class="st">&quot;V2&quot;</span>,<span class="st">&quot;V3&quot;</span>)  <span class="co"># Whole plot</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>trt2<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;TA&quot;</span>,<span class="st">&quot;TB&quot;</span>,<span class="st">&quot;TC&quot;</span>)  <span class="co"># Split plot</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>split_CRD <span class="ot">&lt;-</span> <span class="fu">design.split</span>(trt1, trt2,<span class="at">r=</span><span class="dv">4</span>, <span class="at">design=</span><span class="fu">c</span>(<span class="st">&quot;crd&quot;</span>),<span class="at">serie =</span> <span class="dv">0</span>, <span class="at">seed=</span><span class="dv">09041909</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>split_CRD_layout <span class="ot">&lt;-</span> split_CRD<span class="sc">$</span>book <span class="sc">%&gt;%</span> </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">row =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">each=</span><span class="dv">6</span>),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">colum =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">6</span>)) )</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>split_CRD_layout</span></code></pre></div>
+<pre><code>##    plots splots r trt1 trt2 row colum
+## 1      1      1 1   V2   TB   1     1
+## 2      1      2 1   V2   TC   1     2
+## 3      1      3 1   V2   TA   1     3
+## 4      2      1 1   V3   TB   1     4
+## 5      2      2 1   V3   TA   1     5
+## 6      2      3 1   V3   TC   1     6
+## 7      3      1 2   V3   TA   2     1
+## 8      3      2 2   V3   TC   2     2
+## 9      3      3 2   V3   TB   2     3
+## 10     4      1 1   V1   TA   2     4
+## 11     4      2 1   V1   TC   2     5
+## 12     4      3 1   V1   TB   2     6
+## 13     5      1 2   V1   TC   3     1
+## 14     5      2 2   V1   TA   3     2
+## 15     5      3 2   V1   TB   3     3
+## 16     6      1 2   V2   TB   3     4
+## 17     6      2 2   V2   TC   3     5
+## 18     6      3 2   V2   TA   3     6
+## 19     7      1 3   V2   TA   4     1
+## 20     7      2 3   V2   TB   4     2
+## 21     7      3 3   V2   TC   4     3
+## 22     8      1 4   V2   TB   4     4
+## 23     8      2 4   V2   TA   4     5
+## 24     8      3 4   V2   TC   4     6
+## 25     9      1 3   V3   TA   5     1
+## 26     9      2 3   V3   TC   5     2
+## 27     9      3 3   V3   TB   5     3
+## 28    10      1 3   V1   TC   5     4
+## 29    10      2 3   V1   TB   5     5
+## 30    10      3 3   V1   TA   5     6
+## 31    11      1 4   V3   TC   6     1
+## 32    11      2 4   V3   TA   6     2
+## 33    11      3 4   V3   TB   6     3
+## 34    12      1 4   V1   TA   6     4
+## 35    12      2 4   V1   TC   6     5
+## 36    12      3 4   V1   TB   6     6</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">ggplot</span>(split_CRD_layout, <span class="fu">aes</span>(<span class="at">y=</span>row, <span class="at">x =</span> colum)) <span class="sc">+</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>trt1), <span class="at">width=</span>.<span class="dv">85</span>, <span class="at">height=</span><span class="fl">0.85</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span>trt2), <span class="at">size =</span> <span class="dv">9</span>, <span class="at">label.size =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_reverse</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,.<span class="dv">01</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#E64B35FF&quot;</span>, <span class="st">&quot;#4DBBD5FF&quot;</span>, <span class="st">&quot;#00A087FF&quot;</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>))<span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>       <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>,  <span class="at">fill =</span> <span class="st">&quot;Factor A&quot;</span>, </span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&quot;Factorial experimental layout - Split plot design (CRD)&quot;</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">&quot;Each factor has three levels and each combination 4 replications,</span><span class="sc">\n</span><span class="st">Dashed rectangles indicate the whole plot level&quot;</span>, </span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">&quot;Factor A is represented by the fill color of the experimental unit</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="st">Factor B is represented by the label of the experiment unit.</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="st">Dashed boxes for three whole plots are shown&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.5</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="dv">2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.3</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>)),</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.justification =</span> <span class="st">&quot;top&quot;</span> ) <span class="sc">+</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">1.5</span>,<span class="at">ymax=</span><span class="fl">0.5</span>), <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>)<span class="sc">+</span> <span class="co"># Plot 1</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">2.5</span>,<span class="at">ymax=</span><span class="fl">1.5</span>), <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>)<span class="sc">+</span> <span class="co"># Plot 2</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">3.5</span>,<span class="at">ymax=</span><span class="fl">2.5</span>), <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>)  <span class="co"># Plot 3</span></span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-8-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><br></p>
+</div>
+<div id="factorial-experiments---split-plot-rcbd"
+class="section level4">
+<h4><strong>Factorial experiments - Split Plot (RCBD)</strong></h4>
+<p>We can also have a split plot with randomized complete blocks. See
+the example below.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>split_RCBD <span class="ot">&lt;-</span> <span class="fu">design.split</span>(trt1, trt2,<span class="at">r=</span><span class="dv">4</span>, <span class="at">design=</span><span class="fu">c</span>(<span class="st">&quot;rcbd&quot;</span>),<span class="at">serie =</span> <span class="dv">2</span>,<span class="at">seed =</span> <span class="dv">09041909</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>split_RCBD</span></code></pre></div>
+<pre><code>## $parameters
+## $parameters$design
+## [1] &quot;split&quot;
+## 
+## $parameters[[2]]
+## [1] TRUE
+## 
+## $parameters$trt1
+## [1] &quot;V1&quot; &quot;V2&quot; &quot;V3&quot;
+## 
+## $parameters$applied
+## [1] &quot;rcbd&quot;
+## 
+## $parameters$r
+## [1] 4
+## 
+## $parameters$serie
+## [1] 2
+## 
+## $parameters$seed
+## [1] 9041909
+## 
+## $parameters$kinds
+## [1] &quot;Super-Duper&quot;
+## 
+## 
+## $book
+##    plots splots block trt1 trt2
+## 1    101      1     1   V1   TB
+## 2    101      2     1   V1   TA
+## 3    101      3     1   V1   TC
+## 4    102      1     1   V3   TB
+## 5    102      2     1   V3   TC
+## 6    102      3     1   V3   TA
+## 7    103      1     1   V2   TB
+## 8    103      2     1   V2   TA
+## 9    103      3     1   V2   TC
+## 10   104      1     2   V1   TA
+## 11   104      2     2   V1   TC
+## 12   104      3     2   V1   TB
+## 13   105      1     2   V3   TA
+## 14   105      2     2   V3   TC
+## 15   105      3     2   V3   TB
+## 16   106      1     2   V2   TC
+## 17   106      2     2   V2   TA
+## 18   106      3     2   V2   TB
+## 19   107      1     3   V2   TB
+## 20   107      2     3   V2   TC
+## 21   107      3     3   V2   TA
+## 22   108      1     3   V3   TA
+## 23   108      2     3   V3   TB
+## 24   108      3     3   V3   TC
+## 25   109      1     3   V1   TB
+## 26   109      2     3   V1   TA
+## 27   109      3     3   V1   TC
+## 28   110      1     4   V2   TA
+## 29   110      2     4   V2   TC
+## 30   110      3     4   V2   TB
+## 31   111      1     4   V1   TC
+## 32   111      2     4   V1   TB
+## 33   111      3     4   V1   TA
+## 34   112      1     4   V3   TC
+## 35   112      2     4   V3   TA
+## 36   112      3     4   V3   TB</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a> split_RCBD_layout <span class="ot">&lt;-</span> split_RCBD<span class="sc">$</span>book <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate</span>(<span class="at">row   =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>, <span class="co"># Block 1</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,   <span class="co"># Block 2</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,   <span class="co"># Block 3</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>)), <span class="co"># Block 4</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">colum =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,   <span class="co"># Block 1</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,   <span class="co"># Block 2</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,   <span class="co"># Block 3</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                               <span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>))) <span class="co"># Block 4</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>(split_RCBD_layout, <span class="fu">aes</span>(<span class="at">y=</span>row, <span class="at">x =</span> colum)) <span class="sc">+</span> </span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_blank</span>()<span class="sc">+</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">3.48</span>,<span class="at">xmax=</span><span class="fl">6.5</span>,<span class="at">ymin=</span><span class="fl">3.5</span>,<span class="at">ymax=</span><span class="fl">6.5</span>),<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;#fdae61&quot;</span>) <span class="sc">+</span> <span class="co"># Block 2</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">0.5</span>,<span class="at">ymax=</span><span class="fl">3.51</span>),<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;#abdda4&quot;</span>) <span class="sc">+</span> <span class="co"># Block 3</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">3.5</span>,<span class="at">xmax=</span><span class="fl">6.5</span>,<span class="at">ymin=</span><span class="fl">0.5</span>,<span class="at">ymax=</span><span class="fl">3.5</span>),<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;#cccccc&quot;</span>) <span class="sc">+</span> <span class="co"># Block 4</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">3.5</span>,<span class="at">ymax=</span><span class="fl">6.5</span>), <span class="at">fill=</span><span class="st">&quot;#bfd3e6&quot;</span>) <span class="sc">+</span> <span class="co"># Block 1</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>trt1), <span class="at">width=</span>.<span class="dv">85</span>, <span class="at">height=</span><span class="fl">0.85</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span>trt2), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">8</span>, <span class="at">label.size =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_y_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(.<span class="dv">01</span>,.<span class="dv">01</span>), <span class="at">limits =</span> rev)<span class="sc">+</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_x_discrete</span>(<span class="at">expand =</span> <span class="fu">c</span>(.<span class="dv">01</span>,.<span class="dv">01</span>))<span class="sc">+</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>   <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#E64B35FF&quot;</span>, <span class="st">&quot;#4DBBD5FF&quot;</span>, <span class="st">&quot;#00A087FF&quot;</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>))<span class="sc">+</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>, <span class="at">fill =</span> <span class="st">&quot;Factor A&quot;</span>, </span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">&quot;Factorial experimental layout - Split plot design (RCBD)&quot;</span>,</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">&quot;Each factor has three levels and each combination 4 replications,</span><span class="sc">\n</span><span class="st">Dashed rectangles indicate the whole plot level</span><span class="sc">\n</span><span class="st">Subplots with the same background color are members of the same block&quot;</span>, </span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">&quot;Factor A is represented by the fill color of the experimental unit</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="st">                   Factor B is represented by the label of the experiment unit&quot;</span>)<span class="sc">+</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.5</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="dv">2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.2</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fu">rel</span>(<span class="fl">1.3</span>), <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">1.2</span>)),</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend.justification =</span> <span class="st">&quot;top&quot;</span> )<span class="sc">+</span></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">6.5</span>,<span class="at">ymax=</span><span class="fl">5.5</span>), <span class="at">size =</span> <span class="fl">1.</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">5.5</span>,<span class="at">ymax=</span><span class="fl">4.5</span>), <span class="at">size =</span> <span class="fl">1.</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>)<span class="sc">+</span></span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.5</span>,<span class="at">xmax=</span><span class="fl">3.5</span>,<span class="at">ymin=</span><span class="fl">4.5</span>,<span class="at">ymax=</span><span class="fl">3.5</span>), <span class="at">size =</span> <span class="fl">1.</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-9-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="analysis" class="section level2">
+<h2><strong>Analysis</strong></h2>
+<p>In this part, we present an introduction to different analysis of
+variances depending on the experimental design.</p>
+<div id="completely-randomized-design-crd" class="section level3">
+<h3><strong>Completely Randomized Design (CRD)</strong></h3>
+<p>In the first example, a simple experiment is presented where the
+height of plants under three different treatment are measured. The
+experimental design is the CRD.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>height_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">trt    =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>), <span class="at">each=</span><span class="dv">6</span>),</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">height =</span> <span class="fu">c</span>(<span class="dv">66</span>, <span class="dv">67</span>, <span class="dv">74</span>, <span class="dv">73</span>, <span class="dv">75</span>, <span class="dv">64</span>, </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">85</span>, <span class="dv">84</span>, <span class="dv">76</span>, <span class="dv">82</span>, <span class="dv">79</span>, <span class="dv">86</span>, </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">91</span>, <span class="dv">93</span>, <span class="dv">88</span>, <span class="dv">87</span>, <span class="dv">90</span>, <span class="dv">86</span>))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>height_data</span></code></pre></div>
+<pre><code>##    trt height
+## 1    A     66
+## 2    A     67
+## 3    A     74
+## 4    A     73
+## 5    A     75
+## 6    A     64
+## 7    B     85
+## 8    B     84
+## 9    B     76
+## 10   B     82
+## 11   B     79
+## 12   B     86
+## 13   C     91
+## 14   C     93
+## 15   C     88
+## 16   C     87
+## 17   C     90
+## 18   C     86</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(height_data, <span class="fu">aes</span>(<span class="at">x=</span>trt, <span class="at">y =</span> height))<span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">5</span>,  <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Height (cm)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Treatment&quot;</span>)<span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>))</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>The function <code>describeBy</code> from the package
+<code>psych</code> give us detailed descriptive statistics</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describeBy</span>(height <span class="sc">~</span> trt, <span class="at">data =</span> height_data)</span></code></pre></div>
+<pre><code>## 
+##  Descriptive statistics by group 
+## trt: A
+##        vars n  mean   sd median trimmed  mad min max range  skew kurtosis   se
+## height    1 6 69.83 4.71     70   69.83 5.93  64  75    11 -0.06    -2.13 1.92
+## ------------------------------------------------------------ 
+## trt: B
+##        vars n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## height    1 6   82 3.85     83      82 3.71  76  86    10 -0.42    -1.68 1.57
+## ------------------------------------------------------------ 
+## trt: C
+##        vars n  mean   sd median trimmed  mad min max range skew kurtosis   se
+## height    1 6 89.17 2.64     89   89.17 2.97  86  93     7 0.18    -1.79 1.08</code></pre>
+<p>We will use first the function <code>lm</code>, native to
+<code>R</code> to explore the effects of each factor. The function
+<code>summary</code> give us details of the analysis.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>height_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(height <span class="sc">~</span> trt, <span class="at">data =</span> height_data)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(height_lm)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = height ~ trt, data = height_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.0000 -2.9583  0.4167  3.1250  5.1667 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   69.833      1.562  44.699  &lt; 2e-16 ***
+## trtB          12.167      2.209   5.507 6.03e-05 ***
+## trtC          19.333      2.209   8.750 2.81e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.827 on 15 degrees of freedom
+## Multiple R-squared:  0.8392, Adjusted R-squared:  0.8177 
+## F-statistic: 39.14 on 2 and 15 DF,  p-value: 1.115e-06</code></pre>
+<p>The results of the <code>anova</code> analysis, separating the
+effects of treatment and error.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(height_lm)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: height
+##           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## trt        2 1146.33  573.17  39.139 1.115e-06 ***
+## Residuals 15  219.67   14.64                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div id="checking-the-assumptions" class="section level4">
+<h4>Checking the assumptions</h4>
+<p>All of the analyses we will make have specific assumptions, including
+independence (one sample cannot influence another sample), homogeneity
+of variances (the errors will occur independent of the levels of
+treatment), and normality (the errors will be scattered around a mean of
+zero). Below we have some examples of how can we check these
+assumptions</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(height_lm,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-14-1.png" width="960" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(height_lm<span class="sc">$</span>residuals)</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  height_lm$residuals
+## W = 0.933, p-value = 0.2192</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bartlett Test of Homogeneity of Variances</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(height <span class="sc">~</span> trt, <span class="at">data =</span> height_data)</span></code></pre></div>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  height by trt
+## Bartlett&#39;s K-squared = 1.4594, df = 2, p-value = 0.482</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Levene&#39;s Test for Homogeneity of Variance - Mean</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(height_lm, <span class="at">center=</span><span class="st">&quot;mean&quot;</span>)</span></code></pre></div>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = &quot;mean&quot;)
+##       Df F value  Pr(&gt;F)  
+## group  2   2.725 0.09783 .
+##       15                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Levene&#39;s Test for Homogeneity of Variance - Median</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(height_lm, <span class="at">center=</span><span class="st">&quot;median&quot;</span>)</span></code></pre></div>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = &quot;median&quot;)
+##       Df F value Pr(&gt;F)
+## group  2  2.2899 0.1356
+##       15</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fligner-Killeen test of homogeneity of variances</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fligner.test</span>(height <span class="sc">~</span> trt, <span class="at">data =</span> height_data)</span></code></pre></div>
+<pre><code>## 
+##  Fligner-Killeen test of homogeneity of variances
+## 
+## data:  height by trt
+## Fligner-Killeen:med chi-squared = 3.9612, df = 2, p-value = 0.138</code></pre>
+</div>
+</div>
+<div id="randomized-complete-block-design-rcbd" class="section level3">
+<h3><strong>Randomized Complete Block Design (RCBD)</strong></h3>
+<p>For our second analysis, which is the RCBD, we will use a new
+dataset. This data set contains the yield (yld) as affected by four
+treatment (trt). Now, in addition to the treatment, we have to consider
+the constraints that are applied to the experimental units, which are
+defined as blocks. In many analyses, this forms the basis for more
+complicated analysis that considered fixed and random effects. For the
+purpose of this example, we will maintain our base assumptions following
+from example 1.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>data_RCBD_yld <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">trt =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),<span class="dv">4</span>),</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">blk =</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">each =</span> <span class="dv">4</span>)),</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">yld =</span> <span class="fu">c</span>(<span class="fl">92.3</span>, <span class="fl">111.6</span>, <span class="fl">122.0</span>, <span class="fl">116.6</span>,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>                 <span class="fl">99.5</span>, <span class="fl">119.1</span>, <span class="fl">115.5</span>, <span class="fl">113.2</span>,</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>                 <span class="fl">98.0</span>, <span class="fl">118.9</span>, <span class="fl">118.2</span>, <span class="fl">117.0</span>,</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>                 <span class="fl">98.0</span>, <span class="fl">118.2</span>, <span class="fl">105.1</span>, <span class="fl">117.8</span>))</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>data_RCBD_yld</span></code></pre></div>
+<pre><code>##    trt blk   yld
+## 1    A   1  92.3
+## 2    B   1 111.6
+## 3    C   1 122.0
+## 4    D   1 116.6
+## 5    A   2  99.5
+## 6    B   2 119.1
+## 7    C   2 115.5
+## 8    D   2 113.2
+## 9    A   3  98.0
+## 10   B   3 118.9
+## 11   C   3 118.2
+## 12   D   3 117.0
+## 13   A   4  98.0
+## 14   B   4 118.2
+## 15   C   4 105.1
+## 16   D   4 117.8</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_RCBD_yld, <span class="fu">aes</span>(<span class="at">x=</span>trt, <span class="at">y =</span> yld))<span class="sc">+</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_boxplot</span>(<span class="at">outlier.alpha =</span> <span class="dv">0</span>)<span class="sc">+</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">fill =</span> trt), <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">5</span>,  <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Yield (bu/ac)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Treatment&quot;</span>)<span class="sc">+</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>))</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Note that our <code>lm</code> output contains the effect of the
+blocking. Although it was not significant (p &lt;0.001), we must to keep
+it in our analysis, because our experiment layout was not completely
+random, but constrained by the blocks.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>RCBD_yld_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(yld <span class="sc">~</span> trt <span class="sc">+</span> blk , <span class="at">data =</span> data_RCBD_yld)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RCBD_yld_lm)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = yld ~ trt + blk, data = data_RCBD_yld)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -8.5625 -1.5125  0.6875  2.1750  7.4875 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   96.263      3.229  29.811 2.63e-10 ***
+## trtB          20.000      3.452   5.794 0.000262 ***
+## trtC          18.250      3.452   5.287 0.000503 ***
+## trtD          19.200      3.452   5.562 0.000351 ***
+## blk2           1.200      3.452   0.348 0.736119    
+## blk3           2.400      3.452   0.695 0.504461    
+## blk4          -0.850      3.452  -0.246 0.811029    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.882 on 9 degrees of freedom
+## Multiple R-squared:  0.8405, Adjusted R-squared:  0.7342 
+## F-statistic: 7.905 on 6 and 9 DF,  p-value: 0.003495</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(RCBD_yld_lm)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: yld
+##           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## trt        3 1106.31  368.77 15.4727 0.0006752 ***
+## blk        3   24.13    8.04  0.3374 0.7988743    
+## Residuals  9  214.50   23.83                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div id="mean-comparisons" class="section level4">
+<h4>Mean comparisons</h4>
+<p>There is several packages in <code>R</code> that can do the means
+comparison, below we will use some options that are presented in the
+<code>agricolae</code> package.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Least significant difference </span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>RCBD_yld_LSD <span class="ot">&lt;-</span> <span class="fu">LSD.test</span>(RCBD_yld_lm, <span class="at">trt=</span><span class="st">&quot;trt&quot;</span>, <span class="at">alpha=</span><span class="fl">0.05</span>) </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>RCBD_yld_LSD</span></code></pre></div>
+<pre><code>## $statistics
+##    MSerror Df     Mean       CV  t.value      LSD
+##   23.83361  9 111.3125 4.385822 2.262157 7.809131
+## 
+## $parameters
+##         test p.ajusted name.t ntr alpha
+##   Fisher-LSD      none    trt   4  0.05
+## 
+## $means
+##      yld      std r       LCL      UCL   Min   Max     Q25    Q50     Q75
+## A  96.95 3.179623 4  91.42811 102.4719  92.3  99.5  96.575  98.00  98.375
+## B 116.95 3.587478 4 111.42811 122.4719 111.6 119.1 116.550 118.55 118.950
+## C 115.20 7.242007 4 109.67811 120.7219 105.1 122.0 112.900 116.85 119.150
+## D 116.15 2.028957 4 110.62811 121.6719 113.2 117.8 115.750 116.80 117.200
+## 
+## $comparison
+## NULL
+## 
+## $groups
+##      yld groups
+## B 116.95      a
+## D 116.15      a
+## C 115.20      a
+## A  96.95      b
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;group&quot;</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tukey</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>RCBD_yld_HSD <span class="ot">&lt;-</span> <span class="fu">HSD.test</span>(RCBD_yld_lm, <span class="at">trt=</span><span class="st">&quot;trt&quot;</span>, <span class="at">alpha=</span><span class="fl">0.05</span>) </span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>RCBD_yld_HSD</span></code></pre></div>
+<pre><code>## $statistics
+##    MSerror Df     Mean       CV      MSD
+##   23.83361  9 111.3125 4.385822 10.77668
+## 
+## $parameters
+##    test name.t ntr StudentizedRange alpha
+##   Tukey    trt   4          4.41489  0.05
+## 
+## $means
+##      yld      std r   Min   Max     Q25    Q50     Q75
+## A  96.95 3.179623 4  92.3  99.5  96.575  98.00  98.375
+## B 116.95 3.587478 4 111.6 119.1 116.550 118.55 118.950
+## C 115.20 7.242007 4 105.1 122.0 112.900 116.85 119.150
+## D 116.15 2.028957 4 113.2 117.8 115.750 116.80 117.200
+## 
+## $comparison
+## NULL
+## 
+## $groups
+##      yld groups
+## B 116.95      a
+## D 116.15      a
+## C 115.20      a
+## A  96.95      b
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;group&quot;</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Duncan</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>RCBD_yld_DUN <span class="ot">&lt;-</span> <span class="fu">duncan.test</span>(RCBD_yld_lm, <span class="at">trt=</span><span class="st">&quot;trt&quot;</span>, <span class="at">alpha=</span><span class="fl">0.05</span>) </span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>RCBD_yld_DUN</span></code></pre></div>
+<pre><code>## $statistics
+##    MSerror Df     Mean       CV
+##   23.83361  9 111.3125 4.385822
+## 
+## $parameters
+##     test name.t ntr alpha
+##   Duncan    trt   4  0.05
+## 
+## $duncan
+##      Table CriticalRange
+## 2 3.199173      7.809131
+## 3 3.339138      8.150781
+## 4 3.419765      8.347591
+## 
+## $means
+##      yld      std r   Min   Max     Q25    Q50     Q75
+## A  96.95 3.179623 4  92.3  99.5  96.575  98.00  98.375
+## B 116.95 3.587478 4 111.6 119.1 116.550 118.55 118.950
+## C 115.20 7.242007 4 105.1 122.0 112.900 116.85 119.150
+## D 116.15 2.028957 4 113.2 117.8 115.750 116.80 117.200
+## 
+## $comparison
+## NULL
+## 
+## $groups
+##      yld groups
+## B 116.95      a
+## D 116.15      a
+## C 115.20      a
+## A  96.95      b
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;group&quot;</code></pre>
+</div>
+</div>
+<div id="factorial-experiments" class="section level3">
+<h3><strong>Factorial experiments</strong></h3>
+<p>For the final part, we will take a look at a dataset from a factorial
+layout experiment with blocks. The data are the same as the example
+before, but now with the data that incorporates the resistant variety
+(the previous example only had information from the susceptible
+variety).</p>
+<p>On important aspect of the factorial trials is that we can quantify
+the interaction between the factors. For example, treatment A
+performance will be better or worse depending on the level of variety
+resistance, which is different from the effect on treatment B.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>data_yld_fac <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">trt =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;D&quot;</span>),<span class="dv">4</span>),</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">var =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;S&quot;</span>),<span class="dv">16</span>),</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">blk =</span> <span class="fu">as.factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">each =</span> <span class="dv">8</span>)),</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">yld =</span> <span class="fu">c</span>(<span class="fl">86.6</span>, <span class="fl">92.3</span>, <span class="fl">104.9</span>, <span class="fl">111.6</span>, <span class="fl">105.2</span>, <span class="dv">122</span>, <span class="fl">105.4</span>, <span class="fl">116.6</span>, <span class="fl">81.1</span>, <span class="fl">99.5</span>, <span class="dv">99</span>, </span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>                 <span class="fl">119.1</span>, <span class="fl">108.4</span>, <span class="fl">115.5</span>, <span class="fl">94.6</span>, <span class="fl">113.2</span>, <span class="fl">84.8</span>, <span class="dv">98</span>, <span class="fl">107.1</span>, <span class="fl">118.9</span>, <span class="fl">110.8</span>, <span class="fl">118.2</span>,</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>                 <span class="fl">104.1</span>, <span class="dv">117</span>, <span class="fl">84.5</span>, <span class="dv">98</span>, <span class="fl">101.4</span>, <span class="fl">118.2</span>, <span class="fl">109.8</span>, <span class="fl">105.1</span>, <span class="fl">106.1</span>, <span class="fl">117.8</span>) )</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>data_yld_fac</span></code></pre></div>
+<pre><code>##    trt var blk   yld
+## 1    A   R   1  86.6
+## 2    A   S   1  92.3
+## 3    B   R   1 104.9
+## 4    B   S   1 111.6
+## 5    C   R   1 105.2
+## 6    C   S   1 122.0
+## 7    D   R   1 105.4
+## 8    D   S   1 116.6
+## 9    A   R   2  81.1
+## 10   A   S   2  99.5
+## 11   B   R   2  99.0
+## 12   B   S   2 119.1
+## 13   C   R   2 108.4
+## 14   C   S   2 115.5
+## 15   D   R   2  94.6
+## 16   D   S   2 113.2
+## 17   A   R   3  84.8
+## 18   A   S   3  98.0
+## 19   B   R   3 107.1
+## 20   B   S   3 118.9
+## 21   C   R   3 110.8
+## 22   C   S   3 118.2
+## 23   D   R   3 104.1
+## 24   D   S   3 117.0
+## 25   A   R   4  84.5
+## 26   A   S   4  98.0
+## 27   B   R   4 101.4
+## 28   B   S   4 118.2
+## 29   C   R   4 109.8
+## 30   C   S   4 105.1
+## 31   D   R   4 106.1
+## 32   D   S   4 117.8</code></pre>
+<p>Note that in our analysis we have the term <code>trt*var</code>, this
+the interaction between treatment (<code>trt</code>) and variety
+resistance (<code>var</code>).</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>RCBD_yld_fac_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(yld <span class="sc">~</span> trt <span class="sc">+</span> var <span class="sc">+</span> trt<span class="sc">*</span>var <span class="sc">+</span> blk , <span class="at">data =</span> data_yld_fac)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RCBD_yld_fac_lm)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = yld ~ trt + var + trt * var + blk, data = data_yld_fac)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.750 -1.350  0.475  1.972  6.688 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  84.3625     2.3782  35.474  &lt; 2e-16 ***
+## trtB         18.8500     2.8682   6.572 1.65e-06 ***
+## trtC         24.3000     2.8682   8.472 3.24e-08 ***
+## trtD         18.3000     2.8682   6.380 2.52e-06 ***
+## varS         12.7000     2.8682   4.428 0.000234 ***
+## blk2         -1.7750     2.0281  -0.875 0.391363    
+## blk3          1.7875     2.0281   0.881 0.388096    
+## blk4         -0.4625     2.0281  -0.228 0.821816    
+## trtB:varS     1.1500     4.0562   0.284 0.779557    
+## trtC:varS    -6.0500     4.0562  -1.492 0.150689    
+## trtD:varS     0.9000     4.0562   0.222 0.826549    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.056 on 21 degrees of freedom
+## Multiple R-squared:  0.9124, Adjusted R-squared:  0.8707 
+## F-statistic: 21.88 on 10 and 21 DF,  p-value: 6.591e-09</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aov</span>(RCBD_yld_fac_lm) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## trt          3 2383.5   794.5  48.291 1.34e-09 ***
+## var          1 1095.1  1095.1  66.562 6.00e-08 ***
+## blk          3   52.1    17.4   1.055    0.389    
+## trt:var      3   69.5    23.2   1.407    0.268    
+## Residuals   21  345.5    16.5                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RCBD_yld_fac_lm, <span class="at">which=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RCBD_yld_fac_lm, <span class="at">which=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-20-2.png" width="672" /></p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(RCBD_yld_fac_lm, <span class="at">which=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-20-3.png" width="672" /></p>
+<p>The package <code>emmeans</code> provides not only mean comparisons
+but also shows the pairwise differences between the treatments. This
+means that not only we will have the information if the variety R is
+different than variety S, but on average how large is the
+difference.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Contrast for treatment</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(RCBD_yld_fac_lm, pairwise  <span class="sc">~</span> trt, <span class="at">adjust =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
+<pre><code>## $emmeans
+##  trt emmean   SE df lower.CL upper.CL
+##  A     90.6 1.43 21     87.6     93.6
+##  B    110.0 1.43 21    107.0    113.0
+##  C    111.9 1.43 21    108.9    114.9
+##  D    109.3 1.43 21    106.4    112.3
+## 
+## Results are averaged over the levels of: var, blk 
+## Confidence level used: 0.95 
+## 
+## $contrasts
+##  contrast estimate   SE df t.ratio p.value
+##  A - B     -19.425 2.03 21  -9.578  &lt;.0001
+##  A - C     -21.275 2.03 21 -10.490  &lt;.0001
+##  A - D     -18.750 2.03 21  -9.245  &lt;.0001
+##  B - C      -1.850 2.03 21  -0.912  0.3720
+##  B - D       0.675 2.03 21   0.333  0.7426
+##  C - D       2.525 2.03 21   1.245  0.2268
+## 
+## Results are averaged over the levels of: var, blk</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contrast for variety</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(RCBD_yld_fac_lm, pairwise  <span class="sc">~</span> var, <span class="at">adjust =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
+<pre><code>## $emmeans
+##  var emmean   SE df lower.CL upper.CL
+##  R     99.6 1.01 21     97.5      102
+##  S    111.3 1.01 21    109.2      113
+## 
+## Results are averaged over the levels of: trt, blk 
+## Confidence level used: 0.95 
+## 
+## $contrasts
+##  contrast estimate   SE df t.ratio p.value
+##  R - S       -11.7 1.43 21  -8.159  &lt;.0001
+## 
+## Results are averaged over the levels of: trt, blk</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Although our interaction was not significant, here is an example of how to do the contrast for interaction</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(RCBD_yld_fac_lm, pairwise  <span class="sc">~</span> trt<span class="sc">*</span>var, <span class="at">adjust =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## $emmeans
+##  trt var emmean   SE df lower.CL upper.CL
+##  A   R     84.2 2.03 21     80.0     88.5
+##  B   R    103.1 2.03 21     98.9    107.3
+##  C   R    108.5 2.03 21    104.3    112.8
+##  D   R    102.5 2.03 21     98.3    106.8
+##  A   S     97.0 2.03 21     92.7    101.2
+##  B   S    117.0 2.03 21    112.7    121.2
+##  C   S    115.2 2.03 21    111.0    119.4
+##  D   S    116.2 2.03 21    111.9    120.4
+## 
+## Results are averaged over the levels of: blk 
+## Confidence level used: 0.95 
+## 
+## $contrasts
+##  contrast  estimate   SE df t.ratio p.value
+##  A R - B R   -18.85 2.87 21  -6.572  &lt;.0001
+##  A R - C R   -24.30 2.87 21  -8.472  &lt;.0001
+##  A R - D R   -18.30 2.87 21  -6.380  &lt;.0001
+##  A R - A S   -12.70 2.87 21  -4.428  0.0002
+##  A R - B S   -32.70 2.87 21 -11.401  &lt;.0001
+##  A R - C S   -30.95 2.87 21 -10.791  &lt;.0001
+##  A R - D S   -31.90 2.87 21 -11.122  &lt;.0001
+##  B R - C R    -5.45 2.87 21  -1.900  0.0712
+##  B R - D R     0.55 2.87 21   0.192  0.8498
+##  B R - A S     6.15 2.87 21   2.144  0.0439
+##  B R - B S   -13.85 2.87 21  -4.829  0.0001
+##  B R - C S   -12.10 2.87 21  -4.219  0.0004
+##  B R - D S   -13.05 2.87 21  -4.550  0.0002
+##  C R - D R     6.00 2.87 21   2.092  0.0488
+##  C R - A S    11.60 2.87 21   4.044  0.0006
+##  C R - B S    -8.40 2.87 21  -2.929  0.0080
+##  C R - C S    -6.65 2.87 21  -2.319  0.0306
+##  C R - D S    -7.60 2.87 21  -2.650  0.0150
+##  D R - A S     5.60 2.87 21   1.952  0.0643
+##  D R - B S   -14.40 2.87 21  -5.021  0.0001
+##  D R - C S   -12.65 2.87 21  -4.410  0.0002
+##  D R - D S   -13.60 2.87 21  -4.742  0.0001
+##  A S - B S   -20.00 2.87 21  -6.973  &lt;.0001
+##  A S - C S   -18.25 2.87 21  -6.363  &lt;.0001
+##  A S - D S   -19.20 2.87 21  -6.694  &lt;.0001
+##  B S - C S     1.75 2.87 21   0.610  0.5483
+##  B S - D S     0.80 2.87 21   0.279  0.7830
+##  C S - D S    -0.95 2.87 21  -0.331  0.7438
+## 
+## Results are averaged over the levels of: blk</code></pre>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># alternatives to adjust the p-value of multiple comparison</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>comp.tukey<span class="ot">&lt;-</span><span class="fu">emmeans</span>(RCBD_yld_fac_lm, pairwise  <span class="sc">~</span> trt, <span class="at">adjust =</span> <span class="st">&quot;tukey&quot;</span>)</span></code></pre></div>
+<pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>comp.tukey<span class="sc">$</span>contrasts <span class="sc">%&gt;%</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">confint</span>()</span></code></pre></div>
+<pre><code>##  contrast estimate   SE df lower.CL upper.CL
+##  A - B     -19.425 2.03 21   -25.08   -13.77
+##  A - C     -21.275 2.03 21   -26.93   -15.62
+##  A - D     -18.750 2.03 21   -24.40   -13.10
+##  B - C      -1.850 2.03 21    -7.50     3.80
+##  B - D       0.675 2.03 21    -4.98     6.33
+##  C - D       2.525 2.03 21    -3.13     8.18
+## 
+## Results are averaged over the levels of: var, blk 
+## Confidence level used: 0.95 
+## Conf-level adjustment: tukey method for comparing a family of 4 estimates</code></pre>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comp.tukey, <span class="at">comparisons=</span><span class="st">&quot;TRUE&quot;</span>)</span></code></pre></div>
+<pre><code>## I bet you wanted to call this with just object[[1]] - use &#39;[[]]&#39; or which&#39; if I&#39;m wrong.
+## See &#39;? emm_list&#39; for more information</code></pre>
+<p><img src="Experimental_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(RCBD_yld_fac_lm, pairwise  <span class="sc">~</span> trt, <span class="at">adjust =</span> <span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
+<pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
+<pre><code>## $emmeans
+##  trt emmean   SE df lower.CL upper.CL
+##  A     90.6 1.43 21     87.6     93.6
+##  B    110.0 1.43 21    107.0    113.0
+##  C    111.9 1.43 21    108.9    114.9
+##  D    109.3 1.43 21    106.4    112.3
+## 
+## Results are averaged over the levels of: var, blk 
+## Confidence level used: 0.95 
+## 
+## $contrasts
+##  contrast estimate   SE df t.ratio p.value
+##  A - B     -19.425 2.03 21  -9.578  &lt;.0001
+##  A - C     -21.275 2.03 21 -10.490  &lt;.0001
+##  A - D     -18.750 2.03 21  -9.245  &lt;.0001
+##  B - C      -1.850 2.03 21  -0.912  1.0000
+##  B - D       0.675 2.03 21   0.333  1.0000
+##  C - D       2.525 2.03 21   1.245  1.0000
+## 
+## Results are averaged over the levels of: var, blk 
+## P value adjustment: bonferroni method for 6 tests</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(RCBD_yld_fac_lm, pairwise  <span class="sc">~</span> trt, <span class="at">adjust =</span> <span class="st">&quot;dunnett&quot;</span>)</span></code></pre></div>
+<pre><code>## NOTE: Results may be misleading due to involvement in interactions</code></pre>
+<pre><code>## $emmeans
+##  trt emmean   SE df lower.CL upper.CL
+##  A     90.6 1.43 21     87.6     93.6
+##  B    110.0 1.43 21    107.0    113.0
+##  C    111.9 1.43 21    108.9    114.9
+##  D    109.3 1.43 21    106.4    112.3
+## 
+## Results are averaged over the levels of: var, blk 
+## Confidence level used: 0.95 
+## 
+## $contrasts
+##  contrast estimate   SE df t.ratio p.value
+##  A - B     -19.425 2.03 21  -9.578  &lt;.0001
+##  A - C     -21.275 2.03 21 -10.490  &lt;.0001
+##  A - D     -18.750 2.03 21  -9.245  &lt;.0001
+##  B - C      -1.850 2.03 21  -0.912  0.8220
+##  B - D       0.675 2.03 21   0.333  0.9891
+##  C - D       2.525 2.03 21   1.245  0.6363
+## 
+## Results are averaged over the levels of: var, blk 
+## P value adjustment: dunnettx method for 6 tests</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
