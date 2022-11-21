@@ -1,6 +1,6 @@
 ---
 title: "HLIR"
-author: "Felipe"
+author: "Felipe Dalla Lana; Mladen Cucak; Paul Esker"
 output: 
   html_document:
     code_folding: show
@@ -9,7 +9,6 @@ output:
       toc_depth: 3
       collapsed: false
       smooth_scroll: false
-runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -53,14 +52,7 @@ library("ggplot2")
 <!-- # ) -->
 <!-- #  -->
 <!-- # ``` -->
-
-```{=html}
-<p>Any <strong>raw</strong> HTML content works here.
-For example, here is a Youtube video:</p>
-
-<iframe width="100%" height="400"
-  src="https://felipedallalana.shinyapps.io/Temporal_shiny/"
-  frameborder="0" </iframe>
-  
-  
-``` 
+```{r}
+knitr::include_app("https://mladen-cucak.shinyapps.io/temp_prog/",
+ height = "900px")
+```

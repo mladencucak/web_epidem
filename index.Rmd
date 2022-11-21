@@ -21,6 +21,7 @@ and here we tried to refresh these resources using newer software. One of main i
 
 All contributions are welcome.  Please get in touch if mistakes are spoted or if you want to contribute with materials. 
 
-
+### Download materials 
+All R scripts can be accessed [here](https://github.com/mladencucak/web_epidem/tree/main/r_files).
 
 [![PSU_logo](./figures/PSU_logo.png "PPEM website")](https://plantpath.psu.edu/)

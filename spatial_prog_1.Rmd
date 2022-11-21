@@ -342,7 +342,7 @@ Make combinations of different rate parameters and number of generations to expl
 
 A matrix is created for each combination of parameters and stored in list `sim_ls`. 
 
-```{r simulations, cache=TRUE}
+```{r simulations, cache=TRUE, eval= FALSE}
 sim_ls  <- list()
 
 (start_time_single <- Sys.time())
@@ -368,7 +368,7 @@ end_time_single <- Sys.time()
 
 More intensive computations such as the one above could take a long time. Since R is natively using a single core for computations we have to use specific package and specific commands to be able to use multiple cores. There are several packages that allow this and here we present an example of use with `pbapply` package. 
 
-```{r simulations_multi}
+```{r simulations_multi, eval= FALSE}
 # Split the combos data frame into a list 
 combos_ls <-
   split(combos, 1:nrow(combos))
@@ -408,19 +408,19 @@ end_time_multi <- Sys.time()
 
 The cluster must be stopped at the end of the operation, or else, these remain active process and will slow the computer. 
 
-```{r}
+```{r, eval= FALSE}
 stopCluster(cl)
 ```
 
 It is a good practice to save the results of the analysis right after the analysis finishes.  
 
-```{r}
-saveRDS(sim_ls, here::here("6_spatial","simulation.rds"))
+```{r, eval= FALSE}
+saveRDS(sim_ls, here::here("simulation.rds"))
 ```
 
 Benefits of multicore processing are obvious on the table below. 
 
-```{r time_dif}
+```{r time_dif, eval= FALSE}
 # Duration of single core default R calculation 
 end_time_single- start_time_single
 
@@ -430,7 +430,7 @@ end_time_multi- start_time_multi
 
 Finally, it is possible to visualize how does development of epidemics depend from the rate of spread. 
 
-```{r final_plot, out.width= "100%"}
+```{r final_plot, out.width= "100%", eval=FALSE}
 sim_ls %>% 
   bind_rows() %>% 
 ggplot(aes(newx, newy))+
@@ -444,6 +444,9 @@ ggplot(aes(newx, newy))+
   coord_equal()
 ```
 
+```{r vis_simulation, out.width= "100%"}
+knitr::include_graphics(here::here("data/spatial_prog/map.png"))
+```
 
 
 
