@@ -49,8 +49,8 @@ if (any(as.numeric(packages_load) == 0)) {
 }
 rm(list.of.packages, new.packages, packages_load)
 
-#Resolve conflicts
-if(c("stats", "dplyr")%in% installed.packages()){
+#Resolve conflicts/ if all 
+if(c("stats", "dplyr")%in% installed.packages() %>% all()){
   conflict_prefer("filter", "dplyr")
   conflict_prefer("select", "dplyr")
 }

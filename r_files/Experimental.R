@@ -1,0 +1,448 @@
+## ----message=FALSE-------------------------------------------------------------------------------
+library(tidyverse)
+library(agricolae) # package that enables randomization for different experimental designs
+library(ggsci) # color palettes
+library(psych)
+library(car)
+library(emmeans)
+
+trt<- LETTERS[1:6] # Our example will have 6 treatment labels using the first 6 letters 
+
+CRD <- design.crd(trt=trt, r=5, serie=0, seed=09041909)
+CRD
+
+
+## ---- fig.align = "center", fig.height = 5, fig.width = 9----------------------------------------
+ 
+# Some adjustment from the agricolae output to display our experimental units in a plot
+
+CRD_layout <-  CRD$book %>% 
+       mutate(row = rep(1:5, each=6),
+              colum = rep(1:6, 5) )
+head(CRD_layout)
+
+ ggplot(CRD_layout, aes(y=row, x = colum)) + 
+   geom_tile(aes(fill=trt), width=.95, height=0.95, color = "black", size = 0.5)+
+   geom_label(aes(label =plots), size = 9)+
+
+   scale_y_reverse(expand = c(0.01,.01), breaks = 1:5)+
+   scale_x_continuous(expand = c(0.01,0.01), breaks = 1:6)+
+   scale_fill_npg()+
+   labs(x=NULL, y=NULL, fill = "Treatments", 
+        title = "Experimental layout for CRD",
+        subtitle = "CRD with six treatments and five replication")+
+   
+   theme(
+     panel.background = element_blank(),
+     axis.text = element_text(size=rel(1.5), color="black", face = "bold"),
+     plot.title = element_text(size=rel(2), color="black", face = "bold"),
+     plot.subtitle = element_text(size=rel(1.2), color="black", face = "bold"),
+     legend.title = element_text(size=rel(1.3), color="black", face = "bold"),
+     legend.text = element_text(size = rel(1.2)),
+     legend.justification = "top" )
+
+
+## ----message=FALSE-------------------------------------------------------------------------------
+trt <- LETTERS[1:6]
+RCBD <- design.rcbd(trt, r=4, serie=2, seed=09041909)
+RCBD
+
+
+## ---- fig.align = "center", fig.height = 7, fig.width = 10---------------------------------------
+ RCBD_layout <-  RCBD$book %>% 
+       mutate(row = block, colum = rep(1:6, 4) )
+
+ ggplot(RCBD_layout, aes(y=row, x = colum)) + 
+   geom_blank()+
+    
+   geom_rect(aes(xmin=.4,xmax=6.6,ymin=3.5,ymax=4.5),fill="#bfd3e6",color="black") + # Block 1
+   geom_rect(aes(xmin=.4,xmax=6.6,ymin=2.5,ymax=3.5),fill="#fdae61",color="black") + # Block 2
+   geom_rect(aes(xmin=.4,xmax=6.6,ymin=1.5,ymax=2.5),fill="#abdda4",color="black") + # Block 3
+   geom_rect(aes(xmin=.4,xmax=6.6,ymin=0.5,ymax=1.5),fill="#cccccc",color="black") + # Block 4
+    
+   geom_tile(aes(fill=trt), width=.95, height=0.80, color = "black", size = 1)+
+   geom_label(aes(label =plots), size = 9)+
+
+   scale_y_discrete(expand = c(0.1,.01), limits = rev)+
+   scale_x_continuous(expand = c(0.01,0.01), breaks = 1:6)+
+   scale_fill_npg()+
+  
+   labs(x=NULL, y=NULL, fill = "Treatments", 
+        title = "Experimental layout for RCBD", 
+        subtitle = "Blocks are represented by the row and using different background colors.\nEach block (i.e., row) contains one replication of each treatment")+
+   
+   theme(
+     panel.background = element_blank(),
+     axis.text = element_text(size=rel(1.5), color="black", face = "bold"),
+     plot.title = element_text(size=rel(2), color="black", face = "bold"),
+     plot.subtitle = element_text(size=rel(1.2), color="black", face = "bold"),
+     legend.title = element_text(size=rel(1.3), color="black", face = "bold"),
+     legend.text = element_text(size = rel(1.2)),
+     legend.justification = "top" )
+
+
+## ---- fig.align = "center", fig.height = 7, fig.width = 10---------------------------------------
+ RCBD_layout2 <-  RCBD$book %>% 
+       mutate(row   = factor(c(1,1,1,2,2,2,1,1,1,2,2,2,3,3,3,4,4,4,3,3,3,4,4,4)),
+              colum = factor(c(1,2,3,1,2,3,4,5,6,4,5,6,1,2,3,1,2,3,4,5,6,4,5,6)))
+
+ ggplot(RCBD_layout2, aes(y=row, x = colum)) + 
+   geom_blank()+
+   geom_rect(aes(xmin=0.5,xmax=3.5,ymin=2.5,ymax=4.5), fill="#bfd3e6",color="black") + # Block 1
+   geom_rect(aes(xmin=3.5,xmax=6.5,ymin=2.5,ymax=4.5), fill="#fdae61",color="black") + # Block 2
+   geom_rect(aes(xmin= 0.5,xmax=3.5,ymin=0.5,ymax=2.5),fill="#abdda4",color="black") + # Block 3
+   geom_rect(aes(xmin=3.5,xmax=6.5,ymin=0.5,ymax=2.5), fill="#cccccc",color="black") + # Block 4
+ 
+   geom_tile(aes(fill=trt), width=.85, height=0.80, color = "black", size = 1)+
+   geom_label(aes(label =plots), size = 11)+
+
+   scale_y_discrete(limits = rev)+
+   scale_x_discrete(expand = c(0.01,0.01))+
+   scale_fill_npg()+
+  
+   labs(x="Columns", y="Blocks", fill = "Treatments", 
+        title = "Experimental layout for RCBD", 
+        subtitle = "Alternative blocking layout")+
+   
+   theme(
+     axis.ticks = element_blank(),
+     panel.background = element_blank(),
+     axis.text = element_text(size=rel(1.5), color="black", face = "bold"),
+     plot.title = element_text(size=rel(2), color="black", face = "bold"),
+     plot.subtitle = element_text(size=rel(1.2), color="black", face = "bold"),
+     legend.title = element_text(size=rel(1.3), color="black", face = "bold"),
+     axis.title.x = element_text(size=rel(1.3), color="black", face = "bold", hjust = .95),
+     axis.title.y = element_text(size=rel(1.3), color="black", face = "bold", hjust = .1),
+     legend.text = element_text(size = rel(1.2)),
+     legend.justification = "top")
+
+
+## ---- fig.align = "center", fig.height = 7, fig.width = 10---------------------------------------
+# Two treatments combination, each with 3 levels
+treat_level<-c(3,3)
+fact_CRD <- design.ab(treat_level, r=4, serie=0, design="crd", seed=09041909)
+
+fact_CRD_layout <- fact_CRD$book %>% 
+        mutate(row = rep(1:6, each=6),
+              colum = rep(1:6, 6)) %>% 
+   mutate(A = factor(A, labels = c("A", "B", "C")), 
+          B = factor(B, labels = c("X", "Y", "Z")))
+head(fact_CRD_layout)
+
+ ggplot(fact_CRD_layout, aes(y=row, x = colum)) + 
+   geom_tile(aes(fill=A), width=.95, height=0.95, color = "black", size = 1)+
+   geom_label(aes(label =B), color = "black", size = 9, label.size = NA)+
+
+   scale_y_reverse(expand = c(0.01,.01), breaks = 1:6)+
+   scale_x_continuous(expand = c(0.01,0.01), breaks = 1:6)+
+   
+   scale_fill_manual(values = c("#E64B35FF", "#4DBBD5FF", "#00A087FF"))+
+
+   labs(x=NULL, y=NULL, 
+        fill = "Factor A", 
+        title = "Factorial layout using a CRD",
+        subtitle = "Each factor has three levels and each combination 4 replications,\n having a random assignment across the experimental units", 
+        caption = "Factor A is represented by the fill color of the experimental unit
+Factor B is represented by the label of the experiment unit")+
+
+   theme(
+     panel.background = element_blank(),
+     axis.text = element_text(size=rel(1.5), color="black", face = "bold"),
+     plot.title = element_text(size=rel(2), color="black", face = "bold"),
+     plot.subtitle = element_text(size=rel(1.2), color="black", face = "bold"),
+     legend.title = element_text(size=rel(1.3), color="black", face = "bold"),
+     legend.text = element_text(size = rel(1.2)),
+     legend.justification = "top" )
+ 
+ 
+
+
+## ---- fig.align = "center", fig.height = 7, fig.width = 10---------------------------------------
+fact_RCBD <- design.ab(treat_level, r=4, serie=0, design="rcbd", seed=09041909)
+fact_RCBD
+
+ fact_RCBD_layout <-  
+   fact_RCBD$book %>% 
+       mutate(row   = factor(c(1,1,1,2,2,2,3,3,3, # Block 1
+                               1,1,1,2,2,2,3,3,3,   # Block 2
+                               4,4,4,5,5,5,6,6,6,   # Block 3
+                               4,4,4,5,5,5,6,6,6)), # Block 4
+              colum = factor(c(1,2,3,1,2,3,1,2,3,   # Block 1
+                               4,5,6,4,5,6,4,5,6,   # Block 2
+                               1,2,3,1,2,3,1,2,3,   # Block 3
+                               4,5,6,4,5,6,4,5,6))) %>% # Block 4  
+   mutate(A = factor(A, labels = c("A", "B", "C")), 
+          B = factor(B, labels = c("X", "Y", "Z")))
+head(fact_RCBD_layout)
+
+   ggplot(fact_RCBD_layout, aes(y=row, x = colum)) + 
+    geom_blank()+
+    
+    geom_rect(aes(xmin=0.5,xmax=3.5,ymin=3.5,ymax=6.5), fill="#bfd3e6",color="black") + # Block 1
+    geom_rect(aes(xmin=3.5,xmax=6.5,ymin=3.5,ymax=6.5), fill="#fdae61",color="black") + # Block 2
+    geom_rect(aes(xmin= 0.5,xmax=3.5,ymin=0.5,ymax=3.5),fill="#abdda4",color="black") + # Block 3
+    geom_rect(aes(xmin=3.5,xmax=6.5,ymin=0.5,ymax=3.5), fill="#cccccc",color="black") + # Block 4
+ 
+   geom_tile(aes(fill=A), width=.8, height=0.8, color = "black", size = 1)+
+   geom_label(aes(label =B), size = 9, label.size = NA)+
+
+   scale_y_discrete(expand = c(0.01,.01), breaks = 1:6, limits = rev)+
+   scale_x_discrete(expand = c(0.01,0.01), breaks = 1:6)+
+   
+   scale_fill_manual(values = c("#E64B35FF", "#4DBBD5FF", "#00A087FF"), labels = c("A","B", "C"))+
+   scale_color_manual(values = c("#3B4992FF", "#EE0000FF", "#008B45FF"), labels = c("X","Y", "Z"))+
+   
+   labs(x=NULL, y=NULL, fill = "Factor A",
+        title = "Factorial layout using a RCBD",
+        subtitle = "Each factor has three levels and each combination 4 replications", 
+        caption = "Factor A is represented by the fill color of the experimental unit
+Factor B is represented by the label of the experiment unit
+Plot color background represents the block")+
+
+   theme(
+     panel.background = element_blank(),
+     axis.text = element_text(size=rel(1.5), color="black", face = "bold"),
+     plot.title = element_text(size=rel(2), color="black", face = "bold"),
+     plot.subtitle = element_text(size=rel(1.2), color="black", face = "bold"),
+     legend.title = element_text(size=rel(1.3), color="black", face = "bold"),
+     legend.text = element_text(size = rel(1.2)),
+     legend.justification = "top" ) 
+ 
+
+
+## ---- fig.align = "center", fig.height = 7, fig.width = 10---------------------------------------
+trt1<-c("V1","V2","V3")  # Whole plot
+trt2<-c("TA","TB","TC")  # Split plot
+
+split_CRD <- design.split(trt1, trt2,r=4, design=c("crd"),serie = 0, seed=09041909)
+
+split_CRD_layout <- split_CRD$book %>% 
+        mutate(row = rep(1:6, each=6),
+              colum = factor(rep(1:6, 6)) )
+split_CRD_layout
+
+ ggplot(split_CRD_layout, aes(y=row, x = colum)) + 
+   geom_tile(aes(fill=trt1), width=.85, height=0.85, color = "black", size = 1)+
+   geom_label(aes(label =trt2), size = 9, label.size = NA)+
+
+   scale_y_reverse(expand = c(0.01,.01), breaks = 1:6)+
+   scale_x_discrete(expand = c(0.01,0.01), breaks = 1:6)+
+   
+   scale_fill_manual(values = c("#E64B35FF", "#4DBBD5FF", "#00A087FF"), labels = c("A","B", "C"))+
+
+       labs(x=NULL, y=NULL,  fill = "Factor A", 
+         title = "Factorial experimental layout - Split plot design (CRD)",
+        subtitle = "Each factor has three levels and each combination 4 replications,\nDashed rectangles indicate the whole plot level", 
+        caption = "Factor A is represented by the fill color of the experimental unit
+Factor B is represented by the label of the experiment unit.
+Dashed boxes for three whole plots are shown")+
+
+   theme(
+     panel.background = element_blank(),
+     axis.text = element_text(size=rel(1.5), color="black", face = "bold"),
+     plot.title = element_text(size=rel(2), color="black", face = "bold"),
+     plot.subtitle = element_text(size=rel(1.2), color="black", face = "bold"),
+     legend.title = element_text(size=rel(1.3), color="black", face = "bold"),
+     legend.text = element_text(size = rel(1.2)),
+     legend.justification = "top" ) +
+  
+     geom_rect(aes(xmin=0.5,xmax=3.5,ymin=1.5,ymax=0.5), linetype = 2, color="black", fill = NA)+ # Plot 1
+     geom_rect(aes(xmin=0.5,xmax=3.5,ymin=2.5,ymax=1.5), linetype = 2, color="black", fill = NA)+ # Plot 2
+     geom_rect(aes(xmin=0.5,xmax=3.5,ymin=3.5,ymax=2.5), linetype = 2, color="black", fill = NA)  # Plot 3
+
+
+
+
+## ---- fig.align = "center", fig.height = 7, fig.width = 10---------------------------------------
+split_RCBD <- design.split(trt1, trt2,r=4, design=c("rcbd"),serie = 2,seed = 09041909)
+split_RCBD
+
+ split_RCBD_layout <- split_RCBD$book %>% 
+       mutate(row   = factor(c(1,1,1,2,2,2,3,3,3, # Block 1
+                               1,1,1,2,2,2,3,3,3,   # Block 2
+                               4,4,4,5,5,5,6,6,6,   # Block 3
+                               4,4,4,5,5,5,6,6,6)), # Block 4
+              colum = factor(c(1,2,3,1,2,3,1,2,3,   # Block 1
+                               4,5,6,4,5,6,4,5,6,   # Block 2
+                               1,2,3,1,2,3,1,2,3,   # Block 3
+                               4,5,6,4,5,6,4,5,6))) # Block 4
+
+   ggplot(split_RCBD_layout, aes(y=row, x = colum)) + 
+    geom_blank()+
+    
+    geom_rect(aes(xmin=3.48,xmax=6.5,ymin=3.5,ymax=6.5),color = "black", fill="#fdae61") + # Block 2
+    geom_rect(aes(xmin=0.5,xmax=3.5,ymin=0.5,ymax=3.51),color = "black", fill="#abdda4") + # Block 3
+    geom_rect(aes(xmin=3.5,xmax=6.5,ymin=0.5,ymax=3.5),color = "black", fill="#cccccc") + # Block 4
+    geom_rect(aes(xmin=0.5,xmax=3.5,ymin=3.5,ymax=6.5), fill="#bfd3e6") + # Block 1
+
+   geom_tile(aes(fill=trt1), width=.85, height=0.85, color = "black", size = 1)+
+   geom_label(aes(label =trt2), color="black", size = 8, label.size = NA)+
+
+   scale_y_discrete(expand = c(.01,.01), limits = rev)+
+   scale_x_discrete(expand = c(.01,.01))+
+   
+   scale_fill_manual(values = c("#E64B35FF", "#4DBBD5FF", "#00A087FF"), labels = c("A","B", "C"))+
+
+   labs(x=NULL, y=NULL, fill = "Factor A", 
+        title = "Factorial experimental layout - Split plot design (RCBD)",
+        subtitle = "Each factor has three levels and each combination 4 replications,\nDashed rectangles indicate the whole plot level\nSubplots with the same background color are members of the same block", 
+        caption = "Factor A is represented by the fill color of the experimental unit
+                   Factor B is represented by the label of the experiment unit")+
+  theme(
+     panel.background = element_blank(),
+     axis.text = element_text(size=rel(1.5), color="black", face = "bold"),
+     plot.title = element_text(size=rel(2), color="black", face = "bold"),
+     plot.subtitle = element_text(size=rel(1.2), color="black", face = "bold"),
+     legend.title = element_text(size=rel(1.3), color="black", face = "bold"),
+     legend.text = element_text(size = rel(1.2)),
+     legend.justification = "top" )+
+      
+   geom_rect(aes(xmin=0.5,xmax=3.5,ymin=6.5,ymax=5.5), size = 1., linetype = 2, color="black", fill = NA)+
+   geom_rect(aes(xmin=0.5,xmax=3.5,ymin=5.5,ymax=4.5), size = 1., linetype = 2, color="black", fill = NA)+
+   geom_rect(aes(xmin=0.5,xmax=3.5,ymin=4.5,ymax=3.5), size = 1., linetype = 2, color="black", fill = NA)
+
+
+
+## ---- , fig.align = "center", fig.height = 4, fig.width = 5--------------------------------------
+
+height_data <- data.frame(
+             trt    = rep(c("A","B","C"), each=6),
+             height = c(66, 67, 74, 73, 75, 64,	
+                        85, 84, 76, 82, 79, 86,	
+                        91, 93, 88, 87, 90, 86))
+  
+height_data
+
+ggplot(height_data, aes(x=trt, y = height))+
+   geom_boxplot()+
+   geom_jitter(aes(fill = trt), width = 0.2, shape = 21, size = 5,  show.legend = FALSE)+
+   labs(y = "Height (cm)", x = "Treatment")+
+   theme(axis.text = element_text(color = "black"))
+
+
+## ------------------------------------------------------------------------------------------------
+describeBy(height ~ trt, data = height_data)
+
+
+## ---- , fig.align = "center", fig.height = 4, fig.width = 5--------------------------------------
+height_lm <- lm(height ~ trt, data = height_data)
+summary(height_lm)
+
+
+## ----fig.align = "center", fig.height = 4, fig.width = 5-----------------------------------------
+anova(height_lm)
+
+
+## ---- fig.height=10, fig.width=10, message=FALSE, warning=FALSE , fig.align="center"-------------
+par(mfrow = c(2, 2))
+plot(height_lm,1:4)
+
+shapiro.test(height_lm$residuals)
+
+# Bartlett Test of Homogeneity of Variances
+bartlett.test(height ~ trt, data = height_data)
+
+# Levene's Test for Homogeneity of Variance - Mean
+leveneTest(height_lm, center="mean")
+
+# Levene's Test for Homogeneity of Variance - Median
+leveneTest(height_lm, center="median")
+
+# Fligner-Killeen test of homogeneity of variances
+fligner.test(height ~ trt, data = height_data)
+
+
+
+
+## ------------------------------------------------------------------------------------------------
+data_RCBD_yld <- data.frame(
+         trt = rep(c("A", "B", "C", "D"),4),
+         blk = as.factor(rep(1:4,each = 4)),
+         yld = c(92.3, 111.6, 122.0, 116.6,
+                 99.5, 119.1, 115.5, 113.2,
+                 98.0, 118.9, 118.2, 117.0,
+                 98.0, 118.2, 105.1, 117.8))
+data_RCBD_yld
+
+
+## ------------------------------------------------------------------------------------------------
+
+ggplot(data_RCBD_yld, aes(x=trt, y = yld))+
+   geom_boxplot(outlier.alpha = 0)+
+   geom_jitter(aes(fill = trt), width = 0.2, shape = 21, size = 5,  show.legend = FALSE)+
+   labs(y = "Yield (bu/ac)", x = "Treatment")+
+   theme(axis.text = element_text(color = "black"))
+
+
+
+## ------------------------------------------------------------------------------------------------
+RCBD_yld_lm <- lm(yld ~ trt + blk , data = data_RCBD_yld)
+summary(RCBD_yld_lm)
+
+anova(RCBD_yld_lm)
+
+
+## ------------------------------------------------------------------------------------------------
+# Least significant difference 
+RCBD_yld_LSD <- LSD.test(RCBD_yld_lm, trt="trt", alpha=0.05) 
+RCBD_yld_LSD
+
+# Tukey
+RCBD_yld_HSD <- HSD.test(RCBD_yld_lm, trt="trt", alpha=0.05) 
+RCBD_yld_HSD
+
+# Duncan
+RCBD_yld_DUN <- duncan.test(RCBD_yld_lm, trt="trt", alpha=0.05) 
+RCBD_yld_DUN
+
+
+
+## ------------------------------------------------------------------------------------------------
+
+data_yld_fac <- data.frame(
+         trt = rep(c("A", "A", "B", "B", "C", "C", "D", "D"),4),
+         var = rep(c("R", "S"),16),
+         blk = as.factor(rep(1:4,each = 8)),
+         yld = c(86.6, 92.3, 104.9, 111.6, 105.2, 122, 105.4, 116.6, 81.1, 99.5, 99, 
+                 119.1, 108.4, 115.5, 94.6, 113.2, 84.8, 98, 107.1, 118.9, 110.8, 118.2,
+                 104.1, 117, 84.5, 98, 101.4, 118.2, 109.8, 105.1, 106.1, 117.8) )
+
+data_yld_fac
+
+
+## ------------------------------------------------------------------------------------------------
+
+RCBD_yld_fac_lm <- lm(yld ~ trt + var + trt*var + blk , data = data_yld_fac)
+summary(RCBD_yld_fac_lm)
+
+
+aov(RCBD_yld_fac_lm) %>% summary()
+
+plot(RCBD_yld_fac_lm, which=1)
+plot(RCBD_yld_fac_lm, which=2)
+plot(RCBD_yld_fac_lm, which=3)
+
+
+## ------------------------------------------------------------------------------------------------
+library(emmeans)
+
+# Contrast for treatment
+emmeans(RCBD_yld_fac_lm, pairwise  ~ trt, adjust = "none")
+
+# Contrast for variety
+emmeans(RCBD_yld_fac_lm, pairwise  ~ var, adjust = "none")
+
+# Although our interaction was not significant, here is an example of how to do the contrast for interaction
+emmeans(RCBD_yld_fac_lm, pairwise  ~ trt*var, adjust = "none")
+
+# alternatives to adjust the p-value of multiple comparison
+comp.tukey<-emmeans(RCBD_yld_fac_lm, pairwise  ~ trt, adjust = "tukey")
+comp.tukey$contrasts %>%
+     confint()
+plot(comp.tukey, comparisons="TRUE")
+
+emmeans(RCBD_yld_fac_lm, pairwise  ~ trt, adjust = "bonferroni")
+emmeans(RCBD_yld_fac_lm, pairwise  ~ trt, adjust = "dunnett")
+
+
+

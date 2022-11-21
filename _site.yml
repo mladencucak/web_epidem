@@ -25,6 +25,8 @@ navbar:
       href: temp_prog_2.html 
     # - text: Spatial progress
     #   href: spatial_prog_1.html 
+    - text: HLIR
+      href: hlir.html
     - text: Forecasting
       href: forecasting.html
     - text: Sampling
@@ -41,14 +43,14 @@ navbar:
   #   - text: Extra 3 
   #     href: extra3.html 
       
-  - text: "About"
-    menu:
-     - text: "Authors"
-       href: "Authors.html"
-  - text: "Appendices"
-    menu:
-     - text: "Introduction to R"
-       href: "intro_to_R.html"  
+  # - text: "About"
+  #   menu:
+  #    - text: "Authors"
+  #      href: "Authors.html"
+  # - text: "Appendices"
+  #   menu:
+  #    - text: "Introduction to R"
+  #      href: "intro_to_R.html"  
        
 output:
   html_document:
