@@ -19,8 +19,8 @@ navbar:
     menu:
     - text: Disease Assessment 
       href: disease_assessment.html
-    # - text: Temporal progress (part 1) 
-    #   href: temp_prog_1.html 
+    - text: Temporal progress (part 1)
+      href: temp_prog_1.html
     - text: Temporal progress (part 2) 
       href: temp_prog_2.html 
     - text: Spatial progress
