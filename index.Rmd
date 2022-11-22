@@ -10,7 +10,7 @@ These materials have been developed for teaching plant disease epidemiology on a
 Very similar materials exist on [APS website](https://www.apsnet.org/edcenter/disimpactmngmnt/topc/EcologyAndEpidemiologyInR/Pages/default.aspx)
 and here we tried to refresh these resources using newer software. One of main ideas is to add the interactive element which allows learners to explore these concepts on the go.  
  
-### Developed and maintained by:  
+### Developed and maintained by 
 [Felipe Dalla Lana](https://www.lsu.edu/agriculture/plant/about/faculty-staff/lana.php)
 
 [Mladen Cucak](https://mladencucak.netlify.app/)
