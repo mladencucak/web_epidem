@@ -124,7 +124,7 @@ If there are problems installing some package, sometimes defining different repo
 #install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/")) 
 ```
 
-Ton check if all of the packages are installed run following command:
+To check if all of the packages are installed run following command:
 
 ```{r}
 list.of.packages %in% installed.packages()
@@ -136,6 +136,7 @@ If you see some `FALSE` values there, then you can check which package is missin
 list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
 
 ```
+
 
 #### Updating
 

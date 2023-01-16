@@ -1,7 +1,6 @@
 ---
 title: "**ggplot2**"
 author: "Paul Esker; Mauricio Serrano; Felipe Dalla Lana"
-date: "3/1/2021"
 output:
   html_document:
     code_folding: show
@@ -772,7 +771,7 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   facet_wrap(~var, 
              scales = "free_y", # scales will be independent if free, or only one dimension if free_y/x
              labeller = labeller( # here is an example of how to change the 
-                      var = c("R" = "Resistent", # need to remember the order of the call to define the variables
+                      var = c("R" = "Resistant", # need to remember the order of the call to define the variables
                               "S" = "Susceptible"))) # then give a new name for each level
 
 
@@ -788,7 +787,7 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
   
-  facet_wrap(~var, labeller = labeller(var = c("R" = "Resistent", "S" = "Susceptible")), 
+  facet_wrap(~var, labeller = labeller(var = c("R" = "Resistant", "S" = "Susceptible")), 
              ncol = 1, nrow = 2) # this defines how the graphics are displayed
 
 ```
@@ -808,7 +807,7 @@ ggplot(data = data_grid, aes(x = trt, y = yld)) +
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
   facet_grid(inc_cat~var, # inc_cat = row; var=column
-             labeller = labeller(var = c("R" = "Resistent", "S" = "Susceptible")))
+             labeller = labeller(var = c("R" = "Resistant", "S" = "Susceptible")))
 
 ```
 
@@ -973,7 +972,7 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
   
-  facet_grid(~var, labeller = labeller(var = c("R" = "Resistent", "S" = "Susceptible")))+
+  facet_grid(~var, labeller = labeller(var = c("R" = "Resistant", "S" = "Susceptible")))+
   
   labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments") +
   
@@ -992,7 +991,7 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
   
-  facet_grid(~var, labeller = labeller(var = c("R" = "Resistent", "S" = "Susceptible")))+
+  facet_grid(~var, labeller = labeller(var = c("R" = "Resistant", "S" = "Susceptible")))+
   
   labs(y = "Yield (bu/ac)", fill = "Treatments", 
        x = NULL) + # we suppress the x-axis title, since it will be in the legend

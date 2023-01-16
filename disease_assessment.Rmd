@@ -1,7 +1,6 @@
 ---
 title: "Disease assessment - accuarcy and precision"
 author: "Paul Esker; Felipe Dalla Lana; Mladen Cucak"
-date: "1/28/2022"
 output:
   html_document:
     code_folding: hide
@@ -497,9 +496,9 @@ acc_data %>%
 
 In comparison with the intra- and inter-rate reliability, values of $\hat{\rho_c}$ were overall lower, with none of the raters having $\hat{\rho_c} \ge 0.9$ and one (R4) with $\hat{\rho_c} = 0.4$. R4 had the lowest *r* and $C_b$, which indicates both poor precision and accuracy. Raters R1, R2, and R3 were the only ones with $\hat{\rho_c} > 0.8$. Considering the scale shift, all, but R1, R3 and R9, have $\nu > 0.35$, with R4 having a very strong scale location ($\nu = -1.4$). Except by R4 and R8, all raters showed some location shift, with $\mu > 1.35$.
 
-**# Extra**
-**Other methods (?)**
-**Confusion matrix (?)**
+<!-- **# Extra** -->
+<!-- **Other methods (?)** -->
+<!-- **Confusion matrix (?)** -->
 
 # **References**
 

@@ -14,7 +14,7 @@
 
 <title>Intro to R - From 0 to Tidyverse</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
@@ -138,13 +138,20 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -240,11 +247,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -273,8 +284,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -282,16 +293,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -889,7 +893,7 @@ href="https://adv-r.hadley.nz/vectors-chap.html">Advanced R</a>.</p>
 <span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="co"># POSIX -- describes the date and time, to the millisecond  </span></span>
 <span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a><span class="co"># it takes the date in character (string) format</span></span>
 <span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.POSIXct</span>(<span class="st">&quot;2021-04-05 11:30:45&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;2021-04-05 11:30:45 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2021-04-05 11:30:45 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can use different time zones and date formats,</span></span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for example, we define where the date as day, month, and year, </span></span>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="co"># but in the New Zealand time zone (NZL)</span></span>
@@ -914,10 +918,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="#cb1
 <span id="cb101-13"><a href="#cb101-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb101-14"><a href="#cb101-14" aria-hidden="true" tabindex="-1"></a><span class="co"># both output look the same</span></span>
 <span id="cb101-15"><a href="#cb101-15" aria-hidden="true" tabindex="-1"></a>ct</span></code></pre></div>
-<pre><code>## [1] &quot;2021-04-05 11:30:45 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2021-04-05 11:30:45 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb103"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>lt</span></code></pre></div>
-<pre><code>## [1] &quot;2021-04-05 11:30:45 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2021-04-05 11:30:45 CEST&quot;</code></pre>
 <div class="sourceCode" id="cb105"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># They are from similar classes</span></span>
 <span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ct)</span></code></pre></div>
@@ -928,7 +932,7 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb1
 <div class="sourceCode" id="cb109"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># But, they have internally different attributes, with POSIXlt having multiple components </span></span>
 <span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unclass</span>(ct) <span class="co"># the big number is the total of seconds since 1970-01-01</span></span></code></pre></div>
-<pre><code>## [1] 1617636645
+<pre><code>## [1] 1617615045
 ## attr(,&quot;tzone&quot;)
 ## [1] &quot;&quot;</code></pre>
 <div class="sourceCode" id="cb111"><pre
@@ -961,7 +965,7 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="#cb1
 ## [1] 1
 ## 
 ## $zone
-## [1] &quot;EDT&quot;
+## [1] &quot;CEST&quot;
 ## 
 ## $gmtoff
 ## [1] NA</code></pre>
@@ -1578,6 +1582,14 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="#cb1
 <div class="sourceCode" id="cb188"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load tidyverse</span></span>
 <span id="cb188-2"><a href="#cb188-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ✔ purrr   0.3.5      
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <p><br> During this class, we will be applying many of the tools
 available in tidyverse, including in the following sections. We will
 remind you about the different packages as we work through the course
@@ -1600,9 +1612,9 @@ store the data file and corresponding code and output. We recommend
 doing this for each project to minimize errors. Before we set the
 directly, let us first find out what is the default directory by using
 the function <code>getwd()</code>.</p>
-<div class="sourceCode" id="cb189"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>() <span class="co"># See where the work directory is current located (Note: this will be different for each person)</span></span></code></pre></div>
-<pre><code>## [1] &quot;C:/Users/mbc5867/OneDrive - The Pennsylvania State University/Documents/GitHub/Teaching/web_epidem&quot;</code></pre>
+<div class="sourceCode" id="cb190"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>() <span class="co"># See where the work directory is current located (Note: this will be different for each person)</span></span></code></pre></div>
+<pre><code>## [1] &quot;C:/Git/my_old/web_epidem&quot;</code></pre>
 <p><br></p>
 <p>If you want to change the directory, there is a couple ways to do it,
 and we will show two of them.</p>
@@ -1610,11 +1622,11 @@ and we will show two of them.</p>
 <code>setwd()</code> (set work directory) and indicate specifically
 where you want set as your “work home”.</p>
 <p>One example showing how you might use a University-related “D”:</p>
-<div class="sourceCode" id="cb191"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Enter with the path for your work directory between &quot;&quot;</span></span>
-<span id="cb191-2"><a href="#cb191-2" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd(&quot;D:/OneDrive_PSU/The Pennsylvania State University/Epidem class - PSU&quot;) </span></span>
-<span id="cb191-3"><a href="#cb191-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-4"><a href="#cb191-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: one of the most common errors for Windows users is the slash orientation. Where R uses / (forward slash), Windows use \ (backslash). A simple copy and paste, without replacing \ to /, will cause an error.</span></span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Enter with the path for your work directory between &quot;&quot;</span></span>
+<span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd(&quot;D:/OneDrive_PSU/The Pennsylvania State University/Epidem class - PSU&quot;) </span></span>
+<span id="cb192-3"><a href="#cb192-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-4"><a href="#cb192-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: one of the most common errors for Windows users is the slash orientation. Where R uses / (forward slash), Windows use \ (backslash). A simple copy and paste, without replacing \ to /, will cause an error.</span></span></code></pre></div>
 <p><br></p>
 <p>Although using the function <code>setwd()</code> will do the job, it
 is not practical. For example, if you work on two computers (one from
@@ -1676,10 +1688,10 @@ function <code>read_csv()</code> from the package <code>readr</code>
 (part of core packages of tidyverse). With this function, you will be
 provided directly with information about each vector (variable)
 type.</p>
-<div class="sourceCode" id="cb192"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that because we have defined the work directory as the folder &quot;Epidem class - PSU&quot;, </span></span>
-<span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a><span class="co"># which contains the subfolder &quot;data&quot;, we do not have to type the entire path for the data</span></span>
-<span id="cb192-3"><a href="#cb192-3" aria-hidden="true" tabindex="-1"></a>data_demo <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;data/intro_r/data_demo.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that because we have defined the work directory as the folder &quot;Epidem class - PSU&quot;, </span></span>
+<span id="cb193-2"><a href="#cb193-2" aria-hidden="true" tabindex="-1"></a><span class="co"># which contains the subfolder &quot;data&quot;, we do not have to type the entire path for the data</span></span>
+<span id="cb193-3"><a href="#cb193-3" aria-hidden="true" tabindex="-1"></a>data_demo <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;data/intro_r/data_demo.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 64 Columns: 9
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -1688,8 +1700,8 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="#cb1
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb194"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a>data_demo</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>data_demo</span></code></pre></div>
 <pre><code>## # A tibble: 64 × 9
 ##     plot trt   var     blk   sev   inc   yld   don   fdk
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -1703,15 +1715,14 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="#cb1
 ##  8   412 A     R         4  0.45    10  84.8  0.07    42
 ##  9   108 A     S         1 13.3     55  92.3  0.42    NA
 ## 10   110 A     S         1 12.3     50 103.   0.26    NA
-## # … with 54 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+## # … with 54 more rows</code></pre>
 <p><br></p>
 <p>If you wanted to load data from another folder that is not located in
 our work directory, you just need to include the entire path.</p>
-<div class="sourceCode" id="cb196"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This will give you the same result, however, it is specific </span></span>
-<span id="cb196-2"><a href="#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for the computer being used computer and is difficult to read</span></span>
-<span id="cb196-3"><a href="#cb196-3" aria-hidden="true" tabindex="-1"></a>data_demo2 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;D:/OneDrive_PSU/The Pennsylvania State University/Epidem class - PSU/data/intro_r/data_demo.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This will give you the same result, however, it is specific </span></span>
+<span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for the computer being used computer and is difficult to read</span></span>
+<span id="cb197-3"><a href="#cb197-3" aria-hidden="true" tabindex="-1"></a>data_demo2 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;D:/OneDrive_PSU/The Pennsylvania State University/Epidem class - PSU/data/intro_r/data_demo.csv&quot;</span>)</span></code></pre></div>
 <p><br></p>
 <p>Other functions to read <code>.csv</code> files include the R base
 function <code>read.csv()</code> and <code>read.csv2()</code> from the
@@ -1734,10 +1745,10 @@ this, we will use the tools available in the <code>tidyverse</code>
 packages, specifically <code>tidyr</code> and <code>dplyr</code>.</p>
 <p>Before we commence with data manipulation, it is important to have a
 look at the data.</p>
-<div class="sourceCode" id="cb197"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We previously saw the following function, but let&#39;s use the function str() to see the details about the different variables</span></span>
-<span id="cb197-2"><a href="#cb197-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data_demo)</span></code></pre></div>
-<pre><code>## spec_tbl_df [64 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+<div class="sourceCode" id="cb198"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We previously saw the following function, but let&#39;s use the function str() to see the details about the different variables</span></span>
+<span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data_demo)</span></code></pre></div>
+<pre><code>## spc_tbl_ [64 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ plot: num [1:64] 107 109 204 214 305 316 406 412 108 110 ...
 ##  $ trt : chr [1:64] &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; ...
 ##  $ var : chr [1:64] &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; ...
@@ -1769,9 +1780,9 @@ format.</p>
 summary stats, as well as the functions <code>head()</code> and
 <code>tail()</code>, both of which are useful to show information about
 the first and last rows in a dataset.</p>
-<div class="sourceCode" id="cb199"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary stats</span></span>
-<span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_demo)</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary stats</span></span>
+<span id="cb200-2"><a href="#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_demo)</span></code></pre></div>
 <pre><code>##       plot           trt                var                 blk      
 ##  Min.   :101.0   Length:64          Length:64          Min.   :1.00  
 ##  1st Qu.:179.8   Class :character   Class :character   1st Qu.:1.75  
@@ -1796,9 +1807,9 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="#cb1
 ##  3rd Qu.:15.50  
 ##  Max.   :42.00  
 ##  NA&#39;s   :2</code></pre>
-<div class="sourceCode" id="cb201"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First lines</span></span>
-<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_demo)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First lines</span></span>
+<span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_demo)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 9
 ##    plot trt   var     blk   sev   inc   yld   don   fdk
 ##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -1808,9 +1819,9 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="#cb2
 ## 4   214 A     R         2  4.05    50  85.1  0.07    25
 ## 5   305 A     R         3  1.1     15  84.8  0       29
 ## 6   316 A     R         3  1.8     10  93.7  0       24</code></pre>
-<div class="sourceCode" id="cb203"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Last lines</span></span>
-<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(data_demo)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Last lines</span></span>
+<span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(data_demo)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 9
 ##    plot trt   var     blk   sev   inc   yld   don   fdk
 ##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -1840,45 +1851,45 @@ What this means is that you do not need to load the package
 <code>magrittr</code> to use the <code>%&gt;%</code> pipe. See the
 simple example which follows to examine how we use such a concept to
 examine our data.</p>
-<div class="sourceCode" id="cb205"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s start with some generic data which represent values of the mycotoxin DON</span></span>
-<span id="cb205-2"><a href="#cb205-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb205-3"><a href="#cb205-3" aria-hidden="true" tabindex="-1"></a>DON <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">2.5</span>, <span class="fl">7.5</span>, <span class="dv">1</span>, <span class="fl">0.9</span>, <span class="fl">3.2</span>, <span class="fl">4.5</span>)</span>
-<span id="cb205-4"><a href="#cb205-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb205-5"><a href="#cb205-5" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want calculate the mean of the log-transformed values,  </span></span>
-<span id="cb205-6"><a href="#cb205-6" aria-hidden="true" tabindex="-1"></a><span class="co"># a traditional way to do this is by creating multiple objects</span></span>
-<span id="cb205-7"><a href="#cb205-7" aria-hidden="true" tabindex="-1"></a>DON_log <span class="ot">&lt;-</span> <span class="fu">log</span>(DON)</span>
-<span id="cb205-8"><a href="#cb205-8" aria-hidden="true" tabindex="-1"></a>DON_log_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(DON_log)</span>
-<span id="cb205-9"><a href="#cb205-9" aria-hidden="true" tabindex="-1"></a>DON_log_mean</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s start with some generic data which represent values of the mycotoxin DON</span></span>
+<span id="cb206-2"><a href="#cb206-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-3"><a href="#cb206-3" aria-hidden="true" tabindex="-1"></a>DON <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">2.5</span>, <span class="fl">7.5</span>, <span class="dv">1</span>, <span class="fl">0.9</span>, <span class="fl">3.2</span>, <span class="fl">4.5</span>)</span>
+<span id="cb206-4"><a href="#cb206-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-5"><a href="#cb206-5" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want calculate the mean of the log-transformed values,  </span></span>
+<span id="cb206-6"><a href="#cb206-6" aria-hidden="true" tabindex="-1"></a><span class="co"># a traditional way to do this is by creating multiple objects</span></span>
+<span id="cb206-7"><a href="#cb206-7" aria-hidden="true" tabindex="-1"></a>DON_log <span class="ot">&lt;-</span> <span class="fu">log</span>(DON)</span>
+<span id="cb206-8"><a href="#cb206-8" aria-hidden="true" tabindex="-1"></a>DON_log_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(DON_log)</span>
+<span id="cb206-9"><a href="#cb206-9" aria-hidden="true" tabindex="-1"></a>DON_log_mean</span></code></pre></div>
 <pre><code>## [1] 0.4557823</code></pre>
-<div class="sourceCode" id="cb207"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Another way is to nest all of the functions in a single line</span></span>
-<span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>DON_log_nest <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">log</span>(DON))</span>
-<span id="cb207-3"><a href="#cb207-3" aria-hidden="true" tabindex="-1"></a>DON_log_nest</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Another way is to nest all of the functions in a single line</span></span>
+<span id="cb208-2"><a href="#cb208-2" aria-hidden="true" tabindex="-1"></a>DON_log_nest <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">log</span>(DON))</span>
+<span id="cb208-3"><a href="#cb208-3" aria-hidden="true" tabindex="-1"></a>DON_log_nest</span></code></pre></div>
 <pre><code>## [1] 0.4557823</code></pre>
-<div class="sourceCode" id="cb209"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally though, we can use a pipe which provides a logical flow to work with the data, by linking the steps of the calculation and requiring fewer objects</span></span>
-<span id="cb209-2"><a href="#cb209-2" aria-hidden="true" tabindex="-1"></a>DON_log_pipe <span class="ot">&lt;-</span> DON <span class="sc">%&gt;%</span> <span class="co"># The pipe transfer the content of the left side to right function with DON as the data, followed by the transformation and calculation of the mean</span></span>
-<span id="cb209-3"><a href="#cb209-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(.) <span class="sc">%&gt;%</span></span>
-<span id="cb209-4"><a href="#cb209-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(.)</span>
-<span id="cb209-5"><a href="#cb209-5" aria-hidden="true" tabindex="-1"></a>DON_log_pipe</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finally though, we can use a pipe which provides a logical flow to work with the data, by linking the steps of the calculation and requiring fewer objects</span></span>
+<span id="cb210-2"><a href="#cb210-2" aria-hidden="true" tabindex="-1"></a>DON_log_pipe <span class="ot">&lt;-</span> DON <span class="sc">%&gt;%</span> <span class="co"># The pipe transfer the content of the left side to right function with DON as the data, followed by the transformation and calculation of the mean</span></span>
+<span id="cb210-3"><a href="#cb210-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(.) <span class="sc">%&gt;%</span></span>
+<span id="cb210-4"><a href="#cb210-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(.)</span>
+<span id="cb210-5"><a href="#cb210-5" aria-hidden="true" tabindex="-1"></a>DON_log_pipe</span></code></pre></div>
 <pre><code>## [1] 0.4557823</code></pre>
 <div id="filter" class="section level3">
 <h3><strong>Filter</strong></h3>
 <p>Filter is used to select rows or observations based on defined
 criteria</p>
-<div class="sourceCode" id="cb211"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The function filter works by defining the data source and the specific conditionn</span></span>
-<span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(data_demo, <span class="fu">is.na</span>(fdk)) <span class="co"># is.na() will filter only rows where there is missing observations for fdk variable</span></span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The function filter works by defining the data source and the specific conditionn</span></span>
+<span id="cb212-2"><a href="#cb212-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(data_demo, <span class="fu">is.na</span>(fdk)) <span class="co"># is.na() will filter only rows where there is missing observations for fdk variable</span></span></code></pre></div>
 <pre><code>## # A tibble: 2 × 9
 ##    plot trt   var     blk   sev   inc   yld   don   fdk
 ##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1   108 A     S         1  13.3    55  92.3  0.42    NA
 ## 2   110 A     S         1  12.3    50 103.   0.26    NA</code></pre>
-<div class="sourceCode" id="cb213"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Works with pipes as well</span></span>
-<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
-<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">is.na</span>(fdk))</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Works with pipes as well</span></span>
+<span id="cb214-2"><a href="#cb214-2" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
+<span id="cb214-3"><a href="#cb214-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">is.na</span>(fdk))</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 9
 ##    plot trt   var     blk   sev   inc   yld   don   fdk
 ##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -1903,10 +1914,10 @@ operators which work closely with <code>filter()</code>.</p>
 </ul>
 <p><br></p>
 <p>Let’s practice a few different types of filters.</p>
-<div class="sourceCode" id="cb215"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span> </span>
-<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(var <span class="sc">==</span> <span class="st">&quot;R&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># filter only data using the column var that is defined as R (resistant in our example)</span></span>
-<span id="cb215-3"><a href="#cb215-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>) <span class="co"># print all observation</span></span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span> </span>
+<span id="cb216-2"><a href="#cb216-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(var <span class="sc">==</span> <span class="st">&quot;R&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># filter only data using the column var that is defined as R (resistant in our example)</span></span>
+<span id="cb216-3"><a href="#cb216-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>) <span class="co"># print all observation</span></span></code></pre></div>
 <pre><code>## # A tibble: 32 × 9
 ##     plot trt   var     blk   sev   inc   yld   don   fdk
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -1942,10 +1953,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="#cb2
 ## 30   313 D     R         3  0        0 103    0.07    18
 ## 31   402 D     R         4  0.15     5 106.   0       11
 ## 32   414 D     R         4  0        0 107.   0.07    18</code></pre>
-<div class="sourceCode" id="cb217"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span> </span>
-<span id="cb217-2"><a href="#cb217-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(var <span class="sc">==</span> <span class="st">&quot;R&quot;</span> <span class="sc">&amp;</span> trt <span class="sc">==</span> <span class="st">&quot;A&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># filter using the column var which contains R and from the column trt which contains A</span></span>
-<span id="cb217-3"><a href="#cb217-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span> </span>
+<span id="cb218-2"><a href="#cb218-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(var <span class="sc">==</span> <span class="st">&quot;R&quot;</span> <span class="sc">&amp;</span> trt <span class="sc">==</span> <span class="st">&quot;A&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># filter using the column var which contains R and from the column trt which contains A</span></span>
+<span id="cb218-3"><a href="#cb218-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>) </span></code></pre></div>
 <pre><code>## # A tibble: 8 × 9
 ##    plot trt   var     blk   sev   inc   yld   don   fdk
 ##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -1957,10 +1968,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="#cb2
 ## 6   316 A     R         3  1.8     10  93.7  0       24
 ## 7   406 A     R         4  1.4     25  84.5  0.06    37
 ## 8   412 A     R         4  0.45    10  84.8  0.07    42</code></pre>
-<div class="sourceCode" id="cb219"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span> </span>
-<span id="cb219-2"><a href="#cb219-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sev <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> <span class="co"># filter the column severity for all values greater than or equal to 5</span></span>
-<span id="cb219-3"><a href="#cb219-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>) <span class="co"># print all observation</span></span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span> </span>
+<span id="cb220-2"><a href="#cb220-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sev <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> <span class="co"># filter the column severity for all values greater than or equal to 5</span></span>
+<span id="cb220-3"><a href="#cb220-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>) <span class="co"># print all observation</span></span></code></pre></div>
 <pre><code>## # A tibble: 5 × 9
 ##    plot trt   var     blk   sev   inc   yld   don   fdk
 ##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -1969,10 +1980,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="#cb2
 ## 3   213 A     S         2  5.5     60  93.4  0.2      6
 ## 4   306 A     S         3  5.05    45  98    0.17     5
 ## 5   411 A     S         4  5.65    15  99.9  0.31     7</code></pre>
-<div class="sourceCode" id="cb221"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span> </span>
-<span id="cb221-2"><a href="#cb221-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fdk <span class="sc">&lt;</span> <span class="dv">1</span> <span class="sc">|</span> don <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="co"># filter data from the column fdk less than 1 or from the column don where values are exactly equal to 0</span></span>
-<span id="cb221-3"><a href="#cb221-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="#cb222-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span> </span>
+<span id="cb222-2"><a href="#cb222-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fdk <span class="sc">&lt;</span> <span class="dv">1</span> <span class="sc">|</span> don <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="co"># filter data from the column fdk less than 1 or from the column don where values are exactly equal to 0</span></span>
+<span id="cb222-3"><a href="#cb222-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n=</span><span class="cn">Inf</span>) </span></code></pre></div>
 <pre><code>## # A tibble: 21 × 9
 ##     plot trt   var     blk   sev   inc   yld   don   fdk
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -2001,9 +2012,9 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="#cb2
 </div>
 <div id="select" class="section level3">
 <h3><strong>Select</strong></h3>
-<div class="sourceCode" id="cb223"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
-<span id="cb223-2"><a href="#cb223-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(trt, var, blk, sev, inc) <span class="co"># select multiple variables = columns</span></span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="#cb224-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
+<span id="cb224-2"><a href="#cb224-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(trt, var, blk, sev, inc) <span class="co"># select multiple variables = columns</span></span></code></pre></div>
 <pre><code>## # A tibble: 64 × 5
 ##    trt   var     blk   sev   inc
 ##    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -2017,11 +2028,10 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="#cb2
 ##  8 A     R         4  0.45    10
 ##  9 A     S         1 13.3     55
 ## 10 A     S         1 12.3     50
-## # … with 54 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
-<div class="sourceCode" id="cb225"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="#cb225-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
-<span id="cb225-2"><a href="#cb225-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>plot, <span class="sc">-</span>yld, <span class="sc">-</span>don, <span class="sc">-</span>fdk) <span class="co"># another way to achieve the same thing as the previous example, the &#39;-&#39; says to not select those variables</span></span></code></pre></div>
+## # … with 54 more rows</code></pre>
+<div class="sourceCode" id="cb226"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="#cb226-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
+<span id="cb226-2"><a href="#cb226-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>plot, <span class="sc">-</span>yld, <span class="sc">-</span>don, <span class="sc">-</span>fdk) <span class="co"># another way to achieve the same thing as the previous example, the &#39;-&#39; says to not select those variables</span></span></code></pre></div>
 <pre><code>## # A tibble: 64 × 5
 ##    trt   var     blk   sev   inc
 ##    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -2035,15 +2045,14 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="#cb2
 ##  8 A     R         4  0.45    10
 ##  9 A     S         1 13.3     55
 ## 10 A     S         1 12.3     50
-## # … with 54 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+## # … with 54 more rows</code></pre>
 </div>
 <div id="mutate" class="section level3">
 <h3><strong>Mutate</strong></h3>
-<div class="sourceCode" id="cb227"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
-<span id="cb227-2"><a href="#cb227-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sev_prop =</span> sev<span class="sc">/</span><span class="dv">100</span>, <span class="co"># transform yield and inc from a percentage to a proportion and add those columns to the database</span></span>
-<span id="cb227-3"><a href="#cb227-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">inc_prop =</span> inc<span class="sc">/</span><span class="dv">100</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb228"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="#cb228-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
+<span id="cb228-2"><a href="#cb228-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sev_prop =</span> sev<span class="sc">/</span><span class="dv">100</span>, <span class="co"># transform yield and inc from a percentage to a proportion and add those columns to the database</span></span>
+<span id="cb228-3"><a href="#cb228-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">inc_prop =</span> inc<span class="sc">/</span><span class="dv">100</span>) </span></code></pre></div>
 <pre><code>## # A tibble: 64 × 11
 ##     plot trt   var     blk   sev   inc   yld   don   fdk sev_prop inc_prop
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
@@ -2057,12 +2066,11 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="#cb2
 ##  8   412 A     R         4  0.45    10  84.8  0.07    42   0.0045     0.1 
 ##  9   108 A     S         1 13.3     55  92.3  0.42    NA   0.133      0.55
 ## 10   110 A     S         1 12.3     50 103.   0.26    NA   0.123      0.5 
-## # … with 54 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
-<div class="sourceCode" id="cb229"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="#cb229-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
-<span id="cb229-2"><a href="#cb229-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yld =</span> yld<span class="sc">*</span><span class="fl">67.25</span>,  <span class="co"># to convert yield in bushels per acre to kilograms per hectare. In this case, note that we replace the original values of yld with the new values</span></span>
-<span id="cb229-3"><a href="#cb229-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">trt_var =</span> <span class="fu">paste0</span>(trt, <span class="st">&quot;_&quot;</span>, var)) <span class="co"># combine two variables (trt and var) into a single variable and create a new column</span></span></code></pre></div>
+## # … with 54 more rows</code></pre>
+<div class="sourceCode" id="cb230"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="#cb230-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
+<span id="cb230-2"><a href="#cb230-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yld =</span> yld<span class="sc">*</span><span class="fl">67.25</span>,  <span class="co"># to convert yield in bushels per acre to kilograms per hectare. In this case, note that we replace the original values of yld with the new values</span></span>
+<span id="cb230-3"><a href="#cb230-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">trt_var =</span> <span class="fu">paste0</span>(trt, <span class="st">&quot;_&quot;</span>, var)) <span class="co"># combine two variables (trt and var) into a single variable and create a new column</span></span></code></pre></div>
 <pre><code>## # A tibble: 64 × 10
 ##     plot trt   var     blk   sev   inc   yld   don   fdk trt_var
 ##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  
@@ -2076,17 +2084,16 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="#cb2
 ##  8   412 A     R         4  0.45    10 5703.  0.07    42 A_R    
 ##  9   108 A     S         1 13.3     55 6207.  0.42    NA A_S    
 ## 10   110 A     S         1 12.3     50 6920.  0.26    NA A_S    
-## # … with 54 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+## # … with 54 more rows</code></pre>
 </div>
 <div id="summarize" class="section level3">
 <h3><strong>Summarize</strong></h3>
-<div class="sourceCode" id="cb231"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
-<span id="cb231-2"><a href="#cb231-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt) <span class="sc">%&gt;%</span> <span class="co"># first group the variables by the trt values</span></span>
-<span id="cb231-3"><a href="#cb231-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sev =</span> <span class="fu">mean</span>(sev), <span class="co"># apply the functions mean, max (maximum) and sd (standard deviation) to create summaries by trt</span></span>
-<span id="cb231-4"><a href="#cb231-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">inv =</span> <span class="fu">max</span>(inc),</span>
-<span id="cb231-5"><a href="#cb231-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">yld =</span> <span class="fu">sd</span>(yld))</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="#cb232-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
+<span id="cb232-2"><a href="#cb232-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt) <span class="sc">%&gt;%</span> <span class="co"># first group the variables by the trt values</span></span>
+<span id="cb232-3"><a href="#cb232-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sev =</span> <span class="fu">mean</span>(sev), <span class="co"># apply the functions mean, max (maximum) and sd (standard deviation) to create summaries by trt</span></span>
+<span id="cb232-4"><a href="#cb232-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">inv =</span> <span class="fu">max</span>(inc),</span>
+<span id="cb232-5"><a href="#cb232-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">yld =</span> <span class="fu">sd</span>(yld))</span></code></pre></div>
 <pre><code>## # A tibble: 4 × 4
 ##   trt     sev   inv   yld
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -2094,12 +2101,12 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="#cb2
 ## 2 B     1.64     35  7.19
 ## 3 C     0.572    20  6.67
 ## 4 D     0.438    40  7.13</code></pre>
-<div class="sourceCode" id="cb233"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="#cb233-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
-<span id="cb233-2"><a href="#cb233-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(var, trt) <span class="sc">%&gt;%</span> <span class="co"># it is possible to group multiple variables, look at the differences with the first example</span></span>
-<span id="cb233-3"><a href="#cb233-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sev =</span> <span class="fu">mean</span>(sev), </span>
-<span id="cb233-4"><a href="#cb233-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">inv =</span> <span class="fu">max</span>(inc),</span>
-<span id="cb233-5"><a href="#cb233-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">yld =</span> <span class="fu">sd</span>(yld))</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="#cb234-1" aria-hidden="true" tabindex="-1"></a>data_demo <span class="sc">%&gt;%</span></span>
+<span id="cb234-2"><a href="#cb234-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(var, trt) <span class="sc">%&gt;%</span> <span class="co"># it is possible to group multiple variables, look at the differences with the first example</span></span>
+<span id="cb234-3"><a href="#cb234-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sev =</span> <span class="fu">mean</span>(sev), </span>
+<span id="cb234-4"><a href="#cb234-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">inv =</span> <span class="fu">max</span>(inc),</span>
+<span id="cb234-5"><a href="#cb234-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">yld =</span> <span class="fu">sd</span>(yld))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;var&#39;. You can override using the `.groups`
 ## argument.</code></pre>
 <pre><code>## # A tibble: 8 × 5
@@ -2117,16 +2124,16 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="#cb2
 </div>
 <div id="and-more-reshape" class="section level3">
 <h3><strong>And more (reshape)</strong></h3>
-<div class="sourceCode" id="cb236"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For some analyses and plots, we may want to reshape our data and </span></span>
-<span id="cb236-2"><a href="#cb236-2" aria-hidden="true" tabindex="-1"></a><span class="co"># we can do that using the functions pivot_longer() and pivot_wider()</span></span>
-<span id="cb236-3"><a href="#cb236-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb236-4"><a href="#cb236-4" aria-hidden="true" tabindex="-1"></a>data_longer <span class="ot">&lt;-</span> data_demo <span class="sc">%&gt;%</span></span>
-<span id="cb236-5"><a href="#cb236-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>plot) <span class="sc">%&gt;%</span>  <span class="co"># remove an extra var (= plot)</span></span>
-<span id="cb236-6"><a href="#cb236-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(trt, var, blk), <span class="co"># columns that should not be reshaped as we change the database format</span></span>
-<span id="cb236-7"><a href="#cb236-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;variables&quot;</span>, <span class="co"># name the new column for the variables which gathered</span></span>
-<span id="cb236-8"><a href="#cb236-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;values&quot;</span>)   <span class="co"># name for the column where the data are provided </span></span>
-<span id="cb236-9"><a href="#cb236-9" aria-hidden="true" tabindex="-1"></a>data_longer</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For some analyses and plots, we may want to reshape our data and </span></span>
+<span id="cb237-2"><a href="#cb237-2" aria-hidden="true" tabindex="-1"></a><span class="co"># we can do that using the functions pivot_longer() and pivot_wider()</span></span>
+<span id="cb237-3"><a href="#cb237-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb237-4"><a href="#cb237-4" aria-hidden="true" tabindex="-1"></a>data_longer <span class="ot">&lt;-</span> data_demo <span class="sc">%&gt;%</span></span>
+<span id="cb237-5"><a href="#cb237-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>plot) <span class="sc">%&gt;%</span>  <span class="co"># remove an extra var (= plot)</span></span>
+<span id="cb237-6"><a href="#cb237-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(trt, var, blk), <span class="co"># columns that should not be reshaped as we change the database format</span></span>
+<span id="cb237-7"><a href="#cb237-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;variables&quot;</span>, <span class="co"># name the new column for the variables which gathered</span></span>
+<span id="cb237-8"><a href="#cb237-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;values&quot;</span>)   <span class="co"># name for the column where the data are provided </span></span>
+<span id="cb237-9"><a href="#cb237-9" aria-hidden="true" tabindex="-1"></a>data_longer</span></code></pre></div>
 <pre><code>## # A tibble: 320 × 5
 ##    trt   var     blk variables values
 ##    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
@@ -2140,8 +2147,7 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="#cb2
 ##  8 A     R         1 yld        80.3 
 ##  9 A     R         1 don         0.15
 ## 10 A     R         1 fdk         4   
-## # … with 310 more rows
-## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+## # … with 310 more rows</code></pre>
 </div>
 </div>
 <div id="export-outputs" class="section level1">
@@ -2150,22 +2156,21 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="#cb2
 your manuscript or report. There is many packages for exporting data in
 an excel file (<code>.xlsx</code>). In the following example, we will
 use the packages <code>openxlsx</code>.</p>
-<div class="sourceCode" id="cb238"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export with openxlsx package</span></span>
-<span id="cb238-2"><a href="#cb238-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span></code></pre></div>
-<pre><code>## Warning: package &#39;openxlsx&#39; was built under R version 4.2.2</code></pre>
-<div class="sourceCode" id="cb240"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="#cb240-1" aria-hidden="true" tabindex="-1"></a>openxlsx<span class="sc">::</span><span class="fu">write.xlsx</span>(data_longer, <span class="co"># File that we want export</span></span>
-<span id="cb240-2"><a href="#cb240-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;1_intro_to_R/data/intro_r/example_output.xlsx&quot;</span>, <span class="co"># location and name of our .xlsx</span></span>
-<span id="cb240-3"><a href="#cb240-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">sheetName=</span><span class="st">&quot;First_example&quot;</span>, <span class="co"># name of sheet</span></span>
-<span id="cb240-4"><a href="#cb240-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">append=</span><span class="cn">FALSE</span>) <span class="co"># If need to add to an existing file</span></span></code></pre></div>
-<pre><code>## Warning in file.create(to[okay]): cannot create file &#39;1_intro_to_R/data/intro_r/
-## example_output.xlsx&#39;, reason &#39;No such file or directory&#39;</code></pre>
-<div class="sourceCode" id="cb242"><pre
-class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="#cb242-1" aria-hidden="true" tabindex="-1"></a>two_data_frame <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&#39;ex_1&#39;</span> <span class="ot">=</span> data_demo, <span class="st">&#39;ex_2&#39;</span> <span class="ot">=</span> data_longer)</span>
-<span id="cb242-2"><a href="#cb242-2" aria-hidden="true" tabindex="-1"></a>openxlsx<span class="sc">::</span><span class="fu">write.xlsx</span>(two_data_frame, <span class="at">file =</span> <span class="st">&quot;1_intro_to_R/data/intro_r/two_sheets.xlsx&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in file.create(to[okay]): cannot create file &#39;1_intro_to_R/data/intro_r/
-## two_sheets.xlsx&#39;, reason &#39;No such file or directory&#39;</code></pre>
+<div class="sourceCode" id="cb239"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export with openxlsx package</span></span>
+<span id="cb239-2"><a href="#cb239-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
+<span id="cb239-3"><a href="#cb239-3" aria-hidden="true" tabindex="-1"></a>openxlsx<span class="sc">::</span><span class="fu">write.xlsx</span>(data_longer, <span class="co"># File that we want export</span></span>
+<span id="cb239-4"><a href="#cb239-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">file =</span> <span class="st">&quot;1_intro_to_R/data/intro_r/example_output.xlsx&quot;</span>, <span class="co"># location and name of our .xlsx</span></span>
+<span id="cb239-5"><a href="#cb239-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">sheetName=</span><span class="st">&quot;First_example&quot;</span>, <span class="co"># name of sheet</span></span>
+<span id="cb239-6"><a href="#cb239-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">append=</span><span class="cn">FALSE</span>) <span class="co"># If need to add to an existing file</span></span></code></pre></div>
+<pre><code>## Warning in file.create(to[okay]): cannot create file
+## &#39;1_intro_to_R/data/intro_r/example_output.xlsx&#39;, reason &#39;No such file or
+## directory&#39;</code></pre>
+<div class="sourceCode" id="cb241"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="#cb241-1" aria-hidden="true" tabindex="-1"></a>two_data_frame <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&#39;ex_1&#39;</span> <span class="ot">=</span> data_demo, <span class="st">&#39;ex_2&#39;</span> <span class="ot">=</span> data_longer)</span>
+<span id="cb241-2"><a href="#cb241-2" aria-hidden="true" tabindex="-1"></a>openxlsx<span class="sc">::</span><span class="fu">write.xlsx</span>(two_data_frame, <span class="at">file =</span> <span class="st">&quot;1_intro_to_R/data/intro_r/two_sheets.xlsx&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in file.create(to[okay]): cannot create file
+## &#39;1_intro_to_R/data/intro_r/two_sheets.xlsx&#39;, reason &#39;No such file or directory&#39;</code></pre>
 </div>
 
 

@@ -14,7 +14,7 @@
 
 <title>Temporal disease progress: DPC, AUDPC and rAUDPC</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
@@ -138,13 +138,20 @@ code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -262,11 +269,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -295,8 +306,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -304,16 +315,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -484,6 +488,9 @@ div.tocify {
       <a href="disease_assessment.html">Disease Assessment</a>
     </li>
     <li>
+      <a href="temp_prog_1.html">Temporal progress (part 1)</a>
+    </li>
+    <li>
       <a href="temp_prog_2.html">Temporal progress (part 2)</a>
     </li>
     <li>
@@ -650,12 +657,12 @@ functionality should be used carefully as this can be “dangerous”!</p>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>inf <span class="co"># callout variables within dataframe without defining the parent object</span></span></code></pre></div>
 <pre><code>##  [1]   4  16  36  64 101 151 218 300 386 472 549 614 623</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gt<span class="sc">::</span><span class="fu">gt</span>(dta) </span></code></pre></div>
-<div id="xcqygjfmnv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="hdpphevuoq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#xcqygjfmnv .gt_table {
+#hdpphevuoq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -680,7 +687,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-left-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_heading {
+#hdpphevuoq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -692,7 +699,12 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-right-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_title {
+#hdpphevuoq .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#hdpphevuoq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -704,7 +716,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-bottom-width: 0;
 }
 
-#xcqygjfmnv .gt_subtitle {
+#hdpphevuoq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -716,13 +728,13 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-top-width: 0;
 }
 
-#xcqygjfmnv .gt_bottom_border {
+#hdpphevuoq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_col_headings {
+#hdpphevuoq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -737,7 +749,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-right-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_col_heading {
+#hdpphevuoq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -757,7 +769,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   overflow-x: hidden;
 }
 
-#xcqygjfmnv .gt_column_spanner_outer {
+#hdpphevuoq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -769,15 +781,15 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 4px;
 }
 
-#xcqygjfmnv .gt_column_spanner_outer:first-child {
+#hdpphevuoq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xcqygjfmnv .gt_column_spanner_outer:last-child {
+#hdpphevuoq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xcqygjfmnv .gt_column_spanner {
+#hdpphevuoq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -789,7 +801,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   width: 100%;
 }
 
-#xcqygjfmnv .gt_group_heading {
+#hdpphevuoq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -812,9 +824,10 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-right-width: 1px;
   border-right-color: #D3D3D3;
   vertical-align: middle;
+  text-align: left;
 }
 
-#xcqygjfmnv .gt_empty_group_heading {
+#hdpphevuoq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -829,15 +842,15 @@ functionality should be used carefully as this can be “dangerous”!</p>
   vertical-align: middle;
 }
 
-#xcqygjfmnv .gt_from_md > :first-child {
+#hdpphevuoq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xcqygjfmnv .gt_from_md > :last-child {
+#hdpphevuoq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xcqygjfmnv .gt_row {
+#hdpphevuoq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -856,7 +869,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   overflow-x: hidden;
 }
 
-#xcqygjfmnv .gt_stub {
+#hdpphevuoq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -869,7 +882,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#xcqygjfmnv .gt_stub_row_group {
+#hdpphevuoq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -883,11 +896,11 @@ functionality should be used carefully as this can be “dangerous”!</p>
   vertical-align: top;
 }
 
-#xcqygjfmnv .gt_row_group_first td {
+#hdpphevuoq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xcqygjfmnv .gt_summary_row {
+#hdpphevuoq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -897,16 +910,16 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#xcqygjfmnv .gt_first_summary_row {
+#hdpphevuoq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_first_summary_row.thick {
+#hdpphevuoq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xcqygjfmnv .gt_last_summary_row {
+#hdpphevuoq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -916,7 +929,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-bottom-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_grand_summary_row {
+#hdpphevuoq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -926,7 +939,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#xcqygjfmnv .gt_first_grand_summary_row {
+#hdpphevuoq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -936,11 +949,11 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-top-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_striped {
+#hdpphevuoq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xcqygjfmnv .gt_table_body {
+#hdpphevuoq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -949,7 +962,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-bottom-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_footnotes {
+#hdpphevuoq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -963,7 +976,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-right-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_footnote {
+#hdpphevuoq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -972,7 +985,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#xcqygjfmnv .gt_sourcenotes {
+#hdpphevuoq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -986,7 +999,7 @@ functionality should be used carefully as this can be “dangerous”!</p>
   border-right-color: #D3D3D3;
 }
 
-#xcqygjfmnv .gt_sourcenote {
+#hdpphevuoq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -994,151 +1007,144 @@ functionality should be used carefully as this can be “dangerous”!</p>
   padding-right: 5px;
 }
 
-#xcqygjfmnv .gt_left {
+#hdpphevuoq .gt_left {
   text-align: left;
 }
 
-#xcqygjfmnv .gt_center {
+#hdpphevuoq .gt_center {
   text-align: center;
 }
 
-#xcqygjfmnv .gt_right {
+#hdpphevuoq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xcqygjfmnv .gt_font_normal {
+#hdpphevuoq .gt_font_normal {
   font-weight: normal;
 }
 
-#xcqygjfmnv .gt_font_bold {
+#hdpphevuoq .gt_font_bold {
   font-weight: bold;
 }
 
-#xcqygjfmnv .gt_font_italic {
+#hdpphevuoq .gt_font_italic {
   font-style: italic;
 }
 
-#xcqygjfmnv .gt_super {
+#hdpphevuoq .gt_super {
   font-size: 65%;
 }
 
-#xcqygjfmnv .gt_two_val_uncert {
-  display: inline-block;
-  line-height: 1em;
-  text-align: right;
-  font-size: 60%;
-  vertical-align: -0.25em;
-  margin-left: 0.1em;
-}
-
-#xcqygjfmnv .gt_footnote_marks {
+#hdpphevuoq .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#xcqygjfmnv .gt_asterisk {
+#hdpphevuoq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xcqygjfmnv .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#hdpphevuoq .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#xcqygjfmnv .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#hdpphevuoq .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#xcqygjfmnv .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#hdpphevuoq .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#hdpphevuoq .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#hdpphevuoq .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">dai</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">inf</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">prop</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="dai">dai</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new">new</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="inf">inf</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="prop">prop</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="rate">rate</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">6</td>
-<td class="gt_row gt_right">4</td>
-<td class="gt_row gt_right">4</td>
-<td class="gt_row gt_right">0.006420546</td>
-<td class="gt_row gt_right">NA</td></tr>
-    <tr><td class="gt_row gt_right">14</td>
-<td class="gt_row gt_right">12</td>
-<td class="gt_row gt_right">16</td>
-<td class="gt_row gt_right">0.025682183</td>
-<td class="gt_row gt_right">0.01926164</td></tr>
-    <tr><td class="gt_row gt_right">20</td>
-<td class="gt_row gt_right">20</td>
-<td class="gt_row gt_right">36</td>
-<td class="gt_row gt_right">0.057784912</td>
-<td class="gt_row gt_right">0.03210273</td></tr>
-    <tr><td class="gt_row gt_right">28</td>
-<td class="gt_row gt_right">28</td>
-<td class="gt_row gt_right">64</td>
-<td class="gt_row gt_right">0.102728732</td>
-<td class="gt_row gt_right">0.04494382</td></tr>
-    <tr><td class="gt_row gt_right">34</td>
-<td class="gt_row gt_right">37</td>
-<td class="gt_row gt_right">101</td>
-<td class="gt_row gt_right">0.162118780</td>
-<td class="gt_row gt_right">0.05939005</td></tr>
-    <tr><td class="gt_row gt_right">42</td>
-<td class="gt_row gt_right">50</td>
-<td class="gt_row gt_right">151</td>
-<td class="gt_row gt_right">0.242375602</td>
-<td class="gt_row gt_right">0.08025682</td></tr>
-    <tr><td class="gt_row gt_right">50</td>
-<td class="gt_row gt_right">67</td>
-<td class="gt_row gt_right">218</td>
-<td class="gt_row gt_right">0.349919743</td>
-<td class="gt_row gt_right">0.10754414</td></tr>
-    <tr><td class="gt_row gt_right">56</td>
-<td class="gt_row gt_right">82</td>
-<td class="gt_row gt_right">300</td>
-<td class="gt_row gt_right">0.481540931</td>
-<td class="gt_row gt_right">0.13162119</td></tr>
-    <tr><td class="gt_row gt_right">64</td>
-<td class="gt_row gt_right">86</td>
-<td class="gt_row gt_right">386</td>
-<td class="gt_row gt_right">0.619582665</td>
-<td class="gt_row gt_right">0.13804173</td></tr>
-    <tr><td class="gt_row gt_right">70</td>
-<td class="gt_row gt_right">86</td>
-<td class="gt_row gt_right">472</td>
-<td class="gt_row gt_right">0.757624398</td>
-<td class="gt_row gt_right">0.13804173</td></tr>
-    <tr><td class="gt_row gt_right">77</td>
-<td class="gt_row gt_right">77</td>
-<td class="gt_row gt_right">549</td>
-<td class="gt_row gt_right">0.881219904</td>
-<td class="gt_row gt_right">0.12359551</td></tr>
-    <tr><td class="gt_row gt_right">84</td>
-<td class="gt_row gt_right">65</td>
-<td class="gt_row gt_right">614</td>
-<td class="gt_row gt_right">0.985553772</td>
-<td class="gt_row gt_right">0.10433387</td></tr>
-    <tr><td class="gt_row gt_right">91</td>
-<td class="gt_row gt_right">9</td>
-<td class="gt_row gt_right">623</td>
-<td class="gt_row gt_right">1.000000000</td>
-<td class="gt_row gt_right">0.01444623</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">6</td>
+<td headers="new" class="gt_row gt_right">4</td>
+<td headers="inf" class="gt_row gt_right">4</td>
+<td headers="prop" class="gt_row gt_right">0.006420546</td>
+<td headers="rate" class="gt_row gt_right">NA</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">14</td>
+<td headers="new" class="gt_row gt_right">12</td>
+<td headers="inf" class="gt_row gt_right">16</td>
+<td headers="prop" class="gt_row gt_right">0.025682183</td>
+<td headers="rate" class="gt_row gt_right">0.01926164</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">20</td>
+<td headers="new" class="gt_row gt_right">20</td>
+<td headers="inf" class="gt_row gt_right">36</td>
+<td headers="prop" class="gt_row gt_right">0.057784912</td>
+<td headers="rate" class="gt_row gt_right">0.03210273</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">28</td>
+<td headers="new" class="gt_row gt_right">28</td>
+<td headers="inf" class="gt_row gt_right">64</td>
+<td headers="prop" class="gt_row gt_right">0.102728732</td>
+<td headers="rate" class="gt_row gt_right">0.04494382</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">34</td>
+<td headers="new" class="gt_row gt_right">37</td>
+<td headers="inf" class="gt_row gt_right">101</td>
+<td headers="prop" class="gt_row gt_right">0.162118780</td>
+<td headers="rate" class="gt_row gt_right">0.05939005</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">42</td>
+<td headers="new" class="gt_row gt_right">50</td>
+<td headers="inf" class="gt_row gt_right">151</td>
+<td headers="prop" class="gt_row gt_right">0.242375602</td>
+<td headers="rate" class="gt_row gt_right">0.08025682</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">50</td>
+<td headers="new" class="gt_row gt_right">67</td>
+<td headers="inf" class="gt_row gt_right">218</td>
+<td headers="prop" class="gt_row gt_right">0.349919743</td>
+<td headers="rate" class="gt_row gt_right">0.10754414</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">56</td>
+<td headers="new" class="gt_row gt_right">82</td>
+<td headers="inf" class="gt_row gt_right">300</td>
+<td headers="prop" class="gt_row gt_right">0.481540931</td>
+<td headers="rate" class="gt_row gt_right">0.13162119</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">64</td>
+<td headers="new" class="gt_row gt_right">86</td>
+<td headers="inf" class="gt_row gt_right">386</td>
+<td headers="prop" class="gt_row gt_right">0.619582665</td>
+<td headers="rate" class="gt_row gt_right">0.13804173</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">70</td>
+<td headers="new" class="gt_row gt_right">86</td>
+<td headers="inf" class="gt_row gt_right">472</td>
+<td headers="prop" class="gt_row gt_right">0.757624398</td>
+<td headers="rate" class="gt_row gt_right">0.13804173</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">77</td>
+<td headers="new" class="gt_row gt_right">77</td>
+<td headers="inf" class="gt_row gt_right">549</td>
+<td headers="prop" class="gt_row gt_right">0.881219904</td>
+<td headers="rate" class="gt_row gt_right">0.12359551</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">84</td>
+<td headers="new" class="gt_row gt_right">65</td>
+<td headers="inf" class="gt_row gt_right">614</td>
+<td headers="prop" class="gt_row gt_right">0.985553772</td>
+<td headers="rate" class="gt_row gt_right">0.10433387</td></tr>
+    <tr><td headers="dai" class="gt_row gt_right">91</td>
+<td headers="new" class="gt_row gt_right">9</td>
+<td headers="inf" class="gt_row gt_right">623</td>
+<td headers="prop" class="gt_row gt_right">1.000000000</td>
+<td headers="rate" class="gt_row gt_right">0.01444623</td></tr>
   </tbody>
   
   
