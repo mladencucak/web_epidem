@@ -1,7 +1,6 @@
 ---
 title: "Sampling"
 author: "Mladen Cucak; Felipe Dalla Lana; Mauricio Serrano; Paul Esker"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
     code_folding: show
@@ -50,11 +49,8 @@ if (any(as.numeric(packages_load) == 0)) {
 rm(list.of.packages, new.packages, packages_load)
 
 #Resolve conflicts/ if all 
-if(c("stats", "dplyr")%in% installed.packages() %>% all()){
-  conflict_prefer("filter", "dplyr")
-  conflict_prefer("select", "dplyr")
-}
-
+conflict_prefer("filter", "dplyr")
+conflict_prefer("select", "dplyr")
 conflict_prefer("layout", "plotly")
 
 #if install is not working try changing repositories

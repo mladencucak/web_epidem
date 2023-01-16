@@ -1,7 +1,6 @@
 ---
 title: "Simulation of disease progress in space"
 author: "Mladen Cucak; Felipe Dalla Lana; Mauricio Serrano; Paul Esker"
-date: "4/21/2021"
 output:
   html_document:
     code_folding: show

@@ -1,7 +1,6 @@
 ---
 title: "Disease Forecasting"
 author: "Felipe Dalla Lana; Mladen Cucak; Mauricio Serrano; Paul Esker"
-date: "6/18/2021"
 output:
   html_document:
     code_folding: show

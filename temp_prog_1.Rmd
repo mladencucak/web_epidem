@@ -1,7 +1,6 @@
 ---
 title: "Temporal disease progress: DPC, AUDPC and rAUDPC"
 author: "Mladen Cucak; Felipe Dalla Lana; Mauricio Serrano; Paul Esker"
-date: "4/21/2021"
 bibliography: ref/temp_prog_1/references.bib
 output:
   html_document:

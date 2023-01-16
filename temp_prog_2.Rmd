@@ -198,8 +198,8 @@ ggplot(dta_long, aes(dai, prop, color = origin)) +
   theme_bw() +
   theme(legend.position = c(0.75, 0.15)) + #legend into a plotting area
   scale_y_continuous(
-    limits = c(0, 1),
-    expand = c(-.05, 1.05),
+    # limits = c(0, 1),
+    # expand = c(-.05, 1.05),
     breaks = seq(0, 1, 0.2),
     name = "Disease"
   ) +
@@ -268,7 +268,7 @@ They are plotted all together to explore their main characteristics and differen
 
 ```{r}
 knitr::include_app("https://mladen-cucak.shinyapps.io/temp_prog/",
- height = "400px")
+ height = "800px")
 ```
 The use of *for* loops has been introduced. Another very useful basic programming function which should be easily understandable is `ifelse`.
 
