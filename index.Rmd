@@ -24,7 +24,7 @@ All contributions are welcome.  Please get in touch if mistakes are spotted or i
 ### Download materials 
 All R scripts can be accessed [here](https://github.com/mladencucak/web_epidem/tree/main/r_files).
 
-### Funding 
-The development of these materials was funded by 
+<!-- ### Funding  -->
+<!-- The development of these materials was funded by  -->
 
 [![PSU_logo](./figures/PSU_logo.png "PPEM website")](https://plantpath.psu.edu/)
