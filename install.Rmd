@@ -190,3 +190,13 @@ install.packages("name of the package", type = "source")
 ```
 
 After that, try run the code snippet for the installation of package from the beginning of this subsection.
+
+### Install our package with apps 
+Run following lines of code
+```{r eval = FALSE}
+if(!"devtools" %in% installed.packages ()) install.packages("devtools")
+devtools::install_github("mladencucak/AppTest")
+AppTest::GrowModAPP()
+AppTest::HLIRApp()
+```
+

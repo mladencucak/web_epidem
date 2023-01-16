@@ -1,0 +1,373 @@
+## ----fig.height=8, fig.width=8, message=FALSE, warning=FALSE, dpi=300-----------------------------------
+
+library(tidyverse)
+library(patchwork)
+library(knitr)
+library(kableExtra)
+library(ggsci)
+library(ggpubr)
+
+data_acc = data.frame(
+          var = letters[1:6],
+          value = rep(10,6))
+
+not_prec_not_acc = 
+ggplot(data_acc, aes(x = var, y = value ,fill = var )) +
+  geom_bar(width = 1, stat="identity", alpha = 0.7)+
+  geom_point(size = 5, shape = 21, fill = "black", color = "white", alpha = 0.9,
+             aes(x = c(6.22, 6.43, 6.07, 4.82, 5.78, 6.92),
+                 y = c(7.56, 5.71, 3.14, 5.92, 4.81, 2.26)))+
+  coord_polar(theta = "y")+
+  labs(x=NULL, y= NULL)+
+  scale_fill_brewer(palette = "RdYlBu", direction =1)+
+  theme(    panel.background = element_blank(),
+            legend.position = "none",
+            axis.text = element_blank(),
+            axis.ticks = element_blank(),
+            plot.margin = margin(-70, -70, -60, -70, "pt"))
+prec_acc = 
+ggplot(data_acc, aes(x = var, y = value ,fill = var )) +
+  geom_bar(width = 1, stat="identity", alpha = 0.7)+
+    geom_point(size = 5, shape = 21, fill = "black", color = "white", alpha = 0.9,
+      aes(x = c(0.56, 1.17, 0.89, 0.96, 1.04, 0.72),
+          y = c(3.56, 4.71, 3.14, 3.92, 4.81, 5.26)))+
+    coord_polar(theta = "y")+
+    labs(x=NULL, y= NULL)+
+  scale_fill_brewer(palette = "RdYlBu", direction =1)+
+  theme(    panel.background = element_blank(),
+    legend.position = "none",
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    plot.margin = margin(-70, -70, -60, -70, "pt"))
+
+prec_not_acc = 
+  ggplot(data_acc, aes(x = var, y = value ,fill = var )) +
+  geom_bar(width = 1, stat="identity", alpha = 0.7)+
+  geom_point(size = 5, shape = 21, fill = "black", color = "white", alpha = 0.9,
+             aes(x = c(4.56, 4.77, 4.89, 4.96, 5.04, 5.22),
+                 y = c(4.36, 4.31, 4.14, 4.52, 4.31, 4.41)))+
+  coord_polar(theta = "y")+
+  labs(x=NULL, y= NULL)+
+  scale_fill_brewer(palette = "RdYlBu", direction =1)+
+      theme(panel.background = element_blank(),
+            legend.position = "none",
+            axis.text = element_blank(),
+            axis.ticks = element_blank(),
+            plot.margin = margin(-70, -70, -70, -70, "pt"))
+
+
+not_prec_acc = 
+ggplot(data_acc, aes(x = var, y = value ,fill = var )) +
+  geom_bar(width = 1, stat="identity", alpha = 0.7)+
+  geom_point(size = 5, shape = 21, fill = "black", color = "white", alpha = 0.9,
+             aes(x = c(2.5, 2.7, 2.3, 2.5, 2.7, 2.5),
+                 y = c(0.2, 1.7, 3.4, 5.1, 6.8, 8.5)))+
+  coord_polar(theta = "y")+
+  labs(x=NULL, y= NULL)+
+  scale_fill_brewer(palette = "RdYlBu", direction =1)+
+  theme(panel.background = element_blank(),
+        legend.position = "none",
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        plot.margin = margin(-70, -70, -70, -70, "pt"))
+
+
+  not_prec_not_acc  + annotate("text", x = 7.0, y = 5, label = "Not Precise and Not Accurate", fontface =2, size = 5)+
+  prec_not_acc      + annotate("text", x = 7.0, y = 5, label = "Precise but Not Accurate", fontface =2, size = 5)+
+  not_prec_acc      + annotate("text", x = 7.0, y = 5, label = "Not Precise but Accurate", fontface =2, size = 5)+
+  prec_acc          + annotate("text", x = 7.0, y = 5, label = "Precise and Accurate", fontface =2, size = 5)+
+  plot_annotation(title    = 'Precision and Accuracy',
+                  subtitle = 'Terms are similiar but have different meanings')&
+    theme(plot.title = element_text(face="bold"))
+
+
+## ---- dpi=300, fig.width=8, fig.height=3.5--------------------------------------------------------------
+data_r = data.frame( #create a data set
+  U = c(0:10)) %>% # here are the values from set U
+  mutate(W1 = U+10,  # set W, which
+         W2 = U*2, 
+         W3 = U) %>% print() %>% 
+  pivot_longer(cols = -U, values_to = "W_values")
+
+ggplot(data_r, aes(x=U, y= W_values))+
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
+  geom_line()+
+  geom_point(aes(x=U, y= W_values))+
+
+  facet_wrap(~name)+
+  
+  labs(x = "Values of U", y = "Values of W")+
+  stat_cor(method = "pearson", p.accuracy = 0.001, cor.coef.name = "r")+
+  
+   theme(
+    panel.background = element_blank() ,
+    panel.grid.major = element_line(colour = "grey95") ,
+    panel.border     = element_rect(linetype = "solid",colour = "grey80", size=0.3, fill = NA),
+    
+    axis.text  = element_text(colour = "black"),
+    plot.title =  element_text(hjust =0, face = "bold", size = rel(1.2)),
+    
+    strip.text.x =  element_text(hjust =0, face = "bold", size = rel(1.5)),
+    strip.background =  element_blank())
+
+
+
+
+## ----setup, include=TRUE, message = FALSE, warning = FALSE----------------------------------------------
+
+data_rate = readxl::read_xlsx("data/severity_rates.xlsx") %>%
+  pivot_longer(cols = -c("set", "leaf_id", "order", "truth"), 
+               names_to = "raters") %>% 
+  group_by(set, leaf_id) %>% 
+  mutate(dev = value-truth,
+         set = factor(set, levels = c(1, 2), labels = c("Set 1", "Set 2")))
+  
+
+head(data_rate)
+
+
+## ----BOXPLOT_rate, dpi=300, fig.width=8, fig.height=4.5-------------------------------------------------
+# Readings per rater
+ggplot(data_rate)+
+  geom_boxplot(outlier.alpha = 0, aes(x = raters, y = value))+
+  geom_jitter(aes(fill = raters, x = raters, y = value), width = 0.2,
+              show.legend = FALSE, shape = 21, color = "black", size = 2)+
+  geom_rug(aes(y = truth))+
+  
+  ggsci::scale_fill_npg()+
+  scale_y_continuous(limits = c(0,100))+
+  scale_x_discrete(expand =  c(.1,0))+
+  
+  labs(y = "Severity (%)", x = NULL, 
+       title = "Disease severity (%) distribution per rater and set",
+       subtitle = "Each point represents a leaf reading \nRugs in the plot left are the true values")+
+  
+  facet_wrap(~set)+
+  
+  theme(
+    panel.background = element_blank() ,
+    panel.grid.major = element_line(colour = "grey95") ,
+    panel.border     = element_rect(linetype = "solid",colour = "grey80", size=0.3, fill = NA),
+    
+    axis.text  = element_text(colour = "black"),
+    plot.title =  element_text(hjust =0, face = "bold", size = rel(1.2)),
+    
+    strip.text.x =  element_text(hjust =0, face = "bold", size = rel(1.5)),
+    strip.background =  element_blank())
+
+
+## ----Intra-rater reliability, fig.height=8, fig.width=8.5, message=FALSE, warning=FALSE, dpi=300--------
+ data_intra_rate =  data_rate %>% ungroup() %>% 
+    select(set, leaf_id, truth, raters, value) %>% 
+    pivot_wider(names_from = set, values_from = value) %>% 
+    rename(set1 = `Set 1`, set2 = `Set 2`)
+ 
+ ggplot(data_intra_rate) +
+   geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
+   geom_smooth(aes(x=set1, y = set2, color = raters),
+               show.legend = FALSE, method="lm", se = FALSE)+  
+   
+   geom_point(aes(x=set1, y = set2, fill = raters), size = 3, 
+              show.legend = FALSE, shape = 21, color = "black")+
+
+   ggsci::scale_color_npg()+
+   ggsci::scale_fill_npg()+
+   scale_x_continuous(limits = c(0,100))+
+   scale_y_continuous(limits = c(0,100))+  
+   
+   labs(x = "Ratings from the first set", 
+        y = "Ratings from the second set", 
+        title = "Relationship between dissease assessment from Set 1 and Set 2", 
+        subtitle = "Dashed line is the line or perfect agreement, solid line is the linear regression")+
+   
+   facet_wrap(~raters, ncol = 3)+
+   theme( panel.background = element_blank() ,
+          panel.grid.major = element_line(colour = "grey95") ,
+          panel.border     = element_rect(linetype = "solid",colour = "grey80", size=0.3, fill = NA),
+     
+          axis.text  = element_text(colour = "black"),
+          plot.title =  element_text(hjust =0, face = "bold", size = rel(1.2)),
+         
+          strip.text.x =  element_text(hjust =0, face = "bold", size = rel(1.5)),
+          strip.text.y =  element_text(face = "bold", size = rel(1.5)),
+          strip.background =  element_blank())
+ 
+
+
+## ----intra-rater stats----------------------------------------------------------------------------------
+table_intra_rater = 
+ data_intra_rate %>% 
+   group_by(raters) %>% 
+   summarise( set_m1 = mean(set1),
+              sd1 = sd(set1),
+              set_m2 = mean(set2),
+              sd2 = sd(set2),
+              r   = cor(set1, set2) ) %>%
+mutate(v  = (sd1/sd2),
+          u  = (set_m1-set_m2)/sqrt(sd1*sd2), 
+          cb = 2/((v+(1/v)+u**2)),
+          pc = r*cb) %>% 
+   mutate_at(c("set_m1", "sd1", "set_m2", "sd2"), round, digits=1) %>% 
+   mutate_at(c("r", "v", "u", "cb", "pc"), round, digits=2)
+
+ kable(table_intra_rater, align = "lcccccccc", 
+       col.names = c("Rater", "Mean Set1", "SD Set1", "Mean Set2", "SD Set2", "*r*", 
+                      "$\\nu$", "$\\mu$", "$C_b$", "$\\hat{\\rho_c}$")) %>% 
+ kable_styling("striped")  
+ 
+
+
+## ----Inter-rate reliability, fig.height=12.5, fig.width=8, message=FALSE, warning=FALSE, dpi=300--------
+
+data_inter_rate = 
+data_rate %>% 
+  ungroup() %>% 
+  select(-dev, -order) %>% 
+  filter(set =="Set 1") %>% 
+  pivot_wider(names_from = raters, values_from = value) %>% 
+  select(-set, -leaf_id, - truth) %>% 
+  pivot_longer(-R2, names_to = "raters") %>% 
+  mutate(comp = paste(raters, "vs R2"))
+
+  ggplot(data_inter_rate) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
+  geom_smooth(aes(x=R2, y = value, color = comp),
+              show.legend = FALSE, method="lm", se = FALSE)+  
+  
+  geom_point(aes(x=R2, y = value, fill = comp), size = 3, 
+             show.legend = FALSE, shape = 21, color = "black")+
+  
+  ggsci::scale_color_npg()+
+  ggsci::scale_fill_npg()+
+  scale_x_continuous(limits = c(0,100))+
+  scale_y_continuous(limits = c(0,100))+  
+  
+  labs(y = "Disease severity (%)", x = "Disease severity (%) rating by R2", 
+       title = "Relationship between disease severity ratings from 8 raters and R2",
+       subtitle = "Rater R2 showed the best intra-rater reliability")+
+    
+  facet_wrap(~comp, ncol = 2)+
+  theme( panel.background = element_blank() ,
+         panel.grid.major = element_line(colour = "grey95") ,
+         panel.border     = element_rect(linetype = "solid",colour = "grey80", size=0.3, fill = NA),
+         
+        plot.title =  element_text(hjust =0, face = "bold", size = rel(1.2)),
+         axis.text  = element_text(colour = "black"),
+         
+         strip.text.x =  element_text(hjust =0, face = "bold", size = rel(1.5)),
+         strip.text.y =  element_text(face = "bold", size = rel(1.5)),
+         strip.background =  element_blank())
+
+
+
+## ----inter-rater stats----------------------------------------------------------------------------------
+
+  data_inter_rate %>% 
+    group_by(raters) %>% 
+    summarise( set_m1 = mean(value),
+               sd1 = sd(value),
+               set_m2 = mean(R2),
+               sd2 = sd(R2),
+               r   = cor(value, R2) ) %>%
+    mutate(v  = (sd1/sd2),
+           u  = (set_m1-set_m2)/sqrt(sd1*sd2), 
+           cb = 2/((v+(1/v)+u**2)),
+           pc = r*cb) %>% 
+    mutate_at(c("set_m1", "sd1", "set_m2", "sd2"), round, digits=1) %>% 
+    mutate_at(c("r", "v", "u", "cb", "pc"), round, digits=2) %>% 
+    select(-set_m2, -sd2) %>% 
+  
+  kable(., align = "lcccccc", 
+        col.names = c("Rater", "Mean Raters", "SD Raters", "*r*", 
+                      "$\\nu$", "$\\mu$", "$C_b$", "$\\hat{\\rho_c}$")) %>% 
+    kable_styling("striped")
+ 
+
+
+## ----error from real, dpi=300, fig.width=8, fig.height=4------------------------------------------------
+
+ggplot(data_rate, aes(x = raters, y = dev))+
+  geom_boxplot(outlier.alpha = 0)+
+  geom_jitter(aes(fill = raters), width = 0.2,
+              show.legend = FALSE, shape = 21, color = "black", size = 2)+  
+  
+  ggsci::scale_fill_npg()+
+  scale_y_continuous(limits = c(-50,50))+
+
+  facet_wrap(~set)+
+  
+  labs(x = "Raters", y = "Deviation from true value")+
+  
+  theme(
+    panel.background = element_blank() ,
+    panel.grid.major = element_line(colour = "grey95") ,
+    panel.border     = element_rect(linetype = "solid",colour = "grey80", size=0.3, fill = NA),
+    
+    axis.text  = element_text(colour = "black"),
+    
+    strip.text.x =  element_text(hjust =0, face = "bold", size = rel(1.5)),
+    strip.background =  element_blank())
+
+
+
+## ----Accuracy, fig.height=8, fig.width=8.5, message=FALSE, warning=FALSE, dpi=300-----------------------
+
+
+acc_data =
+  data_rate %>%  ungroup() %>% 
+    filter(set =="Set 1") %>% 
+    select(truth, raters, value) %>% 
+     group_by(raters)
+
+ggplot(acc_data) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed") +
+  geom_smooth(aes(x=truth, y = value, color = raters),
+              show.legend = FALSE, method="lm", se = FALSE)+  
+  
+  geom_point(aes(x=truth , y = value, fill = raters), size = 3, 
+             show.legend = FALSE, shape = 21, color = "black")+
+  
+  ggsci::scale_color_npg()+
+  ggsci::scale_fill_npg()+
+  scale_x_continuous(limits = c(0,100))+
+  scale_y_continuous(limits = c(0,100))+  
+  
+  labs(x = "Disease severity (%) true value", 
+       y = "Rates estimate by raters")+
+  
+  facet_wrap(~raters, ncol = 3)+
+  theme( panel.background = element_blank() ,
+         panel.grid.major = element_line(colour = "grey95") ,
+         panel.border     = element_rect(linetype = "solid",colour = "grey80", size=0.3, fill = NA),
+         
+         axis.text  = element_text(colour = "black"),
+         
+         strip.text.x =  element_text(hjust =0, face = "bold", size = rel(1.5)),
+         strip.text.y =  element_text(face = "bold", size = rel(1.5)),
+         strip.background =  element_blank())
+
+
+
+## -------------------------------------------------------------------------------------------------------
+acc_data %>% 
+  group_by(raters) %>% 
+  summarise( set_m1 = mean(value),
+             sd1 = sd(value),
+             set_m2 = mean(truth),
+             sd2 = sd(truth),
+             r   = cor(value, truth)) %>%
+  mutate(v  = (sd1/sd2),
+         u  = (set_m1-set_m2)/sqrt(sd1*sd2), 
+         cb = 2/((v+(1/v)+u**2)),
+         pc = r*cb) %>% 
+  mutate_at(c("set_m1", "sd1", "set_m2", "sd2"), round, digits=1) %>% 
+  mutate_at(c("r", "v", "u", "cb", "pc"), round, digits=2)%>% 
+  select(-set_m2, -sd2) %>% 
+  
+  kable(., align = "lcccccc", 
+        col.names = c("Rater", "Mean Raters", "SD Raters", "*r*", 
+                      "$\\nu$", "$\\mu$", "$C_b$", "$\\hat{\\rho_c}$")) %>% 
+  kable_styling("striped")
+
+
+

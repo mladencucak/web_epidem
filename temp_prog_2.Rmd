@@ -57,11 +57,8 @@ if (any(as.numeric(packages_load) == 0)) {
 rm(list.of.packages, new.packages, packages_load)
 
 #Resolve conflicts
-# if(c("stats", "dplyr")%in% installed.packages()){
   conflict_prefer("filter", "dplyr")
   conflict_prefer("select", "dplyr")
-# }
-# 
 
 #if install is not working try changing repositories
 #install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))

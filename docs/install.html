@@ -689,6 +689,14 @@ are missing/need to update.</p>
 <p>After that, try run the code snippet for the installation of package
 from the beginning of this subsection.</p>
 </div>
+<div id="install-our-package-with-apps" class="section level3">
+<h3>Install our package with apps</h3>
+<p>Run following lines of code</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="st">&quot;devtools&quot;</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span> ()) <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;mladencucak/AppTest&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>AppTest<span class="sc">::</span><span class="fu">GrowModAPP</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>AppTest<span class="sc">::</span><span class="fu">HLIRApp</span>()</span></code></pre></div>
+</div>
 </div>
 
 
