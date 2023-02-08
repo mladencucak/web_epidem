@@ -1,5 +1,5 @@
 ---
-title: "**ggplot2**"
+title: "**ggplot2: a package for creating visualizations in R**"
 author: "Paul Esker; Mauricio Serrano; Felipe Dalla Lana"
 output:
   html_document:
@@ -11,82 +11,92 @@ output:
       smooth_scroll: true
 ---
 
-## **Introduction**
+# **Introduction**
 
-In the last class we looked at R through the lens of basic concepts all the way to presenting an introduction to data wrangling. The material for the current class focuses on communicating results using graphical methods. For this, we will use the `ggplot2` package. `ggplot2` is the most popular and robust package for data visualization. There are plenty of resources on two packages, but a good start is with the [package website](https://ggplot2.tidyverse.org/index.html) and a very useful [cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf). Most of the popularity with `ggplot2` is because its quality and numerous types of plot that can render.
+In the last class, we learned everything from basic concepts of R to data wrangling. The current class focuses on communicating results using graphical methods. For this, we will use the `ggplot2` package, a popular and robust package for data visualization. 
 
-<br>
+`ggplot2` was developed by Hadley Wickham, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hioraki Yutani, and Dewey Dunnington. It is included as a 'core' package of `tidyverse`. This means that `ggplot2` follows the same core structure as `tidyverse` and that it is installed with `tidyverse`. `ggplot2` is one of the most popular R packages because it can be used to produce a great variety of quality plots. There are a number of packages that build on `ggplot2` functionality (also known as 'extensions') that we will talk about later in this section.
 
 ```{r,echo=FALSE, out.width='75%', fig.align='center', fig.cap='[Source](https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/ggplot2_masterpiece.png)'}
 knitr::include_graphics("figures/intro_r/ggplot2_masterpiece.png")
 ```
 
-How is `ggplot2` structured? This packaged was inspired by the book [The Grammar of Graphics](https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448), by Leland Wilkinson. Specifically, the strength with `ggplot2` is a function of building a graphic by breaking down the plot in different parts, which allows the end-user the flexibility to build the graphic to their desired liking and goal.
+<br>
 
+The structure of `ggplot2` was inspired by the book [The Grammar of Graphics](https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448), by Leland Wilkinson. One of the strengths of `ggplot2` is the ability to *build* on a basic plot by adding new components as *layers*. This allows the user flexibility in building graphics with their desired characteristics. A base plot is created with `ggplot()`, and more `ggplot2` components can be added to modify the graph. 
+
+### **Components of ggplot2 plots**
 The most important components of ggplot2 graphs are:
 
--   Geometric Elements
--   Aesthetics
--   Scales
--   Facet
--   Labels
--   Themes
+-   **Geometric Elements**: where you can determine your plot type 
+-   **Aesthetics**: where you can use `aes()` arguments (short for 'aesthetics') to assign characteristics like color and size to elements of your graph
+-   **Scales**: where you can applied *scaled* characteristics, like gradients of color, to your graph
+-   **Facets**: where you can split graphs by variable(s) to create meaningful figures
+-   **Labels**: where you can add elements like subtitles and legends to your graphs
+-   **Themes**: where you can assign an overall aesthetic style to your graphs
 
-In the next sections, we will explore these different components in more detail. Each section will add one more component to our base graph. It is important to mention that we will not cover all the different types of plots that you can do it with `ggplot2`, first because there are many different types, and second, because extensions for new types of graphics are created frequently. This lesson should "arm" you with an excellent introduction to be able to explore other graphical tools available in this package and R in general.
+We will use the example data from the last lesson to illustrate the uses of these functions and components to you. We will also teach you how to combine your graphs to create compelling figures, and to save these figures to maintain their quality in manuscripts and presentations. We will then briefly introduce you to some of `ggplot2`'s many extension packages, which may allow you to create an even greater variety of figures and custom features. 
 
-## **Hands on**
+### **ggplot2 extension packages**
 
-First, lets start with the data the we used last class.
+There are extension packages that expand the geometric elements and other functions from `ggplot2`. You can check a gallery of different extension following this [link](https://exts.ggplot2.tidyverse.org/gallery/). A few examples are shown below.
+
+```{r,echo=FALSE, out.width='100%', fig.align='center', fig.cap='Examples of `ggplot2` extension packages. From left to right: `ggwordcloud`, `ggridges`, and `gggenes`'}
+knitr::include_graphics("figures/intro_r/extention_ggplot2.png")
+```
+
+# **Hands-on plotting**
+
+First, we will load in `ggplot2` and our example data from the last lesson (Intro to R). Remember that `ggplot2` is a core package in `tidyverse`, so it can be loaded with `library("ggplot2")` or `library("tidyverse")`.
 
 ```{r}
+library(tidyverse)
+
 data_demo <- readr::read_csv("data/intro_r/data_demo.csv")
-data_demo
+data_demo 
 ```
 
 <br>
 
-Every `ggplot2` plot starts with the function, `ggplot()`.
+Every `ggplot2` plot starts with the function, `ggplot()`. This initializes the plot, and is where you will define the data you want used to create the plot. In this case, the data we want to use is in the data_demo object we just loaded in. Let's investigate how `ggplot()` works without any input:
 
 ```{r message=FALSE, warning=FALSE}
-library(tidyverse) # load ggplot2 and other tidyverse package
 
 ggplot()
 ```
 
 <br>
 
-Note: when you do not inform `ggplot2` of what data you want plot, the function `ggplot()` will only print a gray panel.
+Note: when you do not inform `ggplot2` of what data you want to plot, the function `ggplot()` will only print a gray panel. It has initialized the plot, but doesn't have any data to map yet.
 
-This is where *data* and *aesthetics* enter the discussion.
+This is where *data* and *aesthetics* enter the discussion as arguments within the `ggplot()` function. The data argument is pretty self-explanatory, but the arguments within `aes()` determines the appearance of the plot. In this case, it determines the variables we are going to map and which axis they will belong to.
 
 ```{r}
-ggplot(data = data_demo, aes(x = trt, y = yld)) # aes is short for aesthetics
+ggplot(data = data_demo, aes(x = trt, y = yld)) # Remember, aes is short for aesthetics
 ```
 
 <br>
 
-So far, we have only told `ggplot` that our graphic will have information about treatments values in the x-axis and the variable yield on the y-axis. However, there are plenty of plots that could be created with quantitative and qualitative variables, for example, boxplots or line plots.
+So far, we have only told `ggplot()` that our graphic will have information about treatments values in the x-axis and the variable yield on the y-axis. However, there are plenty of plots that could be created with quantitative and qualitative variables, such as box plots or line plots.
 
-At this point, what we will do in the next steps is to indicate to R exactly what type of plot we want to create. This is where information about the *geometric elements* are considered.
+At this point, we will indicate to R exactly what type of plot we want to create. This is where information about the *geometric elements* is considered.
 
-## **Geometric elements**
+## **Geometric components: determining the kind of plot with `geom_*()`**
 
-### **`ggplot2` native `geom_*()`**
+In this step, we indicate to R the specific type of graphic we are going to create (line plots, point charts, histograms, etc.,) with the material used or defined in in `ggplot()`. We do this by adding a geometric component with one of many `geom_*()` functions. 
 
-In this step, we now indicate to R the specific type of graphic we are going to create, for example, line, points, histogram, etc.
-
-Below is an example plotting the points (or raw data) using `geom_point()`.
+Below is an example plotting the points (or raw data) from data_demo as a point graph.  We do this by adding a new layer, with `geom_point()`, to tell `ggplot` to show us a point graph. 
 
 ```{r}
-
-ggplot(data = data_demo, aes(x = trt, y = yld)) + # Note: we use the "+" sign to connect lines of code 
+# Note that we use the '+' sign to connect the second line of code to the first. 
+ggplot(data = data_demo, aes(x = trt, y = yld)) + 
   geom_point()
 
 ```
 
-<br>
+<br> 
 
-Because many of the points overlap, a better option for this plot will be the `geom_jitter()`, which adds a small amount of random variation to the location of each data observation.
+We've successfully created a point graph using a `geom_*()` function. But it could be presented in a better manner. We can use a different `geom_*()` function to assign a different plot type. In this case, `geom_jitter()` adds a small amount of random variation to the location of each data observation. 
 
 ```{r}
 
@@ -97,18 +107,31 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
 
 <br>
 
-What occurred is that each observation is dispersed horizontally by the differing amounts of random variation, with the goal to avoid overlapping observations. Nonetheless, given the amount of variation, the observations appear too disperses, making it difficult to clearly see where one treatments ends and where the other one starts. We can modify the `geom_jitter()` function to reduce the amount of dispersion by using the argument `width` inside the function (see below). (Note: all `geom_*` functions additional arguments which can be added, depending on the need.)
+### **Modifying geometric layers with arguments**
+We can see the individual data points more easily, but it's hard to tell which treatments they come from. We can use argument 'width' within the `geom_jitter()` function to reduce the amount of dispersion along the x-axis. 
 
 ```{r}
-
+# By default, the 'width' value of 'geom_jitter()' is 0.4. Here we halve the variation applied with 'geom_jitter()' by specifying 'width' to 0.2.
 ggplot(data = data_demo, aes(x = trt, y = yld)) + 
-  geom_jitter(width = .2) # the default value is 0.4, we reduce the dispersion by half
+  geom_jitter(width = .2) 
 
 ```
 
 <br>
 
-While points provide a good idea of the dispersion in a dataset, they are not the only way to represent the data. We will illustrate in the next set of code some of the different ways to explore the data:
+Note: all `geom_*()` functions (geom_jitter(), geom_bar(), etc.,) have additional arguments that can be added or modified, depending on the need. To find out what arguments are available or what default values are, try `?geom_*()` to pull up information about the different `geom_*()` functions in RStudio. You can also use a [data visualization cheat sheet]("https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf"). 
+More translations of this cheat sheet can be found [here]("https://github.com/rstudio/cheatsheets/tree/main/translation").
+
+```{r,echo=FALSE, out.width='100%', fig.align='center', fig.cap='Examples of `geom_*` functions'}
+knitr::include_graphics("figures/intro_r/geom_cheatsheet.png")
+```
+
+<br>
+
+### **Common plots made with `geom_*()`**
+
+While point graphs may illustrate the dispersion in a data set well enough, they are not the only way to represent the data. 
+We will use different `geom_*()` functions to illustrate some of the different ways to visualize the data. Extension packages may have even more `geom_*()` functions that will allow you to create even more types of plots. 
 
 **Boxplot** (`geom_boxplot()`)
 
@@ -137,16 +160,18 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
 ```{r}
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) + 
-  geom_dotplot(binaxis = "y", stackdir = "center") 
+  geom_dotplot(binaxis = "y", stackdir = "down") 
+# 'binaxis' argument tells R how to group the data. 'stackdir' determines how to distribute the dots along the x-axis. 
 
 ```
 
 <br>
 
-Another way to think about `geom_*` functions is to consider these as `layers`. We can begin to stack different options to improve the quality of the plot, as well as provide more information about the data itself, the dispersion, and start to compare different factors of interest.
+### **Layering geometric components**
+We can think about using `geom_*()` functions as creating layers for our plot. We can stack these functions to improve the quality of the plot, provide more information about the data, and to compare different factors of interest. 
 
 ```{r}
-# Boxplot and points
+# Layer a box plot with a point chart:
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
@@ -156,24 +181,24 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
 
 <br>
 
-While there is no limit to the number of layers (geom\_\*) that you can use in a plot, remember that these all map to the same order that they appear and it may make it more difficult to make clear comparisons.
+These `geom_*()` features will 'layer' on top of each other in the order they're added, meaning that the last `geom_*()` function used will be laid over the preceding ones. There is technically no limit to the number of layers (geom\_\*) that you can use in a plot, but using too many can make your plots confusing. 
 
 ```{r}
-# Multiple layers 
+# Applying multiple layers (box plot, point chart, violin plot)
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
   geom_jitter(width = .2, size = 4)+
-  geom_violin() # Note that the violin plot is the last layer to be add, therefore it will overlap with the other layers
+  geom_violin() # Note that the violin plot is the last layer to be added, meaning it will be applied over the other features. 
 
 ```
 
 <br>
 
-One way to overcome one graphic reducing the ability to make a clear interpretation is to change the order of the layers.
+Sometimes reordering the `geom_*()` layers can improve the visibility of a graphic, along with adding arguments to resize features.  
 
 ```{r}
-# Multiple layers 
+# Multiple layers, different order: 
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_violin()+
@@ -184,37 +209,37 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
 
 <br>
 
-There are plenty of other native `geom_*` functions in `ggplot2`. Below you can see other examples extracted from the `ggplot2` cheatsheet from RStudio ([Download eng](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf) or [Download sp](https://github.com/rstudio/cheatsheets/raw/master/translations/spanish/ggplot2.pdf))
+Now we can learn to add aesthetics like color, different shapes and size, and more to our plots with `aes()` arguments. 
 
-```{r,echo=FALSE, out.width='100%', fig.align='center', fig.cap='Examples of `geom_*` functions'}
-knitr::include_graphics("figures/intro_r/geom_cheatsheet.png")
+# **Aesthetic components: modifying plot aesthetics with 'aes()' arguments**
+
+The next component in `ggplot2` plots is aesthetics, which is how our observations will be mapped in the plot. So far, we have used aesthetics to define x and y-axis positions with `aes()` arguments within the base function `ggplot()`. 
+
+Aesthetics can refer to multiple characteristics. The most common characteristics changed with aesthetics are: 
+
+-   Axis-variable assignment
+-   Colors
+-   Size 
+-   Shape 
+-   Line type
+
+### **Axes-variable assignment**
+
+We've actually already used `aes()` arguments within `ggplot()` to assign variables 'trt' and 'yld' to the x and y-axis. Look at what happens if we don't:
+
+```{r}
+ggplot(data = data_demo) 
 ```
 
 <br>
 
-### **Extension packages**
+R can't create a plot because it doesn't know which of data_demo's variables to use.
 
-There are also extension packages that expand the geometric elements and other functions from `ggplot2`. You can check a gallery of different extension following this [link](https://exts.ggplot2.tidyverse.org/gallery/), and few examples below.
+### **Colors**
 
-```{r,echo=FALSE, out.width='100%', fig.align='center', fig.cap='Examples of packages that works as extension for `ggplot2`. From left to right `ggwordcloud`, `ggridges`, and `gggenes`'}
-knitr::include_graphics("figures/intro_r/extention_ggplot2.png")
-```
+Within a given plot, there are multiple items that we can assign colors to. The arguments `color` (or `colour`), `fill`, and `alpha` enable you to assign color to different elements of plots. `color` assigns color to points or lines. `fill` assigns color to enclosed spaces (within box, polygons, circles, etc.,). `alpha` allows you to control the *transparency* of colors within these elements. 
 
-## **Aesthetics**
-
-The next component in `ggplot2` plots is aesthetics, which is how our observations will be mapped in the plot. Aesthetics can have multiple formats. So far, we have used aesthetics regarding the positions `x` and `y` in the `aes()` argument. However, there are many other formats that aesthetics can take, and the most common are:
-
--   Position: x and y-axis
--   Color; fill; and alpha
--   Shape
--   Size
--   Linetype
-
-### **Color**, **fill**, and **alpha**
-
-<br> These three aesthetics have some similarities. `color` refers to the color of point or lines, `fill` refers to the color for an enclosed space (box, polygon, circle, etc), and `alpha` refers to the color transparency.
-
-In the the plot below we use the `color` aesthetic to differentiate the treatments.
+We can add the `color` argument to our base function, `ggplot()` to assign colors to different treatments. 
 
 ```{r}
 
@@ -226,19 +251,21 @@ ggplot(data = data_demo, aes(x = trt, y = yld, color = trt)) +
 
 <br>
 
-If we want to use `color` only for the points, we remove the argument `color` argument from the `ggplot()` function, and write the argument inside the `geom_jitter()`
+What if we only want color applied to the points, and not to the box plot component?
 
 ```{r}
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
-  geom_jitter(aes(color = trt), width = 0.2, size = 4) # different colors for each observation/point depending on the treatment
+  geom_jitter(aes(color = trt), width = 0.2, size = 4)
   
 ```
 
 <br>
 
-Or, we can use different fill colors in the respective boxplots
+Compare this to the last plot. When we assign the `color` argument to a geom layer *instead of* to the base plot function, the colors are only applied to that layer. 
+
+We can apply color only to the box plot components of the graph, and not to the points by applying a color argument to the `geom_boxplot()` layer. Instead of using `color`, we use `fill` to color the area within the box. 
 
 ```{r}
 
@@ -250,20 +277,20 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
 
 <br>
 
-Lastly, here is an example using `alpha` to define the transparency in the yield.
+We can use `alpha` to shade points according to their 'yld' variable:
 
 ```{r}
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot()+
-  geom_jitter(aes(alpha = yld), # Here we are using alpha to show a yield gradient 
-              width = 0.2, size = 4) # increase the point size to see the differences better 
+  geom_boxplot(size=2)+
+  geom_jitter(aes(alpha = yld), # Here we are using alpha to show a yield gradient on the points
+              width = 0.2, size = 4) # We increase the point size to see the differences better 
   
 ```
 
 <br>
 
-If we use these arguments (color, fill, and alpha) outside of the aesthetic function, they change the whole element.
+If we use these arguments (color, fill, and alpha) *outside* of the aesthetic function, they change the whole element. Instead of using color to distinguish between different treatments or values, we color all of a certain element. For instance, the box plots can *all* be filled in green, the violin plots can *all* be outlined in red, and *all* data points can be a transparent black-grey. 
 
 ```{r}
 
@@ -275,9 +302,13 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   
 ```
 
+<br>
+
+We will learn even more about assigning colors to different plot elements when we look at the scale component of ggplots. For now, we can move on to other `aes()` arguments.  We will also learn how to reference many different colors and shades, like `"green"`, `"lightgreen"`, and `"olivegreen"` when we learn about using scale components to modify plot colors.
+
 ### **Size**
 
-The `size` aesthetic allows us to change the element size.
+The `size` aesthetic allows us to change the size of certain elements. See how we can size data points in accordance to their severity values:
 
 ```{r}
 
@@ -288,15 +319,36 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   
 ```
 
-### **Shape**
+<br>
+
+We can size other `geom_*()` elements to change the appearance of our plots, without adding any visual information. 
+
+```{r}
+
+ggplot(data = data_demo, aes(x = trt, y = yld)) +
+  geom_boxplot(size = 4) 
+
+```
+
+<br> 
+
+We will learn more about sizing plot elements when we learn about scale components. For now, we can move into using aesthetics components to determine shape. 
+
+### **Shapes**
+
 
 <br>
 
-There is several options for the shape type in `ggplot`, with the most common present below.
+There are many shapes included in `ggplot2()`, with the most common shown below. The numbers assigned to these shapes make it easy to 'call' them when building plots.
 
 ```{r,echo=FALSE, out.width='50%', fig.align='center', fig.cap='Different shape options'}
 knitr::include_graphics("figures/intro_r/shapes.png")
 ```
+
+<br>
+Notice how shapes 21- 25 can have an outline color and fill, while the others only have color. 
+
+We can apply shapes to certain elements of our plots with the `shape` argument within `aes()`. Here, we set shape to distinguish between different treatments, with R choosing to use shapes 0-4. 
 
 ```{r}
 
@@ -309,73 +361,155 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
 
 <br>
 
-Note that shapes from 21 to 25 have color and fill, while the others only define the color.
+We can also use the `shape` argument to assign specific shapes to *all* points by taking it out of the `aes()` argument:
 
 ```{r}
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot()+ 
-  geom_jitter(aes(color = trt, # point border color
-                  fill = var), # point fill defined by the variety 
-              shape = 21, # we can change fill and color on shape 21 to 25
-              stroke = 1.5, # to make point border thicker
-              width = 0.2, size = 4)
-
-# when we talk about scale we will learn how to chose the colors
-# so far we are using default ggplot options  
-
-```
-
-### **Linetype**
-
-We can also have different line types for each level of a variable. In the example below, we use two different `linetype` aesthetics to separate the varieties by their level of genetic resistance, where R is resistant and S is susceptible.
-
-```{r}
-
-# We use pipes to summarize the data by treatment and variety
-data_line <- data_demo %>% 
-  group_by(trt, var) %>% 
-  summarise(sev = mean(sev))  
-data_line
-
-# Then we creat a plot with different line types
-  ggplot(data_line) +
-  geom_line(aes(x = trt,
-                y = sev, 
-                linetype = var, # each variety (R or S) will have a different line type
-                group = var),   # group is telling R that it should group the data by variety
-                size = 1)  # 
-
-
-```
-
-## **Scales**
-
-So far we have built our plot using the default options, now we will start to customize it using `scales`. Scales control how the aesthetics are mapped, therefore, for each aesthetic we will have a respective `scale` function. Let's start by looking at the x and y aesthetics.
-
-### **Position scales (x- y-axis)**
-
-#### **`scale_*_continuous`**
-
-X-axis, we can use `scale_y_continuous`. Y-axis, we can use `scale_x_continuous`.
-
-```{r}
-
-ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot()+ 
-  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4, show.legend = FALSE)+
-  
-  scale_y_continuous( # because our y-axis variable is continuous
-                  name = "Title of our axis", # name of the axis
-                  limits = c(70, 130),    # here we increase a little our axis limits
-                  breaks = c(seq(70,130,10))) # secondary axis breaks
-
+  geom_boxplot() +
+  geom_jitter(shape = 9)
 
 ```
 
 <br>
 
-We can add a second axis.
+We will learn more about setting specific symbols for specific variables and elements when we learn about scale components. 
+
+### **Line types**
+
+There are several line types available in R that can be viewed below. These line types can also be referenced easily by their numbers. 
+
+```{r,echo=FALSE, out.width='75%', fig.align='center', fig.cap='Built-in line types'}
+knitr::include_graphics("figures/intro_r/line_types.png")
+```
+
+We can use the `linetype` argument to assign different types of lines to different groups of data. Here we use `linetype` aesthetics to distinguish between two groups in the data, R (resistant) and S (susceptible).
+
+Notice that we use a new `geom_*()` function and it's `aes()` arguments to create a line graph.
+
+```{r}
+
+# We group the data by treatment and variety, and summarize the mean severity
+data_line <- data_demo %>% 
+  group_by(trt, var) %>% 
+  summarise(sev = mean(sev))  
+data_line
+
+# Then we create a plot with different line types for treatments where var=R or var=S. Notice that we use the data structure 'data_line', which we created above.
+  ggplot(data_line) +
+  geom_line(aes(x = trt,
+                y = sev, 
+                linetype = var, # Setting line type to distinguish between R and S varieties
+                group = var),   # Telling R that it should group the data by variety
+                linewidth = 1)  # Setting the thickness of the lines
+
+```
+
+<br>
+
+We can also use `linetype` to set the type of line used for all data by taking it out of `aes()`.
+
+```{r}
+
+ggplot(data = data_line, aes(x = sev, y = yld)) +
+  geom_line(aes(x = trt,
+                y = sev,
+                color = var, # Distinguish between R and S by color of line, rather than line type
+                group = var),
+                size = 1,
+                linetype = "dashed")
+
+# Using 'linetype = 2' produces the same result as 'linetype = "dashed"'
+
+```
+
+<br> 
+
+As with the other aesthetic elements, we will learn more about setting line types when we learn about scale components. 
+
+# **Scale components: building on `aes()` arguments**
+
+So far, we have built plots using the base function `ggplot()` and layering on `geom_*()` elements, and `aes()` arguments to determine plot type and style the plot. We can further customize our plots with scale components. 
+
+Scale components control how aesthetics are mapped. For each aesthetic we've learned about, there is a corresponding scale function. Just as in the aesthetics section, we can start by looking at how scale elements can be used to modify axes. 
+
+### **Modifying continuous plot axes**
+
+Let's say we want to create a dot chart and box plot representation of our data, with treatment (which is categorical) as the x-axis, and yield (quantitative) as our y-axis. We could just do this:
+
+```{r}
+
+ggplot(data = data_demo, aes(x = trt, y = yld)) +
+  geom_boxplot() +
+  geom_jitter(aes(fill = trt),
+              shape = 21,
+              width = 0.2,
+              size = 4,
+              show.legend = FALSE)
+```
+
+<br>
+
+R and `ggplot2` do a good job of setting the range and tick-mark location for the y-axis. But, if needed, we can further modify the range and tick-marks of both x and y-axes with functions `scale_x_continuous()` and `scale_y_continuous()`. 
+
+Let's say you want more room to put labels or images on this plot for your poster, presentation, or manuscript. You also will want to label the y-axis. We can do both of these things for the y-axis with `scale_y_continuous`:
+
+```{r}
+
+ggplot(data = data_demo, aes(x = trt, y = yld)) +
+  geom_boxplot() +
+  geom_jitter(aes(fill = trt),
+              shape = 21,
+              width = 0.2,
+              size = 4,
+              show.legend = FALSE) +
+  scale_y_continuous(name = "Yield", # Set the y-axis label to "Yield"
+                     limits = c(70,130)) # Expand the lower and upper limits of the y-axis to 70 and 130
+
+```
+
+<br>
+
+This is good, but imagine you want the tick-marks to occur at more frequent intervals:
+
+```{r}
+
+ggplot(data = data_demo, aes(x = trt, y = yld)) +
+  geom_boxplot() +
+  geom_jitter(aes(fill = trt),
+              shape = 21,
+              width = 0.2,
+              size = 4,
+              show.legend = FALSE) +
+  scale_y_continuous(name = "Yield", # Set the y-axis label to "Yield"
+                     limits = c(70,130), # Expand the lower and upper limits of the y-axis to 70 and 130
+                     breaks = c(seq(70,130,10))) # Tick marks occur at every 10th value between 70 and 130
+
+```
+
+<br> 
+
+Remember, these same operations can be applied to the x-axis with `scale_x_continuous`. It doesn't make sense to do this on categorical data like treatment, but it can be helpful if you have a quantitative x variable. You could create a plot to visualize the relationship between two continuous variables, severity and yield:
+
+```{r}
+
+ggplot(data = data_demo, aes(x = sev, y = yld)) +
+  geom_jitter(aes(fill=trt),
+              shape = 21,
+              width = 0.2,
+              size = 4,
+              show.legend = FALSE) +
+  scale_y_continuous(name = "Yield", 
+                     limits = c(70,130), 
+                     breaks = c(seq(70,130,10))) +
+  scale_x_continuous(name = "Severity",
+                     limits = c(0,15))
+
+```
+
+<br>
+
+We can also use `scale_y_continuous` to add a third axis to our plot. Image we want to represent our yield values in two different units. We can plot one unit along the y-axis, and use the `sec.axis` argument of the `scale_y_continuous` function to create an axis with the *other* set of units on the opposing side of the plot:
 
 ```{r}
 
@@ -388,37 +522,40 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
                      breaks = c(seq(70,130,10)),
                      
             # Here we add a second axis
-            sec.axis = sec_axis( # if we only want to duplicate an axis, we can use sec.axis = dup_axis())
-                                trans = ~ . *0.0672, # we use a transformation to change yield from  bu/ac to ton/ha
-                                name =  "Yield (ton/ha)", # secondary axis name
-                                breaks = c(seq(4.5,9,0.5)))) # secondary axis breaks
+            sec.axis = sec_axis(trans = ~ . *0.0672, # Transform yield from bu/ac to ton/ha
+                                name =  "Yield (ton/ha)", # New axis name
+                                breaks = c(seq(4.5,9,0.5)))) # Axis breaks
 
 ```
 
 <br>
 
-*NOTE*: the second axis works for discrete axis as well (see next subsection)
+Tip: You can use `sec.axis = dup_axis())` to simply duplicate the y-axis to the other side of the plot if you want the same values on each side for easier reference.
 
-#### **`scale_*_discrete`**
+### **Further modifying discrete axes**
 
-We will use the x-axis to illustrate. With scale\_\*\_discrete you can do things like rearrange or select/excluse levels.
+Just as with axes defined by continuous variables, we can use scale components to modify axes with discrete variables. With either scale_x_discrete() or scale_y_discrete() we can rearrange and exclude levels/values of discrete variables. 
+
+We will use treatment('trt') again as the x-axis to show how we can modify axes of discrete variables:
 
 ```{r}
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
-  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4, show.legend = FALSE)+
-  
+  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4, show.legend = FALSE) +
+  # We use scale_x_discrete:
   scale_x_discrete( 
-              limits = c("B", "A", "D")) # here we change the order of treatments and exclude the treatment C
+              limits = c("B", "A", "D")) # Exclude trt "C"
    
 ```
 
-*NOTE*: R give an warning message informing that there are missing values. This is because our selection made by argument `limits` transformed all values of `trt = C` into missing values, `NA`s.
+<br>
+
+Note: R will give a warning message letting us know that there are missing values. This is because using `limits = c("B", "A", "D"))` transformed all "C" treatments to NA's. 
 
 <br>
 
-We can also change the labels using the `labels` argument.
+We can also re-label the treatments along the x-axis using the `labels` argument within `scale_x_discrete`:
 
 ```{r}
 
@@ -427,65 +564,57 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4, show.legend = FALSE)+
   
   scale_x_discrete( 
-            labels = c('B' = 'New Label', # pProvide to ggplot new label information for each variable
-                       'D' = 'New Label \n in two lines')) # you can use the "\n" to break the sentence in more lines
-
+            labels = c('B' = 'New Label', # Re-label trt "B" as "New Label 1"
+                       'D' = 'New Label \n in two lines')) # Trt "D" becomes "New Label 2                                                               in 2 lines"
 
 ```
 
-### **Color and fill scales**
+<br>
 
-`color` and `fill` are two aesthetics that are very similar. To avoid redundancy, we will use examples based on `fill` only, but the same principles apply to the color aesthetic. To change colors in R, we can use built-in names or the RGB code. There are 657 built-in color names in R. You can see their names by using the function `color()` and the figure below provides a few examples.
+Tip: You can use "\n" to break the label into multiple lines. Just insert the "\n" where you want the break. 
 
-The RBG code is the additive combination of **R**ed, **G**reen, and **B**lue in an hexadecimal format, which can take 16 possible "values" (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F) which are in 6-character arrangements. There are also two extra characters which define the color transparency.
+### **Further modifying colors**
 
-```{r,echo=FALSE, out.width='75%', fig.align='center', fig.cap='Colors with the name build-in in R (left and center) and RGB scheme'}
+Just as with color aesthetic elements, we can modify 'color', 'fill', and 'alpha' to better represent our data. We can use scale elements in `ggplot2` to represent categorical and quantitative data with a range of color and transparencies. Similarly to the color aesthetics section, `color` and `fill` arguments are very similar. To avoid redundancy, we will use `fill` only. Keep in mind, however, that you can use `color` in the same way. 
+
+Colors in R may be referenced or accessed in several different ways. In base R, colors have names like those shown in the next image. You can see a list of colors using `colors()`. These colors are also defined by the RGB code, an additive combination of **R**ed, **G**reen, and **B**lue. Users can also reference these colors using their 'hex' code (hexadecimal code), which is constructed of a 6 character combination of letters A-F and numbers 0-9. For example, the same color can be referenced with `"yellow"` and with `"FFFF00"`. Additionally, the hex code can be extended to an 8 character code, with the last two characters representing color transparency. For example, `"FFFF0050"` would be yellow at 50% transparency. 
+
+```{r,echo=FALSE, out.width='75%', fig.align='center', fig.cap='Some R colors, hex code formatting, and RGB scheme'}
 knitr::include_graphics("figures/intro_r/color.png")
 ```
 
-#### **`scale_fill_manual()`**
-
-```{r}
-
-ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot()+ 
-  geom_jitter(aes(fill = trt), 
-              shape = 21, width = 0.2, size = 4)+
-  scale_fill_manual(values = c("blue", # color name
-                               "gray67", # color name, but from a different gray intensity
-                               "#9f3b6c", # use RGB code to assign a color
-                               "#9f3b6c80")) # same color as trt C, but with transparency
-```
-
 <br>
 
-Although selecting a color for a plot seems trivial, it is actually very challenging. There are many things to consider when we use a color scheme (pallet). We need to consider if the person is color blind or if they follow good practices for data visualization. While we will not specifically discuss these topics during the course, we highly recommend that you look for more information on these topics.
+Selecting colors for a plot may sound trivial, but it can influence how interpretable your figures are and is often challenging. There are many things to consider when designing or choosing a color scheme/pallet. We need to consider whether viewers will be able to distinguish between different hues, especially for colors commonly confused with color-blindness such as red and green. These considerations and others constitute good practices for data visualization. Although this is not a part of this course, we highly recommend that you look for more information on these topics to maximize the impact of your figures. 
 
-There are plenty of resources to chose color, of which one of the most popular is the website [colorbrewer2.org](colorbrewer2.org), conceptualized by professor [Dr. Cynthia A. Brewer](https://sites.psu.edu/cbrewer/). In this website there are suggestions of pallets for sequential, diverging, and qualitative data, as well as useful information regarding color blind and print friendly options.
+### **Color resources**
 
-<br>
+Fortunately, there are plenty of resources, including R packages, from which you can choose color pallets. The most popular of these is the 'ColorBrewer' project designed by Penn State professor [Dr. Cynthia A. Brewer](https://sites.psu.edu/cbrewer/). This project has both an interactive [website](colorbrewer2.org) for choosing pallets and an R package [`rcolorbrewer`](https://cran.r-project.org/web/packages/RColorBrewer/index.html). The website has helpful suggestions for pallets of sequential, diverging, and qualitative data, as well as pallet options for color blindness and printing. 
 
-```{r,echo=FALSE, out.width='100%', fig.align='center', fig.cap='Print screen of colorbrewer2.org website. 1 - number of classes; 2 - type of data; 3 - pallet option; 4 - name of pallet and information for color blind, photocopy, LCD, and  printer friendly options'}
+```{r,echo=FALSE, out.width='100%', fig.align='center', fig.cap='Colorbrewer2.org; 1 - number of classes; 2 - type of data; 3 - color pallet options; 4 - printing/fill options; 5 - details on colors used'}
 knitr::include_graphics("figures/intro_r/brewer.png")
 ```
 
 <br>
 
-This website was so popular within `ggplot2` that it has become a package and now is native to ggplot2 through the function `scale_color/fill_brewer()`. An example using the pallet from the figure above can be seen in the next plot .
+The Color Brewer project was so popular that functions from the package `scale_color_brewer()` and `scale_fill_brewer()` became native (included) to `ggplot2`. `rcolorbrewer` also contains some pre-defined color pallets that can be viewed with `display.brewer.all()`. 
+
+This is an example of how a `ggplot`/`rcolorbrewer` function and pre-defined pallet can be applied to add a color 'layer' to our plot:
 
 ```{r}
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
   geom_jitter(aes(fill = trt), 
               shape = 21, width = 0.2, size = 4)+
-  scale_fill_brewer(palette = "Paired") # This scale automatic identify the number of classes and used the defined pallet to fill the colors
+  scale_fill_brewer(palette = "Paired") # R automatically identifies the number of 'classes' (treatments, in this case) and applies pallet colors accordingly
 
 ```
 
 <br>
 
-Interestingly, there are also developers who have created packages for color pallets, one example is the package [ggsci](https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html), where the pallets were created using colors common to a select group of scientific journals.
+Other developers have created packages for color pallets, such as package [`ggsci`](https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html). In `ggsci`, pallets were created using colors from a group of scientific journals. 
 
+Here we provide an example of `ggsci` function `scale_fill_npg()` to apply colors to our plot. 
 ```{r}
 
 library(ggsci)
@@ -494,32 +623,33 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
   geom_jitter(aes(fill = trt), 
               shape = 21, width = 0.2, size = 4)+
-  scale_fill_npg() # This scale automatically identifies the number of classes and uses the defined pallet to fill the colors
-
-```
-
-#### **`scale_fill_gradient*()`**
-
-If our variable is quantitative, we can use a color fill based on a gradient. There are basically 3 different scales for gradient, `scale_fill_gradient()`, `scale_fill_gradient2()`, and `scale_fill_gradientn()`.
-
-`scale_fill_gradient()`: create a gradient from two colors (low and high)
-
-```{r}
-
-ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot()+ 
-  geom_jitter(aes(fill = fdk), 
-              shape = 21, width = 0.2, size = 4)+
-  scale_fill_gradient(low = "green",
-                      high = "red", 
-                      na.value = "blue")
-
+  scale_fill_npg() # Just like rcolorbrewer, the number of classes are automatically determined and colors from the pallet are applied
 
 ```
 
 <br>
 
-`scale_fill_gradient2()`: create a gradient from three colors (low, middle, and high)
+### **Applying colors to continuous/quantitative data**
+
+We can use a gradient of color to represent quantitative values. There are three major color scale functions: `scale_fill_gradient()`, `scale_fill_gradient2()`, and `scale_fill_gradientn()`. These functions can be used to apply a different number of colors to quantitative data. Alpha values, which determine the transparency of the color, can also be scaled for quantitative variables with `scale_alpha_*()` functions. 
+
+The first fill function, `scale_fill_gradient()`, can be used to create a gradient from two colors to represent low and high values. Here, we create a plot where bluer points indicate low FDK values and redder values high. Data points with NA values are indicated in black. 
+
+```{r}
+
+ggplot(data = data_demo, aes(x = trt, y = yld)) +
+  geom_boxplot()+ 
+  geom_jitter(aes(fill = fdk), # This tells R to color according to fdk variable
+              shape = 21, width = 0.2, size = 4)+
+  scale_fill_gradient(low = "blue",
+                      high = "red", 
+                      na.value = "black")
+
+```
+
+<br>
+
+The second function, `scale_fill_gradient2()` can be used to create a gradient with three colors, representing low, intermediate, and high values. Here, we add the use of the color yellow to represent intermediate values:
 
 ```{r}
 
@@ -528,19 +658,18 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_jitter(aes(fill = fdk), 
               shape = 21, width = 0.2, size = 4)+
   
-  scale_fill_gradient2(low = "blue", # This is the low value
-                       mid = "yellow", # middle value
-                       high = "red",  # high value
-                       midpoint = 21, # set up the middle point, otherwise will use the default "0"
-                       na.value = "black") # we can also change the color of NAs values
-
-# Note, ggplot2 distributes the color symmetric from the middle point, so, depending on where the middle point is, it is possible that low or high color values may not be reached. 
-
+  scale_fill_gradient2(low = "blue", 
+                       mid = "yellow", 
+                       high = "red",  
+                       midpoint = 21, # Define the middle point value. Default is 0
+                       na.value = "black") 
 ```
 
 <br>
 
-`scale_fill_gradientn()`: create a gradient from n colors
+Note that ggplot will distribute the color symmetrically from the middle point. Depending on where you define the middle point, true red or blue values may not be reached. In this case, the distribution of values is represented well with 21 as the mid point. 
+
+Function `scale_fill_gradientn()` can be used to create a gradient from any number (n) of colors. Here we apply a rainbow of colors to represent FDK values. 
 
 ```{r}
 
@@ -554,29 +683,27 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
 
 ```
 
-### **Alpha and size scales**
+<br>
 
-Alpha and size are two scales that are generally used for quantitative variables.
+### **Color transparency**
 
-#### **`scale_alpha_*`**
-
-`scale_alpha_continuous()`: plot the variables in a range of transparency. By default, this range is from 0.1 to 1.0
+Earlier, we used `geom_jitter(aes(alpha = fdk))` to apply alpha transparency values to a plot. 
 
 ```{r}
 # Without specifying the scale, R will assume the default values
 # therefore, here we would have the same results as if we have
 # scale_alpha_continuous(range = c(0.1,1))
 
-
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
-  geom_jitter(aes(alpha = fdk), 
-              width = 0.2, size = 4)
+  geom_jitter(aes(alpha = fdk), # Setting alpha values
+              width = 0.2, 
+              size = 4)
 ```
 
 <br>
 
-We can change the range by using the argument `range`
+By default, the range of transparency values applied to the above plot range from 0.1 to 1.0. With function `scale_alpha_continuous()`, we can exert more control over the range of transparency values applied to the plot. Here, we adjust the range of color transparency with the `range` argument to produce a plot with a more constrained set of shades. 
 
 ```{r}
 
@@ -584,44 +711,69 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
   geom_jitter(aes(alpha = fdk), 
               width = 0.2, size = 4)+
-  
-  scale_alpha_continuous(range = c(0.3, 0.6)) 
+  scale_alpha_continuous(range = c(0.3, 0.6)) # Set transparency values at 0.3 (30%) to 0.6 (60%) of shade
 
 ```
 
 <br>
 
-Note that there are two observations in treatment A where the color transparency did not change. These two observations represent points without values for FDK (`NA`s). We can work on some strategies to deal with this problem.
+Setting `range` values can improve the visibility of certain data points. Smaller FDK values became more visible against the light background of the plot. 
 
-First, remove those two points from the whole data set. This will however result in another problem, since the calculations used to create boxplots considers those observations.
+Note that there are two observations in treatment A where the color transparency did not change. These two observations represent points without values (NAs) for variable FDK. There are a few some strategies to deal with this problem.
 
-A better option is to use a different color or shape for those observations, which will require some work in our code. In the function `scale_alpha_continuous` there is the argument `na.value`, where we will assign values of `alpha` to `NA` observations. We can make `NA`s observations disappear by attributing`na.value = 0`. We then plot those two observations using another layer (`geom_jitter`), where we could use shape or color to differentiate those observations. In our example, we use shape.
+The first solution could be to remove those two observations with missing values. This would eliminate the two data points on the graph, but the box plots would also be affected. 
+
+A better option is to represent these NA observations with a different color or shape. To achieve this, we can take advantage of the layer design of `ggplot2` and the `na.value` argument of `scale_alpha_continuous`. We can use `na.value = 0` to set the transparency of any NA values to 0%, which is invisible. Then, we can use a *second* `geom_jitter()` layer to add the problematic observations back in, represented by a different shape with `shape = 8`. By not including the `alpha` argument in the new `geom_jitter()` layer, we make it so that points from this new layer are not affected by `na.value = 0`. 
+
 
 ```{r}
-
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
   geom_jitter(aes(alpha = fdk), 
               width = 0.2, size = 4)+
   
-  geom_jitter(data = filter(data_demo, is.na(fdk)), # filter the data such that there are only the two obs with NA values
-              aes(x = trt, y = yld), # position
-              shape = 8, # we will define a very different shape for NA
+  geom_jitter(data = filter(data_demo, is.na(fdk)), # Add 2nd geom_jitter layer with only NA observations
+              aes(x = trt, y = yld), 
+              shape = 8, # Define a different shape for the NA observations
               width = 0.2, height = 0, size = 4)+ 
   
-  scale_alpha_continuous(range = c(0.4, 1), # our alphas will change from 0.4 to 1
-                         na.value = 0)  # Make NAs values completely transparent
+  scale_alpha_continuous(range = c(0.4, 1), 
+                         na.value = 0)  # Set transparency of observations where FDK is NA to 0. It will only be applied to geom layers where alpha is defined. 
+
 ```
 
 <br>
 
-This is an example of how we can use the layer design of `ggplot2` and some creativity to overcome a potential problem. Each scale can have a way to assign values for `NA`s, which is very convenient to other `scale` functions, such as color or shape. However, with `scale_alpha_continuous`, changing the transparency for `NA`s does not make them disappear, so we need to specifically define the `NA`s transparency (`na.value = 0`) and add a new layer *only* for those two points. This same principle can be applied for other situations, such as wanting to emphasize a particular point in a database, etc.
+This is an example of how we can creatively use the layered design of `ggplot2` to create customized plots. This kind of technique can be applied to other situations, such as when there is a need to emphasize a particular observation in the data. 
+
+Tip: Notice that applying a color-related scale component to a plot where no `color`, `fill`, or `alpha` arguments are defined doesn't work to apply any change in color or transparency:
+
+```{r}
+
+ggplot(data = data_demo, aes(x = trt, y = yld)) +
+  geom_boxplot()+ 
+  geom_jitter(aes(size = fdk), # Instead of 'alpha', we used 'size'
+              width = 0.2, size = 4)+
+  
+  geom_jitter(data = filter(data_demo, is.na(fdk)), 
+              aes(x = trt, y = yld), 
+              shape = 8, 
+              width = 0.2, height = 0, size = 4)+ 
+  
+  scale_alpha_continuous(range = c(0.4, 1), 
+                         na.value = 0)  # There is no alpha feature for this scale to be applied to
+
+```
 
 <br>
 
-#### **`scale_size_*`**
+Remember that we *build* up plots with these components. In order to scale features like colors, axes, shapes, etc., those features need to be present in another layer of the plot, such as those constructed by functions `ggplot()` or `geom_*()`. 
 
-Size is similar to alpha scale.
+### **Further modifying size**
+
+Scaling for size is performed similarly to alpha scaling. We can use `scale_size_continuous()` to apply a range of sizes to data according to their respective values. Arguments `range` and `trans` allow users to set the range of sizes and reverse the order in which they are applied. 
+
+Here we apply `scale_size_continuous()` and `range` to assign size to observations based on the value of variable FDK:
 
 ```{r}
 
@@ -630,11 +782,15 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_jitter(aes(size = fdk), 
               width = 0.2)+
   
-  scale_size_continuous(range = c(1, 6)) # this is actually the default value 
+  scale_size_continuous(range = c(1, 6)) # These are actually the default values, but you can adjust them to better emphasize larger values
                                        
 ```
 
-Note that `ggplot` provides us with a warning message indicate that two values were removed. This is different to how `scale_alpha_continuous` handled the same issue. We emphasize that it is important to understand how ggplot will deal with `NA`s. Similar to the previous example, we will add an extra layer to add these `NA`s. We also will change the order, making values with lower FDK bigger, by adding the argument `trans = "reverse"`.
+Note that `ggplot2` provides us with a warning message indicate that two values were removed. Color scaling functions like `scale_alpha_continuous()` and `scale_fill_continuous()` simply assigned the NA observations a color or transparency not used in the range of the rest of the data. In contrast, `scale_size_continuous()` *removed* these values. 
+
+Imagine the difficulties associated with automatically assigning NA observations a different point size: Assigning a size *larger* than the 6 used for FDK values of 40 could obscure other data points, and a *smaller* size would be difficult to distinguish from points where FDK is 0, or it would be hardly visible. This is an example showing the importance of understanding how different `ggplot2` functions will deal with NAs, and influences how we can replace those observations in the plot. 
+
+Just like in the last example of `scale_alpha_continuous()`, we will show how to use the layered design of `ggplot2`, along with our understanding of how NA values are handled by `scale_size_continuous` to visualize the data effectively. For fun, we will also use the `trans` argument to reverse the sizing - small values will be represented by large points, and large values by small points. 
 
 ```{r}
 
@@ -642,25 +798,25 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot() + 
   geom_jitter(aes(size = fdk), 
               width = 0.2) + 
-  
-  # same as previous example to deal with the NA problem
-  # warning will continue to show up, but the NAs are now added
-  geom_jitter(data = filter(data_demo, is.na(fdk)), 
+  geom_jitter(data = filter(data_demo, is.na(fdk)), # Add 2nd geom layer with NA values
               aes(x = trt, y = yld), 
               shape = 8, 
               width = 0.2, height = 0, size = 4) + 
-  
-  scale_size_continuous(range = c(0.5, 5), 
-                        trans = "reverse")  # this reverses the size argument, meaning small values have a larger size
-                                       
+  scale_size_continuous(range = c(0.25, 5), # Modify range to better visualize the distribution of FDK values
+                        trans = "reverse")  # Reverse the default order of sizing
 ```
 
-### **Shape and linetype scales**
+<br>
 
-#### **`scale_shape_manual`**
+We get the same warning message, but our NA values are still represented in the second `geom_jitter()` layer. 
 
-The shape option is very limited in terms of customization.
+### **Further modifying shape**
 
+Compared to some of the other scale components of `ggplot2`, scaling the shape of data points is limited. It is inappropriate to use `shape_scale_manual()` to represent continuous values because, unlike shades of color or size, point shapes are discrete units. However, we can still use `shape_scale_manual()` to more specifically assign shapes to represent categories of observations within our data. 
+
+With shape aesthetic components, we were able to tell `ggplot()` to use shapes to indicate different groups of data. We were also able to tell `ggplot()` to use a specific symbol for all point data within the plot. Using `shape_scale_manual()` allows us to assign *specific* shapes to *specific* groups. 
+
+Now we assign shapes 8 (asterisk) and 15 (solid square) to the varieties variable to better illustrate which observations are genetically resistant (R) and which are genetically susceptible (S). 
 ```{r}
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
@@ -671,168 +827,171 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   scale_shape_manual(values = c(8, 15)) # Here we defined two different shapes depending on the variety
 ```
 
-#### **`scale_linetype_manual`**
+### **Further modifying line type**
 
-There are a few options for linetype that we can use.
+Just like with shape, scaling by line type doesn't work for continuous variables. However, we can use `scale_linetype_manual()` to assign different line types to different categorical variables. 
+
+We'll construct a previous plot without `scale_linetype_manual()` to compare against:
 
 ```{r}
-# preparing the data for our plot
-line_yld = data_demo %>% 
+
+# We group the data by treatment and variety, and summarize the mean severity
+data_line <- data_demo %>% 
   group_by(trt, var) %>% 
-  summarize(yld = mean(yld))
+  summarise(sev = mean(sev))  
+data_line
 
-line_yld
-
-  ggplot(line_yld) +
+# Then we create a plot with different line types for treatments where var=R or var=S. Notice that we use the data structure 'data_line', which we created above.
+  ggplot(data_line) +
   geom_line(aes(x = trt,
-                y = yld, 
-                linetype = var, # each variety (R or S) will have a different line type
-                group = var),   
-                size = 1) 
-
-```
-
-R has a few options for lines. These can selected by their name, or by the number defined by `scale_linetype_manual`.
-
-```{r echo=FALSE}
-
-line_d <-  data.frame(
-  linetype = factor(1:6,
-    labels = c("solid", "dashed", "dashed", "dotdash", "longdash", "twodash"))) 
-
-ggplot(line_d) +
-  geom_hline(aes(linetype = linetype, yintercept = 0), size = 2) +
-  scale_linetype_identity() +
-  facet_grid(linetype ~ .) +
-  theme_void(20)
+                y = sev, 
+                linetype = var, # Setting line type to distinguish between R and S varieties
+                group = var),   # Telling R that it should group the data by variety
+                linewidth = 1)  # Setting the thickness of the lines
 
 ```
 
 <br>
 
-Illustrated using the linetype for varieity and the options "twodash" or "dashed".
+We've successfully created a plot where varieties R and S are represented by different line types. But if we want specific line types applied to these varieties, we need to use `scale_linetype_manual()` to assign the line types we'd like to use. Remember that different types of lines in `ggplot2` can be referenced by their names or by their numbers. 
 
-```{r echo=FALSE}
-  ggplot(line_yld) +
-  geom_line(aes(x = trt, y = yld, 
+We create a plot identical to the one above *except* with `scale_linetype_manual()` defining different line types to use:
+```{r}
+
+  ggplot(data_line) +
+  geom_line(aes(x = trt,
+                y = sev, 
                 linetype = var, 
-                group = var),   
-                size = 1) +
-  
-  scale_linetype_manual(values = c("twodash", "dashed"))
+                group = var),  
+                linewidth = 1) +
+  scale_linetype_manual(values = c("twodash","dashed"))
 
 ```
 
-## **Facets**
+So far, we've seen that `scale_*()` functions can be used to more specifically control plot aesthetics. Now we can move into more advanced functions that will allow us to create more complex figures. 
 
-Facets allow us to create multiple plots based on specified variable. In our previous examples, we used things like shape to differentiate some of the variables, for example, variety. Now, we will create separate plots for the variety, but within the same graphic. To accomplish this, we apply the option `facet_*`, of which there are two types of facet in `ggplot2`, `facet_wrap` and `facet_grid.`
+# **Facet components: Creating multiple plots representing different variables**
 
-### **Facet wrap**
+### **Facetting by a single variable**
+`facet_*()` functions allow us to arrange multiple plots in a side-by-side or grid-like manner, based on a specified variable. In our previous examples, we used shape to differentiate some of our variables, like 'variety' and 'treatment'. Now, we will use `facet_*()` functions to visualize our data with more variables represented. 
+
+Here, we create a faceted plot with `facet_wrap()` to represent yield by treatment type and variety:
 
 ```{r}
+
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot()+ 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
-  
+  # Here we tell R to facet the plot by variety:
   facet_wrap(~var)
 
 ```
 
 <br>
 
-What occurred? Our original plot was now split in two with one for the resistant variety (R) and the other for the susceptible (S) variety. The configurations for the two plots are similar, as are the scales, meaning that they provide standardized information and can be compared, etc.
+Our original plot is now split in two. One side shows yield values of the resistant variety (R) by treatment type, while the other shows the same information for the susceptible variety (S). Notice that the y-axis is the same between these two plots. Using `facet_wrap()` resulted in two standardized plots that can be directly compared. 
 
-One thing to note though is that the data used to create this plot is different from when we had the two variables combined. As result, `ggplot2` considered that some of our observations are outliers, when before we did not have this issue. This is a good example which illustrates that when we change the database structure, we need to make sure that we verify the outputted result to check for problems. In this example, we need to an options to suppress the outlier in the `geom_boxplot`.
+We can see that yield values are distinct between R and S varieties, resulting in more constrained boxes in the `geom_boxplot()` layer. This results in some values being defined as outliers. These outliers are represented by both a colored point and a black dot in the `geom_jitter()` and `geom_boxplot()` layers, respectively. Obviously, we don't want some treatments represented twice in our plots, but we also want to show the correct variation within the box plots. 
+
+To do this, we use the `outlier.alpha` argument within `geom_boxplot()` to set the transparency of the black dots to 0, which is invisible. This way, the outliers will be expressed within the `geom_jitter()` layer. Their values will be included when calculating box plots, but won't be visibly represented. 
 
 ```{r}
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot(outlier.alpha = 0)+ # we define the outliers as completely transparent
-
-  # Note: By making these outliers observations transparent, they are still considered in the calucations for boxplots,
-  # at same time, they are not duplicated in the plot with the geom_jitter
-  
+  geom_boxplot(outlier.alpha = 0) + # Make outliers completely transparent 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
   
   facet_wrap(~var)
 
-
 ```
 
-Below we can see an example of how to change the y-axis scale and the strip text (text above each plot)
+<br> 
+
+You can see that the black dots representing outliers in the box plot layer are gone. The outlier data points are no longer represented twice within the plots. 
+
+If we wanted to use different y-axis values for each of these two plots, we can use the `scales` argument within `facet_wrap()`. We can also use the `labeller` argument to modify axis labels and the 'strip' text (the text above each plot). 
 
 ```{r}
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot(outlier.alpha = 0)+ #outliers defined to be completely transparent
+  geom_boxplot(outlier.alpha = 0) + 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
   
   facet_wrap(~var, 
-             scales = "free_y", # scales will be independent if free, or only one dimension if free_y/x
-             labeller = labeller( # here is an example of how to change the 
-                      var = c("R" = "Resistant", # need to remember the order of the call to define the variables
-                              "S" = "Susceptible"))) # then give a new name for each level
-
+             scales = "free_y", # Y-axis scales are assigned independently between facets
+             labeller = labeller(
+                      var = c("R" = "Resistant", 
+                              "S" = "Susceptible"))) # Replace 'R' with 'Resistant' and 'S' with 'Susceptible'
 
 ```
 
 <br>
 
-Below, we can see an example of how to change the y-axis scale and output the graph in a stacked format with labels (text above each plot)
+The default value for `scales` is 'fixed', which makes standardized plots. Other options for the `scales` argument include 'free' (for both axes) and 'free_x' (for x-axis).
+
+We can also use the `ncol` and `nrow` arguments within `facet_wrap()` to create stacked plots, rather than side-by-side plots:
 
 ```{r, fig.height = 7}
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot(outlier.alpha = 0)+ # outliers are defined to be completely transparent
+  geom_boxplot(outlier.alpha = 0) + 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
-  
   facet_wrap(~var, labeller = labeller(var = c("R" = "Resistant", "S" = "Susceptible")), 
-             ncol = 1, nrow = 2) # this defines how the graphics are displayed
+             ncol = 1, nrow = 2) # Arrange plots in 1 column and 2 rows
 
 ```
 
-### **Facet grid**
+### **Facetting by multiple variables**
 
-`facet_grid`" create a grid of plots, using one variable to define the columns and the other to define the rows. In the example below we split the incidence between "low" (inc $\leq$ 10%) and high (inc $\ge$ 10%) using `mutate` and logical operators.
+You can create a grid of plots with one variable represented horizontally and the other vertically with `facet_grid()`. We can still represent variety (resistant vs. susceptible) with columns of plots while also representing disease incidence levels in rows. 
+
+Currently, disease incidence level ('inc') is a continuous variable, which would be hard to represent within rows. However, we can transform it into a categorical variable by splitting the values into 'low incidence' (inc < 10) and 'high incidence' (inc > 10). We do this with `mutate()` an `if_else()` function statement.
 
 ```{r}
 
 data_grid <- data_demo %>% 
-    # create a new variable by splitting the incidence using a 10% threshold
-    mutate(inc_cat = if_else(inc <=10, "Low Incidence", "High Incidence"))
+    mutate(inc_cat = if_else(inc <=10, "Low Incidence", "High Incidence")) # If the statement 'inc <= 10' is TRUE, use mutate() to transform new variable 'inc_cat' into 'Low Incidence'. If the statement is FALSE, transform the value to 'High Incidence'
+data_grid
+# New variable 'inc_cat' is categorical
   
 ggplot(data = data_grid, aes(x = trt, y = yld)) +
   geom_boxplot(outlier.alpha = 0)+ 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
-  facet_grid(inc_cat~var, # inc_cat = row; var=column
+  facet_grid(inc_cat~var, # Create grid with variables 'inc_cat' and 'var' with 'inc_cat' as the rows and 'var' as the columns (row variable ~ column variable)
              labeller = labeller(var = c("R" = "Resistant", "S" = "Susceptible")))
 
 ```
 
-We can use grid with only one variable as well.
+<br>
+
+We can also use `facet_grid()` in a similar way to `facet_wrap()` to arrange plot facets by a single variable. 
 
 ```{r}
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot(outlier.alpha = 0)+
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
-  facet_grid(.~var) # grid by column
+  facet_grid(.~var) # Use 'var' as column in the grid. The '.' is used as a place-holder for the row variable. 
   
 
 
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot(outlier.alpha = 0)+ # outliers defined to be completely transparent
+  geom_boxplot(outlier.alpha = 0) + 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
-  facet_grid(var~.) # grid by row
+  facet_grid(var~.) # Use 'var' as a row. 
 ```
 
-## **Labels**
+With this approach, we can achieve the same results as when we used the `ncol` and `nrow` arguments with `facet_wrap(). 
 
-Below we have an example of how to change the y-axis scale and text options
+# **Label components: Adding and modifying labels**
+
+We've already seen some ways to modify the labels of our plots. However, using the `labs()` function to add a label component to our plot offers more control and customization. 
+
+We can use `labs()` to add elements like titles, subtitles, captions, etc., as well as to add more descriptive axis labels. 
 
 ```{r}
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
@@ -841,34 +1000,28 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   scale_fill_npg() +
   
   labs(
-    # labels for the plots in general
     title = "Here is a title",
     subtitle = "Here is the plot subtitle",
     caption = "This is figure caption",
-    tag = "A", 
-    
-    # Labels for the aesthetics 
+    tag = "This is a figure reference label", 
     y = "y-axis title",
     x = "x-axis title",
     fill = "fill title"
-    
   )
 
 ```
 
-## **Themes**
+We can further customize these elements with theme components.
 
-So far, we built our plots focusing on how to work and under the data being plotted by using layers (`geom`), aesthetics, and facets. Now we will take a quick look on how to change some of non-data components of the plot. We can make many of these changes using `theme()`.
+# **Theme components: Modifying the appearance of non-data components**
 
-`ggplot2` has complete themes and options to customize those. There are also several packages that have extra complete themes.
+Theme components can be used to modify non-data components of the plot, such as title location, background color, the use of grid lines, and more. `theme_*()` functions are used to add these component. 
 
-### **Complete themes**
+`ggplot2` contains 10 pre-set themes and has options to add further customization. Other packages like [`ggthemes()`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) and [`bbplot()`](https://github.com/bbc/bbplot/) offer more theme pre-sets. Themes can be useful when showing plots in different settings, such as with projectors, on colored paper, or in journals with figure specifications. 
 
-`ggplot2` has ten built-in themes that are very convenient to use.
+### **Built-in themes**
 
-#### **Built-in themes\`**
-
-**`theme_bw`**: dark-on-light, works well with presentations displayed with a projector.
+`ggplot2` has 10 built-in themes that can be quickly applied to plots with individual functions. For example, theme 'bw' is applied with `theme_bw()`. 
 
 ```{r}
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
@@ -876,96 +1029,62 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4) +
   scale_fill_npg() +
   labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments") +
-  # only enter with the theme name
-   theme_bw() # theme black and white
-
-```
-
-**`theme_minimal`**: no background annotations
-
-```{r}
-ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot(outlier.alpha = 0)+ 
-  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
-  scale_fill_npg() +
-  labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments")+
-  # only enter with the theme name
-   theme_minimal() 
-
-```
-
-**`theme_classic`**: classic design, x and y axis lines, but no gridlines
-
-```{r}
-ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot(outlier.alpha = 0)+ 
-  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
-  scale_fill_npg() +
-  labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments")+
-  # only enter with the theme name
-  theme_classic() 
+   theme_bw() # Use theme 'bw'
 
 ```
 
 <br>
 
-Other complete themes in `ggplot2` include: `theme_grey()` (default); `theme_linedraw()`; `theme_light()`; `theme_dark()`; `theme_void()`; `theme_test()`
+Tip: The 'bw' in theme 'bw' stands for black on white. This high-contrast theme is useful when projecting images. 
 
-#### **From other packages**
-
-There is several package with built-in themes, here we will use only two as examples.
-
-**ggthemes package**
-
-[`ggthemes` package](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) - Has several different complete themes. The example below (`theme_economist()`) is inspired by plots made by the magazine "The Economist".
+The same plot can be constructed with another pre-set theme, such as theme 'minimal':
 
 ```{r}
-library(ggthemes)
-
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot(outlier.alpha = 0)+ 
-  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
+  geom_boxplot(outlier.alpha = 0) + 
+  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4) +
   scale_fill_npg() +
-  labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments")+
-  # only enter with the theme name
-  theme_economist()
+  labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments") +
+   theme_minimal() # Use theme 'minimal'
 
 ```
 
-**bbplot package**
+<br>
 
-[bbplot](https://github.com/bbc/bbplot/) is a package developed by the BBC team.
+Examples of all 10 of the pre-set themes of `ggplot2` can be viewed [here](https://ggplot2.tidyverse.org/reference/ggtheme.html).
+
+Themes from extension packages `ggthemes` and `bbplot()` are applied in the same way:
 
 ```{r}
-# This package is not yet in the CRAN, so we need to download from a website called GitHub
-# to do this, we need the package 'devtools', if you don't have it, make sure that you run both lines
+# Load in ggthemes and bbplot
+library("ggthemes")
+library("bbplot")
 
-# install.packages('devtools')
-# devtools::install_github('bbc/bbplot')
-
-
-library(bbplot)
-
-
+# Use ggthemes
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot(outlier.alpha = 0)+ 
-  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
+  geom_boxplot(outlier.alpha = 0) + 
+  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4) +
   scale_fill_npg() +
-  labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments")+
-  # only enter with the theme name
-  bbc_style()
+  labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments") +
+   theme_economist() # Use theme 'economist' from ggthemes
+
+# Use bbplot
+ggplot(data = data_demo, aes(x = trt, y = yld)) +
+  geom_boxplot(outlier.alpha = 0) + 
+  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4) +
+  scale_fill_npg() +
+  labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments") +
+   bbc_style() # Use theme 'bbc_style' from bbplot
 
 ```
 
-### **Customized**
+### **Creating custom themes**
 
-Another option is to not use the built-in themes and customize the plots ourselves. `ggplot2` has a [lot of options](https://ggplot2.tidyverse.org/reference/theme.html) for customization, from the legend position to the ticks size. As you can imagine, it would be difficult to cover each of these options, but we will illustrate a few examples.
+We can create and apply custom themes as well. `ggplot2` offers many different options, most of which we won't be able to cover. Documentation for all the options in `theme()` can be found [here](https://ggplot2.tidyverse.org/reference/theme.html).
 
-Let's start with a plain plot where we modify a few elements, such as the legend, strip text, axis text and title
+We'll construct a plain plot (using the default theme) for comparison:
 
 ```{r}
-
-# This is the default theme
 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot(outlier.alpha = 0)+ 
@@ -976,111 +1095,113 @@ ggplot(data = data_demo, aes(x = trt, y = yld)) +
   
   labs(y = "Yield (bu/ac)", x = "Treatments", fill = "Treatments") +
   
-  theme(
-    # theme function is empty, so will plot the default theme
-  )
+  theme() # Leaving theme() empty results in the default theme
 
 ```
 
+<br>
+
+We can set colors for different areas ('panels') with a variety of `panel.*` arguments. Axes and text objects can be similarly modified with `axis.text.*` and `title` arguments. We can modify the legend with the predictable `legend.*` group of arguments. A variety of `element_*()` functions can be used within these arguments to define colors, sizes, and more. 
+
+Here, we set colors for each panel of the plot, the y-axis, the title, and the legend. We also hide the x-axis, set the size for the title, and move the legend to a new position. We also reformat the strip texts (where 'Resistant' and 'Susceptible' are labelled).
+
 ```{r}
 
-# This is the default theme
-
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
-  geom_boxplot(outlier.alpha = 0)+ 
-  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
+  geom_boxplot(outlier.alpha = 0) + 
+  geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4) +
   scale_fill_npg() +
-  
-  facet_grid(~var, labeller = labeller(var = c("R" = "Resistant", "S" = "Susceptible")))+
-  
+  facet_grid(~var, labeller = labeller(var = c("R" = "Resistant", "S" = "Susceptible"))) + # This is our strip text
   labs(y = "Yield (bu/ac)", fill = "Treatments", 
-       x = NULL) + # we suppress the x-axis title, since it will be in the legend
+       x = NULL) + 
   
+  # Here is where enact our modifications:
    theme(
-     # change the background color to white
-      panel.background = element_blank() , 
-    
-     # the default color is white, so we have to change to gray to be different from the background
-      panel.grid.major = element_line(colour = "grey88"), 
-     
-     # the default theme does not have a border
-       panel.border = element_rect(colour = "grey80", fill = NA),
-    
-    # axis text to black (was a little gray)
-    axis.text.y  = element_text(colour = "black"),
-    #suppress the x-axis text, since it will be in the legend
-    axis.text.x  = element_blank(),
-    
-    # Change titles (y-axis and legend[fill]) to black text, size 12, and bold
-    title = element_text(colour = "black", size = 12, face = "bold"),
+      panel.background = element_blank(), # Set background to white 
 
-    # bring the legend to inside of the plot
-    legend.position = c(0.90, .20),
-    # Legend key was gray, change to white
-    legend.key = element_rect(fill = "white"),
-    # Legend text attribute
-    legend.text = element_text(colour = "black", size = 12),
+      panel.grid.major = element_line(colour = "grey88"), # Change the major grid lines to a shade of grey
+     
+       panel.border = element_rect(colour = "grey80", fill = NA), # Add a border in a shade of grey. Don't fill the space with color
+
+    axis.text.y  = element_text(colour = "black"), # Print the y-axis label in black
+
+    axis.text.x  = element_blank(), # Make the x-axis label a blank space
+    
+    title = element_text(colour = "black", size = 12, face = "bold"), # Set the title to black, size 12, and in bold font
+
+    legend.position = c(0.90, .20), # Move the legend to these coordinates relative to the image
+    
+    legend.key = element_rect(fill = "white"), # Fill the legend background with white
+
+    legend.text = element_text(colour = "black", size = 12), # Make legend text black and size 12
     
     # Strip text justified almost completely to the left - (hjust = 0.01)
     # hjust = 0.5 is center justification, and hjust = 1 is right justification
     strip.text.x =  element_text(hjust =0.01, face = "bold", size = 14),
+ # Move strip text to the left border (hjust = 0.01) and make the text bold and size 14. 
+    # Tip: 'hjust = 1' moves the object to the right border
     
-    # strip text background 
-    strip.background =  element_blank())
+    strip.background =  element_blank()) # Change the background behind strip text from grey to blank (white)
 
 ```
 
-## **Combine plots**
+<br>
+
+# **Combining plots**
 
 Frequently, we need to combine multiple plots into a single one. While many people copy and paste their plots in a MS Power Point (or similar software) and save as new plot, this approach is very inefficient, compromises quality, and may cause unintentional errors.
 
-A better approach is combine these plots in single one and save. There are a few good packages that can help with this task, including, [`gridExtra`](https://cran.r-project.org/web/packages/gridExtra/index.html), [`cowplot`](https://wilkelab.org/cowplot/index.html), and [`ggpubr`](https://rpkgs.datanovia.com/ggpubr/index.html), but we will explore a new package, and arguably easier one, called [`patchwork`](https://patchwork.data-imaginist.com/).
+A better approach is combine these plots in single one and save. There are a few good packages that can help with this task, including, [`gridExtra`](https://cran.r-project.org/web/packages/gridExtra/index.html), [`cowplot`](https://wilkelab.org/cowplot/index.html), and [`ggpubr`](https://rpkgs.datanovia.com/ggpubr/index.html). We will also explore a new package, and arguably an easier one to use, [`patchwork`](https://patchwork.data-imaginist.com/).
 
 First, let's build some plots to be combined using `patchwork`. We will build four plots, considering the effect of treatment on the following variables: yield, severity, incidence, and FDK.
 
+Now we will create 4 individual plots using custom formatting. We won't be visualizing them to save space on the page. 
+
 ```{r}
 
-# plots not display to save space (will be in the combined plot)
-
+# Create (but not print) yield data plot:
 plot_yield <- 
 ggplot(data = data_demo, aes(x = trt, y = yld)) +
   geom_boxplot(outlier.alpha = 0)+ 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
-  labs(y = "Yield (bu/ac)", x = NULL)+
+  labs(title = "Yield data", y = "Yield (bu/ac)", x = NULL)+
   theme(
       axis.text  = element_text(colour = "black"),
       title = element_text(colour = "black", size = 12, face = "bold"),
       legend.position = "none")
 
+# Severity plot:
 plot_sev <- 
 ggplot(data = data_demo, aes(x = trt, y = sev)) +
   geom_boxplot(outlier.alpha = 0)+ 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
-  labs(y = "Severity (%)", x = NULL)+
+  labs(title = "Severity data", y = "Severity (%)", x = NULL)+
   theme(
       axis.text  = element_text(colour = "black"),
       title = element_text(colour = "black", size = 12, face = "bold"),
       legend.position = "none")
 
+# Incidence plot:
 plot_inc <- 
 ggplot(data = data_demo, aes(x = trt, y = inc)) +
   geom_boxplot(outlier.alpha = 0)+ 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
-  labs(y = "Incidence (%)", x = NULL)+
+  labs(title = "Incidence data", y = "Incidence (%)", x = NULL)+
   theme(
       axis.text  = element_text(colour = "black"),
       title = element_text(colour = "black", size = 12, face = "bold"),
       legend.position = "none")
 
+# FDK plot:
 plot_fdk <- 
 ggplot(data = data_demo, aes(x = trt, y = fdk)) +
   geom_boxplot(outlier.alpha = 0)+ 
   geom_jitter(aes(fill = trt), shape = 21, width = 0.2, size = 4)+
   scale_fill_npg() +
-  labs(y = "FDK (%)", x = NULL)+
+  labs(title = "FDK data", y = "FDK (%)", x = NULL)+
   theme(
       axis.text  = element_text(colour = "black"),
       title = element_text(colour = "black", size = 12, face = "bold"),
@@ -1088,67 +1209,98 @@ ggplot(data = data_demo, aes(x = trt, y = fdk)) +
 
 ```
 
+<br>
+
+Now we'll load in the `patchwork` package and use the `+` symbol to combine the yield and severity plots we just created:
+
 ```{r, fig.width=8}
 library(patchwork)
 
-# just use the "+" signal to combine the plots
 plot_yield+plot_sev
 ```
 
+<br>
+
+We can also use the `/` symbol to place one plot above the other:
+
 ```{r, fig.height=8}
 
-# or the "/" to put one on top of the other
 plot_yield/plot_sev
 
 ```
 
-```{r fig.height=8, fig.width=8}
-# use "()" to create a hierarchical order of combinations
-(plot_yield+plot_sev) / # first combine yield and severity, followed by stacking incidence and fdk 
-(plot_inc + plot_fdk)
-```
-
 <br>
 
-And, we can add tags and make changes to the plot's overall theme
+Using `()` allows us to create a hierarchical plotting design. First, yield and severity plots are placed side-by-side, along with incidence and FDK plots. Then, the first group (yield and severity) are placed above the second group, creating a 2x2 grid. 
 
 ```{r fig.height=8, fig.width=8}
-# use "()" to create a hierarchical order of combinations
-(plot_yield+plot_sev) / # first combine yield and severity, followed by stacking incidence and fdk
+
+# Perform operations within parentheses/brackets, then operations outside:
+(plot_yield+plot_sev) / 
+(plot_inc + plot_fdk)
+
+```
+
+We can further modify this resulting figure with tags and by altering theme settings. To create tags, we use `patchwork` function `plot_annotation`. 
+
+```{r fig.height=8, fig.width=8}
+
+# Recreate the previous plot:
+(plot_yield+plot_sev) / 
 (plot_inc + plot_fdk) +
   
-  # add a tag for each plot, there way to customize this
-    plot_annotation(tag_levels = "A")  & # very important, use "&" to make theme changes
+  # Tag plots with 'A', 'B', 'C', 'D'
+    plot_annotation(tag_levels = "A",
+                    title = "Demo data")  & 
+  
   theme(
-    axis.text.x  = element_text(colour = "red")) # red to make an obvious change
+    axis.text.x  = element_text(colour = "red")) # Note that '&' is needed to add theme elements here. This is because we are adding a theme layer on top of a 'patchwork' package layer instead of another 'ggplot2' layer. 
   
 ```
 
-## **Saving plots**
+<br>
 
-We can use the the function `ggsave` to save a plot.
+# **Saving and exporting plots**
 
-```{r eval=FALSE}
+Finally, we can use the `ggplot2` function `ggsave` to save our plots. We can use `ggsave()` save plots individually, or in `patchwork` combinations like we did in the 'Combining Plots' section. 
 
-ggsave(plot = plot_yield, # name of the plot in R
-       filename = "figures/intro_r/example1.png", # plot will be saved in the folder figures, with name example1, format png
-       width = 85, height = 80, units = "mm", # plot dimension
-       dpi = 450 ) # resolution
+```{r fig.height=8, fig.width=8}
+
+# Recreate the previous plot as 'plot_comb' object:
+plot_comb <- (plot_yield+plot_sev) / 
+(plot_inc + plot_fdk) +
+  
+  # Tag plots with 'A', 'B', 'C', 'D'
+    plot_annotation(tag_levels = "A",
+                    title = "Demo data")  & 
+  
+  theme(
+    axis.text.x  = element_text(colour = "red"))
+
+# Save the plot:
+ggsave(plot = plot_comb, filename = "figures/intro_r/plot_comb.png")
+
+# We can add arguments 'width', 'height', 'units', and more to 'ggsave()' to manage our image quality: 
+ggsave(plot = plot_comb, filename = "figures/intro_r/plot_comb_with_args.png", 
+       width = 300, 
+       height = 280,
+       units = "mm",
+       dpi = 450)
 
 ```
 
 <br>
 
-And below is how our *saved* plot looks (it is the upload version of the plot)
+Below is how our two saved plots look: 
 
-```{r,echo=FALSE, out.width='100%', fig.align='center', fig.cap='Plot saved in the computer and upload to this document'}
-knitr::include_graphics("figures/intro_r/example1.png")
+```{r,echo=FALSE, out.width='100%', fig.align='center', fig.cap='Our two resulting plots with differing ggsave() arguments'}
+knitr::include_graphics("figures/intro_r/plot_comb.png")
+knitr::include_graphics("figures/intro_r/plot_comb_with_args.png")
+
 ```
 
 <br>
 
-Note how the "saved plot" is different from the one printed in R. This is because we force our "saved plot" to have a specific dimension, which may be different than the dimension which our screen has. When this happens, if necessary, make the appropriated changes (change point size, text size, etc)
+Notice how different these plots look. This is because the image saved with `ggsave()` arguments specified has different dimensions than the image saved with default `ggsave()` values. We can alter these arguments to change the resolution of these images (for example, increasing resolution for images that will be printed on large posters, or reducing the size of images that will be uploaded/downloaded often). The use of these arguments can influence the size of the text, individual data points, etc., allowing for further control of the image. 
 
-```{r}
-plot_yield
-```
+Now that we know the basics for building and saving plots with `ggplot` and its extension packages, we can focus on other topics in plant epidemiology. Please see the navigation menu at the top of the page to learn more about experimental design, sampling methods, and different analyses you can do in R. 

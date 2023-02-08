@@ -1,3 +1,4 @@
+
 ---
 title: "Before Starting"
 output: 
@@ -10,46 +11,54 @@ output:
       smooth_scroll: false
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 ## Installation
 
-To download **R**:
+To securely download **R**:
 
 -   Go to <https://cran.r-project.org/>
 
--   Click "Download R for Mac/Windows"
+-   Under 'Download and Install R', select the download option appropriate for your operating system (OS)
 
--   Download the appropriate file:
 
-    -   Windows users click Base, and download the installer for the latest R version
+-   Download the file appropriate for your OS:
 
-    -   Mac users select the latest R version that aligns with your OS version
+    -   For Windows users, click 'Base'. This will begin downloading the installer for the latest R version for your OS.
 
--   Follow the instructions of the installer.
+    -   For Mac users, select the latest R version `.pkg` file appropriate for your OS version. The installer for R will begin downloading  
+   
+
+-   Follow the instructions of the installer
 
 To download **RStudio**:
 
 -   Go to RStudio for desktop <https://www.rstudio.com/products/rstudio/download/#download>
 
--   Select the install file for your OS Follow the instructions of the installer
+-   Select the install file appropriate for your OS and follow the installer instructions
 
-For **Windows -** Install **Rtools** (needed build R packages with C/C++/Fortran code from source)by visiting this page <https://cran.r-project.org/bin/windows/Rtools/rtools40.html>
+For **Windows -** Install **Rtools** (an R tool needed to build R packages with C/C++/Fortran code from source) by visiting this page: <https://cran.r-project.org/bin/windows/Rtools/rtools40.html>
 
 ## Upgrade/Update
 
-At some point, running old versions of software adds unnecessary difficulty. Is your R version "old"? R had a major version change in April 2020, with the release of 4.0.0. It is a good idea to be on the current major version, meaning 4.something(in 2022). Each major version is followed by several years of smaller releases (minor and patch releases). You can be more relaxed about upgrading minor versions, but you still want to stay reasonably current.
+At some point, running old versions of software adds unnecessary difficulty. R had a major version change in April 2020, with the release of 4.0.0. It is a good idea to be on the current major version, meaning 4.0.0 or higher as of 2023. Each major version is followed by several years of smaller releases (minor and patch releases) that are indicated by the numbers following '4.' (ex. 4.2.2, 4.2.1, etc.,). You can be more relaxed about upgrading minor versions (such as upgrading between 4.2.1 and 4.2.2), but you still want to stay reasonably current. A consequence of running 'old' versions of R are that functions may not operate correctly, creating unnecessary errors. 
+
+You can check your current R version by running the code below in your RStudio console pane:
 
 ```{r}
+# Here we use function 'R.version.string()' to receive information about the R version we are currently using: 
 R.version.string
-#> [1] "R version 4.1.2 (2021-11-01)"
+# [1] "R version 4.2.2 (2022-10-31 ucrt)"
 ```
 
-Then go to [\<https://cran.r-project.org/\>](https://cran.r-project.org/){.uri} and check if you have the same version. It is almost a must for your version to have the same first number, as the latest stable version, second desirable, and third optional.
+Then go to [\<https://cran.r-project.org/\>](https://cran.r-project.org/){.uri} and check that you have the same major (4.#.#) version of R. 
 
-Updating **RStudio** is easy, just go to `Help > Check` for Updates to install newer version.
+**Warning:** Running a different major version of R (such as R 3.6.3) will almost definitely cause *significant* difficulties. It is also beneficial to use an R version with the second digit matching as well (ie., R 4.2.2 vs. 4.1.2). Upgrading R when the third digit is different (indicating a minor upgrade) can be considered optional (i.e., upgrading between R 4.2.2 and 4.2.1). 
+
+**Updating RStudio** is easy. Just go to `Help` in the toolbar at the top left corner and select 'Check for Updates` to receive instructions for installing the latest version.
+
+<br>
 
 ## Libraries/Packages
 
@@ -57,114 +66,160 @@ Updating **RStudio** is easy, just go to `Help > Check` for Updates to install n
 
 #### Installation
 
-Several libraries will be necessary to reproduce the provided R materials. Initially, they are listed with some basic background for the future reference. they are also stored in one character vector. These packages could be installed by running the code provided below.
+Several package libraries (extra bundles of code that have certain additional functions) will be necessary to reproduce the provided R materials. Initially, we will introduce these package with a short explanation of these purpose. You can refer to different packages within the RStudio environment by their name, expressed as a character vector (within quotation "" marks), as shown below. Searching for `R (insert package name)` in your browser of choice can reveal more information about R packages. 
 
-```{r libs, message=FALSE, warning=FALSE}
+CRAN packages can be installed using their name as a character vector as shown below: 
+
+```{r , message=FALSE, warning=FALSE}
+
+# Here we create a list of desired packages. We use package names as character vectors to 'call' them within the R environment. 
 list.of.packages <-
-  c(
-    "devtools", # package development 
-    "conflicted", #Some functions are named the same way across different packages and they can be conflicts and this package helps sorting this problem 
-    "here", #helps with the reproducibility across operating systems=
-    "conflicted", #Some functions are named the same way across different packages and they can be conflicts and this package helps sorting this problem 
-  
-    # data import
-    "readr", 
-    "readxl", # import of data from excel files
+  c("devtools", # A package for managing (installing, loading, checking) other packages 
+    "conflicted", # A package for managing 'conflicts' within packages. A common conflict is when two packages have functions with the same name but a different purpose
+    "here", # A package that improves reproducibility across different operating systems/users by defining the 'work environment' 
     
-    # data mundging
-    "dplyr", # data manipulation
-    "tidyr", # tidying data
-    "tidyr", # "modern" data structures
-    "reshape2", # reshaping the data
-    "purrr", # tools for working with functions and vectors
+    # There are also packages for managing data files:
+    "readr", # A package for handling common data files like `.csv`
+    "readxl", # A package for handling Excel files like `.xlsx`
     
-    # Ploting 
-    "ggplot2", # most popular 2D visualisation tool in R
-    "plotly", # another advanced visualization tool
-    "ggsci", # color palletes 
-    "ggthemes", # ggplot themes 
-    "patchwork", # combine plots
-    "stringr", # string manipulation 
-    "stringr", # factor manipulation
-
-    # Analysis/Modelling 
-    "minpack.lm", # fitting non-linear models
-    "deSolve", # solvers for Initial Value Problems of Differential Equations
-    "psych",
-    "car",
-    "emmeans",
-    "agricolae", #diverse functions and datasets for agronomy 
+    # Here are packages that help manipulate (or 'wrangle') data structures:
+    "dplyr", # For data manipulation, such as inspecting individual variables
+    "tidyr", # For 'tidying' data, such as converting the data's structure or making it more readable
+    "reshape2", # Another package with additional tools for manipulating your data
+    "purrr", # A package that provides tools for working with functions and vectors
     
-    # Visualising outputs of statistical analysis 
-    "rcompanion", # Useful tool for summarizing model outputs and several other modeling related tasks
-    "ggResidpanel", # Diagnostic plots for several models
+    # Packages for plotting: 
+    "ggplot2", # A popular R package with tools for creating high-level plots
+    "plotly", # Another advanced visualization package
+    "ggsci", # A package for applying color palettes to visuals
+    "ggthemes", # A package that adds more options for visual design
+    "patchwork", # A package that allows users to combine plots
+    "stringr", # A package that can improve the readability of visuals by providing tools for string and factor manipulation (i.e., 'trt' can become 'treatment' for the purposes of creating an informative figure)
 
-    # Parallel computation (using multiple cores to execute R code)
-    "pbapply", 
-    "parallel",
+    # Packages for analysis & modelling:
+    "minpack.lm", # For fitting non-linear models
+    "deSolve", # For solving initial value problems of differential equations
+    "psych", # A package with tools for evaluating psychiatric data. We use this as an educational example
+    "car", # For more analytical/modelling functions and tools
+    "emmeans", # For modelling functions
+    "agricolae", # A source of diverse functions and data sets in agronomy 
+    
+    # Packages for visualizing outputs of statistical analysis: 
+    "rcompanion", # A useful tool for summarizing model outputs and other modeling tasks
+    "ggResidpanel", # For creating and managing diagnostic plots
 
-    # Text formatting 
-    "rmarkdown",
-    "gt", # package for customizing html table view
+    # Packages for parallel computation: 
+    # (using multiple cores to execute R code)
+    "pbapply", # A package that visualizes computational progress
+    "parallel", # A package for managing concurrent computational processes 
+
+    # Packages for text formatting/report creation:
+    "rmarkdown", # A package for creating and formatting files (such as htmls) in R
+    "gt", # A package for customizing html table view
     "kableExtra", # Another package for html table customization
     
-    # Advanced visualisations/ App building
+    # Advanced visualizations/App building:
     "shiny", # Package for visualization 
-    "shinyscreenshot", #capture screenshots
-    "shinydashboard"
+    "shinyscreenshot", # For capturing screenshots
+    "shinydashboard" # Additional shiny tools
   )
 ```
 
-Now these packages are installed by passing the vector containing their names to the installation function. Things should go smoothly if your R version is up to date, but...
+```{r libs, message=FALSE, warning=FALSE}
+
+# Packages CAN be installed individually, but it requires a lot more text and copy/paste. You would have to run code like this:
+
+# install.package("devtools")
+# install.package("conflicted")
+# install.package("here")
+
+# and so on...
+
+# Creating an object like 'list.of.packages' containing all of your desired package names as character vectors (ex. "packagename") makes our task a lot easier. 
+
+```
+
+<br>
+
+We can install the packages listed in `list.of.packages` by passing the object to R's installation function `install.packages()`. Things should go smoothly if your R version is up to date, but there can be occasional problems. Below, we have shown how to deal with several of the more common errors that can occur during package installation. 
 
 ```{r}
-# You might need to restart R during this process
+# We run the function `install.packages`, provided with our list of desired packages: 
 install.packages(list.of.packages)
-# When prompted 
+
+# R may respond with a message telling you that R will need to be restarted. Indicate that you would like to restart, or go to 'Session' in the toolbar and select 'Restart R'.
+ 
 ```
 
-If there are problems installing some package, sometimes defining different repositories helps sorting the issue.
+<br>
+
+If there are problems installing some packages, sometimes directing R to download packages from different sources (repositories) can help the issue. CRAN has [multiple repositories](https://cran.r-project.org/mirrors.html) that get different amounts of traffic at different times. Repositories can also slow down because of failures or maintenance. You can direct R to a another, less busy repository with the `repos` argument. 
 
 ```{r}
-# uncomment the following line, change the name of package and run
-#install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/")) 
+# For example, we can run this line where we direct R to install package ROCR from a different CRAN repository. 
+
+install.packages("ROCR", repos = c(CRAN="https://cran.r-project.org/"))
+
 ```
 
-To check if all of the packages are installed run following command:
+<br>
+
+Assuming you have listed all of your desired packages in object `list.of.packages`, you can check that all packages are installed with the following command: 
 
 ```{r}
 list.of.packages %in% installed.packages()
 ```
 
-If you see some `FALSE` values there, then you can check which package is missing and install it using above specified commands.
+<br>
+
+If you see some `FALSE` values there, then you can check which packages are missing with the following line of code. 
 
 ```{r}
 list.of.packages[!(list.of.packages %in% installed.packages()[, "Package"])]
 
 ```
 
+<br> 
+
+If the above solutions don't work to install the packages you need, there's probably someone else who has had the same problem. Websites like [bookdown](https://bookdown.org) and [stackoverflow](https://stackoverflow.com) are examples of online communities where R users can ask questions or see solutions to problems other users have experienced. Try searching for 'R problem installing (insert package name)' in your browser and see if others have found a solution. 
+
+If you're the first person asking about that particular problem, make sure you provide a reproducible example (instructions found [here](https://gist.github.com/hadley/270442)). Always remember to make sure you're not sharing sensitive or identifying information! You can use widely-available example data sets like `mtcars` instead of your own data. 
+
+<br>
 
 #### Updating
 
 ##### Windows
 
-One wants to update installed packages as often as possible. You might need to restart R during this process, too. On Windows this is straightforward.
+It's good practice to update your installed packages often. You might need to restart R during this process as well. With Windows OS, this is straightforward. 
 
 ```{r}
+
 update.packages(ask = FALSE, checkBuilt = TRUE)
+
 ```
+
+<br>
+
+Alternatively, you can go to the `Packages` panel of your RStudio session, select packages you want to update, and then select 'Update' at the top of the panel. With both methods, R will often alert you to package updates with feedback in the RStudio console. 
+
+<br>
 
 ##### Other OS
 
-But for other operating systems, after updating R, a lot of packages might have been build under the old R version and it would be safer to re-install all the packages already installed. This can be done with the following commands. Again this won't update packages installed with devtools::install_github()
+Updating packages with non-Windows OS can be more complicated. A lot of packages that currently exist for non-Windows OS were built under the old major R version (R 3.0.0 through 3.6.9). If you have any packages that were downloaded when you were using any R version below R 4.0.0, it is safer to re-install these packages than to risk potential conflict.
+
+You can achieve this with the following commands. However, this will not work for packages installed with `devtools::install_github()`. 
 
 ```{r}
-## get packages installed
+# Create data frame 'packs', which contains the name of all currently installed packages:
 packs = as.data.frame(installed.packages(.libPaths()[1]), stringsAsFactors = F)
 
-## and now re-install install packages using install.packages()
+## Now re-install these packages using install.packages():
 install.packages(packs$Package)
 ```
+
+<br>
 
 ### Non-CRAN Packages
 
@@ -176,23 +231,36 @@ Sys.sleep(2)
 remotes::install_github("bbc/bbplot",dependencies = TRUE)
 ```
 
-If you run into problems... Installing packages that are not on CRAN can be a pain, so there are a few general notes on what to do.\
-If you are Windows user it is recommended that you make sure you have the [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed. If you get an error looking like this while updating your packages:
+<br>
 
-```{r error_noncran_pck, eval=FALSE}
-Error: (converted from warning) cannot remove prior installation of package ‘name_of_the_package’
-```
+Installing packages that are not on CRAN can be a pain. If you are a Windows user it is recommended that you install `Rtools`, a CRAN package that manages the installation of non-CRAN packages. More information about `Rtools` can be found [here](https://cran.r-project.org/bin/windows/Rtools/)
 
-You might need to update some packages manually to match the *source* version. So, just replace the `name_of_the_package` to match the name of the package you are missing/need to update.
-
+Alternatively, you might need to update some packages manually to match the *source* version. You can pass the name of the desired package to `install.packages()` like we do below. 
 ```{r}
 install.packages("name of the package", type = "source")
 ```
 
-After that, try run the code snippet for the installation of package from the beginning of this subsection.
+<br>
 
-### Install our package with apps 
-Run following lines of code
+After that, try running the code snippet for the installation of package from the beginning of this subsection where we create 'list.of.packages'. 
+
+If these trouble-shooting methods don't work, you can often find package-specific installation instructions where the package is kept online. For instance, entering 'r install KrigR' in a browser search bar will bring you to the GitHub repository where non-CRAN package 'KrigR' is hosted. Reading the README.md file shows specific installation instructions. From there, you can copy/paste the installation instructions to your RStudio console.
+
+For instance, running these lines in your RStudio console will install and load package KrigR:
+
+```{r}
+# Un-comment the next three lines (remove the #) to install KrigR
+# Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
+# devtools::install_github("https://github.com/ErikKusch/KrigR")
+# library(KrigR)
+```
+
+<br>
+
+### Install our package with apps
+
+We have developed a package for this tutorial that you will need. Run following lines of code to install them:
+
 ```{r eval = FALSE}
 if(!"devtools" %in% installed.packages ()) install.packages("devtools")
 devtools::install_github("mladencucak/AppTest")
@@ -200,3 +268,6 @@ AppTest::GrowModAPP()
 AppTest::HLIRApp()
 ```
 
+<br>
+
+Now you should have R, RStudio, and some selected packages downloaded and installed in your RStudio session. You can move on to section 'Intro to R' to learn how to perform essential functions for analyzing data with R. 
